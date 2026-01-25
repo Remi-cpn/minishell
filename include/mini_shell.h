@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 11:12:23 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/25 15:42:55 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@
 /** Mini_shell */
 # include "ms_functions.h"
 # include "ms_structs_and_variables.h"
+# include "ast.h"
 
 #endif
