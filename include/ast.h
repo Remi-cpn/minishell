@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.h                                             :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/25 13:27:38 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/25 15:52:11 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_ast_normal
 	t_ast_type		kind;// NORMAL | anything other
 	struct s_ast	*next;
 	char			*cmd;
-	char			*args;
+	char			**args;
 }				t_ast_normal;
 
 #endif
