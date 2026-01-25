@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 11:12:23 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/25 16:02:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 /** Signals */
 # include <signal.h>
@@ -28,5 +29,6 @@
 /** Mini_shell */
 # include "ms_functions.h"
 # include "ms_structs_and_variables.h"
+# include "ast.h"
 
 #endif
