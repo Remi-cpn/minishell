@@ -6,13 +6,12 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/25 15:52:11 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/25 16:13:54 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
-#define AST_H
-
+# define AST_H
 
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
@@ -31,7 +30,7 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	char		*value;
+	char			*value;
 	t_token_type	kind;
 }				t_token;
 
@@ -94,12 +93,11 @@ typedef struct s_ast_out
 	bool			overwrite;
 }				t_ast_out;
 
-
 typedef struct s_ast_normal
 {
 	t_ast_type		kind;// NORMAL | anything other
 	struct s_ast	*next;
-	char			*cmd;
+	char			*name;
 	char			**args;
 }				t_ast_normal;
 
