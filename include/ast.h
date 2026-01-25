@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/25 16:13:54 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/25 16:30:40 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ typedef enum e_token_type
     DINFTYPE,    // <<
 	LPARENTYPE,  // (
 	RPARENTYPE,  // )
+	AMPERTYPE,	 // &&
+	VERBARTYPE,	 // ||
+	DOLLARTYPE,	 //	$
     WORDTYPE,    // [.]+
 }				t_token_type;
 
