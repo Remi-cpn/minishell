@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/26 10:52:27 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/26 15:53:48 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
 			  $(SRC_DIR)/builtins/dispatch.c \
 			  $(SRC_DIR)/builtins/echo.c \
+			  $(SRC_DIR)/builtins/exit.c \
 			  $(SRC_DIR)/builtins/utils.c
 
 OBJ			= ${SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o}
