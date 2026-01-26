@@ -43,7 +43,7 @@ void	exit_cmd(t_data *shell, char **args)
 	t_exit	exit;
 
 	ft_memset(&exit, 0, sizeof(t_exit));
-	write(2, "error\n", 6);
+	write(2, "exit\n", 5);
 	if (!args[0])
 	{
 		shell->exit = true;
