@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 16:02:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/25 18:10:02 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@
 # include "ms_functions.h"
 # include "ms_structs_and_variables.h"
 # include "ast.h"
+# include "builtins.h"
 
 #endif
