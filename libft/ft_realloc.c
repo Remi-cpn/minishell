@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_functions.h                                     :+:      :+:    :+:   */
+/*   t_realloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:28:40 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 17:51:42 by tseche           ###   ########.fr       */
+/*   Created: 2026/01/26 15:55:19 by tseche            #+#    #+#             */
+/*   Updated: 2026/01/26 16:52:55 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_FUNCTIONS_H
-# define MS_FUNCTIONS_H
+#include <malloc.h>
+#include "./libft.h"
 
-# include "mini_shell.h"
+void	*ft_realloc(void *p, size_t n)
+{
+	void	*ptr;
 
-/** init_signals.c */
-void	init_signals_prompt(void);
-
-/** builtins */
-void	dispatch_builtins(t_ast *ast);
-void	echo(char **args);
-
-/** exit.c */
-void	exit_prog(void);
-
-#endif
+	if (n == 0 && p != NULL)
+	{
+		free(p);
+		return (NULL);	
+	}
+	else if (!p)
+	{
+		p = malloc(n);
+		if (!p)
+			return (NULL);
+		return (p);
+	}
+	ptr = malloc(n);
+	if (!ptr)
+		return (NULL);
+	if (p)
+		ft_memcpy(ptr, p, n - 1);
+	((unsigned char *)ptr)[n - 1] = 0;
+	free(p);
+	return (ptr);
+}

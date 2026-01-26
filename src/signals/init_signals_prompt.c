@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_signals_prompt.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 11:44:35 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:56:57 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-volatile sig_atomic_t   g_exit_flag = 0;
+volatile sig_atomic_t	g_exit_flag = 0;
 
 /**
  * This function redirects the signals to reproduce the behavior of bash.
@@ -26,13 +26,13 @@ void	handler_prompt(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (sig == SIGTERM)
-		g_exit_flag = 1;
-	if (sig == SIGCHLD)
-	{
-		//Fin de l'enfant.
-		return ;
-	}
+	// if (sig == SIGTERM)
+	// 	g_exit_flag = 1;
+	// if (sig == SIGCHLD)
+	// {
+	// 	//Fin de l'enfant.
+	// 	return ;
+	// }
 }
 
 /**
@@ -47,8 +47,6 @@ void	init_signals_prompt(void)
 	sa.sa_handler = handler_prompt;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGTERM, &sa, NULL);
-	sigaction(SIGCHLD, &sa, NULL);
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = 0;

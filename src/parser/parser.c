@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_functions.h                                     :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:28:40 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 17:51:42 by tseche           ###   ########.fr       */
+/*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
+/*   Updated: 2026/01/26 17:25:18 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_FUNCTIONS_H
-# define MS_FUNCTIONS_H
+#include <unistd.h>
+#include "../../include/ast.h"
+#include "../../libft/libft.h"
 
-# include "mini_shell.h"
+t_ast	*parse(char *src)
+{
+	char **env;
 
-/** init_signals.c */
-void	init_signals_prompt(void);
-
-/** builtins */
-void	dispatch_builtins(t_ast *ast);
-void	echo(char **args);
-
-/** exit.c */
-void	exit_prog(void);
-
-#endif
+	env = ft_strdup(__environ, 0);
+	
+}
