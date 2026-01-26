@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/25 21:23:47 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/26 10:52:27 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 
 SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/exit/exit.c \
+			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
 			  $(SRC_DIR)/builtins/dispatch.c \
 			  $(SRC_DIR)/builtins/echo.c \
