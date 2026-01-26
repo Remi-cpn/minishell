@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 18:07:58 by tseche           ###   ########.fr       */
+/*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
+/*   Updated: 2026/01/26 17:25:18 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/mini_shell.h"
+#include <unistd.h>
+#include "../../include/ast.h"
+#include "../../libft/libft.h"
 
-/**
- * This function manages the program's output properly.
- */
-void	exit_prog(t_data *shell)
+t_ast	*parse(char *src)
 {
-	rl_clear_history();
-	exit(shell->exit_status);
+	char **env;
+
+	env = ft_strdup(__environ, 0);
+	
 }

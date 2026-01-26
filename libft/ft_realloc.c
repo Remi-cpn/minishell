@@ -1,22 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   t_realloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 18:07:58 by tseche           ###   ########.fr       */
+/*   Created: 2026/01/26 15:55:19 by tseche            #+#    #+#             */
+/*   Updated: 2026/01/26 16:52:55 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/mini_shell.h"
+#include <malloc.h>
+#include "./libft.h"
 
-/**
- * This function manages the program's output properly.
- */
-void	exit_prog(t_data *shell)
+void	*ft_realloc(void *p, size_t n)
 {
-	rl_clear_history();
-	exit(shell->exit_status);
+	void	*ptr;
+
+	if (n == 0 && p != NULL)
+	{
+		free(p);
+		return (NULL);	
+	}
+	else if (!p)
+	{
+		p = malloc(n);
+		if (!p)
+			return (NULL);
+		return (p);
+	}
+	ptr = malloc(n);
+	if (!ptr)
+		return (NULL);
+	if (p)
+		ft_memcpy(ptr, p, n - 1);
+	((unsigned char *)ptr)[n - 1] = 0;
+	free(p);
+	return (ptr);
 }
