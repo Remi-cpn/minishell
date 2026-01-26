@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 10:59:41 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/26 12:26:54 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 /** Builtins */
 # define EXIT_TO_MANY_ARGS 1
-# define EXIT_NUMERIC 2
+# define EXIT_NOT_NUMERIC 2
 # define ERR_BUILTINS 20
 
 /** Signals (128 -> 159)*/
@@ -33,7 +33,7 @@
 # define SIGQUIT_EXIT 131
 # define SIGTERM_EXIT 143
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 /** Functions */
 void	exit_prog(t_data *shell);

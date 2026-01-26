@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:09:48 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 21:48:56 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:27:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	add_echo_options(t_echo *echo, char *arg)
 	}
 }
 
-void	echo(char **args)
+void	echo_cmd(char **args)
 {
 	t_echo	echo;
 	int		i;

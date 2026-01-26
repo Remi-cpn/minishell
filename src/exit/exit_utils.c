@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:51:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 10:52:02 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:20:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	check_exit_flag(t_data *shell)
 {
 	if (g_exit_flag != 1)
 		return ;
-	call_to_exit(shell, SIGTERM_EXIT);
+	shell->exit = true;
+	shell->exit_status = SIGTERM_EXIT;
 }
