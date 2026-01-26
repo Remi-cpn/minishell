@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 16:02:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:59:29 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,16 @@
 # include <readline/history.h>
 
 /** Mini_shell */
-# include "ms_functions.h"
-# include "ms_structs_and_variables.h"
 # include "ast.h"
+# include "builtins.h"
+# include "exit.h"
+# include "ms_signals.h"
+
+/** Structs */
+typedef struct s_data
+{
+	bool	exit;
+	int		exit_status;
+}	t_data;
 
 #endif

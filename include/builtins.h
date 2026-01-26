@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_functions.h                                     :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:28:40 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 16:10:57 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/26 17:11:17 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_FUNCTIONS_H
-# define MS_FUNCTIONS_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-# include "mini_shell.h"
+typedef struct s_data	t_data;
 
-/** init_signals.c */
-void	init_signals_prompt(void);
+/** Structs */
+typedef struct s_echo
+{
+	bool	n;
+	bool	e;
+	bool	e_capital;
+}	t_echo;
 
-/** builtins */
-void	dispatch_builtins(t_ast *ast);
-void	echo(char **args);
+typedef struct s_exit
+{
+	bool	many_args;
+	bool	not_num;
+}	t_exit;
 
-/** exit.c */
-void	exit_prog(void);
+/** Functions */
+bool	check_is_options(char *arg, char *key);
+void	dispatch_builtins(t_data *shell, t_ast *ast);
+void	echo_cmd(char **args);
+void	exit_cmd(t_data *shell, char **args);
 
 #endif

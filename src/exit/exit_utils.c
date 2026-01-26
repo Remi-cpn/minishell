@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 10:59:49 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/26 10:51:37 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/26 11:20:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-/**
- * This function manages the program's output properly.
- */
-void	exit_prog(t_data *shell)
+void	call_to_exit(t_data *shell, int status)
 {
-	rl_clear_history();
-	exit(shell->exit_status);
+	shell->exit = true;
+	shell->exit_status = status;
+}
+
+void	check_exit_flag(t_data *shell)
+{
+	if (g_exit_flag != 1)
+		return ;
+	shell->exit = true;
+	shell->exit_status = SIGTERM_EXIT;
 }
