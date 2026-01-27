@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 17:51:38 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/27 17:11:31 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,15 @@
 
 /** Mini_shell */
 # include "ast.h"
-# include "ms_functions.h"
-# include "ms_structs_and_variables.h"
+# include "builtins.h"
+# include "exit.h"
+# include "ms_signals.h"
+
+/** Structs */
+typedef struct s_data
+{
+	bool	exit;
+	int		exit_status;
+}	t_data;
 
 #endif

@@ -1,26 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dispatch.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/25 16:01:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 15:50:24 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/25 21:45:28 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-void	dispatch_builtins(t_data *shell, t_ast *ast)
+/**
+ * This function checks if the char *arg is composed only of options.
+ */
+bool	check_is_options(char *arg, char *key)
 {
-	t_ast_normal	*cmd;
+	int	i;
+	int	j;
+	int	flag;
 
-	if (ast->kind != NORMAL)
-		return ;
-	cmd = (t_ast_normal *)ast;
-	if (ft_strncmp(cmd->name, "echo", 4) == 0)
-		echo_cmd(cmd->args);
-	else if (ft_strncmp(cmd->name, "exit", 4) == 0)
-		exit_cmd(shell, cmd->args);
+	i = 0;
+	if (!arg[1])
+		return (false);
+	while (arg[++i])
+	{
+		j = 0;
+		flag = 0;
+		while (key[j] && flag == 0)
+		{
+			if (arg[i] == key[j])
+				flag = 1;
+			j++;
+		}
+		if (flag == 0)
+			return (false);
+	}
+	return (true);
 }
