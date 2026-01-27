@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 16:02:26 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:41:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@
 #define CYAN "\033[36m"
 #define RESET "\033[0m"
 
-int	main(int ac, char **av, char **env)
+int	main(void)
 {
 	char	*line;
 	t_data	shell;
 
-	(void)ac;
-	(void)av;
 	init_signals_prompt();
-	init_data(&shell, env);
+	init_data(&shell);
 	while (shell.exit == false)
 	{
 		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");

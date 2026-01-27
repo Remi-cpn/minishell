@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 15:48:34 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:39:39 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ typedef struct s_data
 }	t_data;
 
 /** Functions */
-void	init_data(t_data *shell, char **env);
+void	init_data(t_data *shell);
 
 #endif
