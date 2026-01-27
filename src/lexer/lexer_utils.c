@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 18:07:58 by tseche           ###   ########.fr       */
+/*   Created: 2026/01/26 17:34:09 by tseche            #+#    #+#             */
+/*   Updated: 2026/01/26 17:43:51 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/mini_shell.h"
+#include "../../include/ast.h"
 
-/**
- * This function manages the program's output properly.
- */
-void	exit_prog(t_data *shell)
+t_token	expect(t_)
 {
-	rl_clear_history();
-	exit(shell->exit_status);
+	
 }
