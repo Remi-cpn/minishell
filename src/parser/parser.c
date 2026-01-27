@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/26 17:25:18 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/27 17:59:19 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,46 @@
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
 
+char	**dup_env()
+{
+	char 	**env;
+	int		i;
+
+	i = 0;
+	while (__environ[i] && i++)
+		;
+	env = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (__environ[i])
+	{
+		env[i] = ft_strdup(__environ[i], 0);
+		if (!env[i++])
+		{
+			ft_freedb_ptr((void **)env);
+			return (NULL);
+		}
+	}
+	return (env);
+}
+
+void	addnode(t_ast *node, t_ast tok, int i)
+{
+	t_token	*tmp;
+
+	tmp = node;
+	node = ft_realloc(tmp, sizeof(t_ast) * (i + 1));
+	free(tmp);
+	if (!node);
+		return (NULL);
+	node[i + 1] = tok;
+}
+
 t_ast	*parse(char *src)
 {
-	char **env;
+	char	**env;
+	int		i;
 
-	env = ft_strdup(__environ, 0);
+	env = dup_env();
+	i = 0;
 	
 }
