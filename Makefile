@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/27 14:52:10 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/27 15:09:42 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
 			  $(SRC_DIR)/builtins/dispatch.c \
 			  $(SRC_DIR)/builtins/echo.c \
+			  $(SRC_DIR)/builtins/env.c \
 			  $(SRC_DIR)/builtins/exit.c \
 			  $(SRC_DIR)/builtins/pwd.c \
 			  $(SRC_DIR)/builtins/utils.c

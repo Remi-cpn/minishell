@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 13:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:59 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/27 14:54:11 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/27 15:06:53 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-void	pwd_cmd(t_data *shell, char **args)
+void	env_cmd(t_data *shell, char **args)
 {
 	char	**env;
 	int		i;
 
 	env = __environ;
+	i = 0;
 	if (args || args[0])
 	{
 		shell->exit_status = ERR_CMD_NOT_FOUND;
-		write(2, "pwd: too many arguments\n", 24);
+		write(2, "env: too many arguments\n", 24);
 		return ;
 	}
-	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], "PWD=", 4) == 0)
-		{
-			ft_printf("%s\n", env[i] + 4);
-			return ;
-		}
+		ft_printf("%s\n", env[i]);
 		i++;
 	}
-	shell->exit_status = ERR_PWD;
-	write(2, "pwd: error retrieving current directory\n", 42);
 }

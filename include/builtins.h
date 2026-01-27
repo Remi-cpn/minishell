@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 17:11:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/27 15:08:28 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ bool	check_is_options(char *arg, char *key);
 void	dispatch_builtins(t_data *shell, t_ast *ast);
 void	echo_cmd(char **args);
 void	exit_cmd(t_data *shell, char **args);
+void	pwd_cmd(t_data *shell, char **args);
+void	env_cmd(t_data *shell, char **args);
 
 #endif
