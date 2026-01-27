@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 12:26:54 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/27 13:52:02 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define EXIT_TO_MANY_ARGS 1
 # define EXIT_NOT_NUMERIC 2
 # define ERR_BUILTINS 20
+# define ERR_PWD 21
 
 /** Signals (128 -> 159)*/
 # define SIGINT_EXIT 130

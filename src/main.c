@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 18:08:12 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/27 13:44:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(void)
 	{
 		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
 		if (!line || g_exit_flag == 1)
-			exit_prog();
+			exit_prog(&shell);
 		add_history(line);
 		free(line);
 	}
