@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 14:54:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 16:05:53 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/27 15:46:25 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/27 16:00:08 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/mini_shell.h"
+#include "../include/mini_shell.h"
 
-void	env_cmd(t_data *shell, char **args)
+void	init_env(t_data *shell, char **env)
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	if (args || args[0])
+	while (env[i])
+		i++;
+	shell->env = ft_calloc(i + 1, sizeof(char *));
+	if (!shell->env)
+		exit_prog(shell, ERR_ALLOC);
+	i = 0;
+	while (env[i])
 	{
-		shell->exit_status = ERR_CMD_NOT_FOUND;
-		write(2, "env: too many arguments\n", 24);
-		return ;
-	}
-	while (shell->env[i])
-	{
-		ft_printf("%s\n", shell->env[i]);
+		shell->env[i] = ft_strdup(env[i], 0);
+		if (!shell->env[i])
+			exit_prog(shell, ERR_ALLOC);
 		i++;
 	}
+}
+
+void	init_data(t_data *shell, char **env)
+{
+	ft_memset(shell, 0, sizeof(t_data));
+	init_env(shell, env);
 }

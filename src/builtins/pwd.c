@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:59 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:05:16 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	pwd_cmd(t_data *shell, char **args)
 {
-	char	**env;
 	int		i;
 
-	env = __environ;
 	if (args || args[0])
 	{
 		shell->exit_status = ERR_CMD_NOT_FOUND;
@@ -25,11 +23,11 @@ void	pwd_cmd(t_data *shell, char **args)
 		return ;
 	}
 	i = 0;
-	while (env[i])
+	while (shell->env[i])
 	{
-		if (ft_strncmp(env[i], "PWD=", 4) == 0)
+		if (ft_strncmp(shell->env[i], "PWD=", 4) == 0)
 		{
-			ft_printf("%s\n", env[i] + 4);
+			ft_printf("%s\n", shell->env[i] + 4);
 			return ;
 		}
 		i++;

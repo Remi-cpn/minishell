@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 13:52:02 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/27 15:55:09 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 typedef struct s_data	t_data;
 
 /** Functions */
-void	exit_prog(t_data *shell);
+void	exit_prog(t_data *shell, int status_error);
 void	check_exit_flag(t_data *shell);
 void	call_to_exit(t_data *shell, int status);
 
