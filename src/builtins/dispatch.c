@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 15:09:05 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 10:31:14 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,6 @@ void	dispatch_builtins(t_data *shell, t_ast *ast)
 		env_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->name, "pwd", 3) == 0)
 		pwd_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->name, "cd", 2) == 0)
+		cd_cmd(shell, cmd->args);
 }

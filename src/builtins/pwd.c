@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 16:05:16 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 10:37:59 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	pwd_cmd(t_data *shell, char **args)
 		i++;
 	}
 	shell->exit_status = ERR_PWD;
-	write(2, "pwd: error retrieving current directory\n", 42);
+	write(2, "pwd: error retrieving current directory\n", 40);
 }

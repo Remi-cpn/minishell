@@ -6,11 +6,38 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/25 21:45:28 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 10:36:20 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+/**
+ * This function returns the line in the environment starting with the key. 
+ * Be careful to enter = with key.
+ */
+char	*get_env(t_data *shell, char *key)
+{
+	int		i;
+	size_t	len_key;
+	char	*tmp;
+
+	if (!key)
+		return (NULL);
+	len_key = ft_strlen(key);
+	i = 0;
+	while (shell->env[i])
+	{
+		if (ft_strncmp(shell->env[i], key, len_key) == 0)
+		{
+			tmp = shell->env[i];
+			tmp += len_key;
+			return (tmp);
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 /**
  * This function checks if the char *arg is composed only of options.
