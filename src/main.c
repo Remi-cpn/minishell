@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 17:11:42 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/28 09:21:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 #define BOLD "\033[1m"
 #define CYAN "\033[36m"
 #define RESET "\033[0m"
-
-static void	init_data(t_data *shell)
-{
-	ft_memset(shell, 0, sizeof(t_data));
-}
 
 int	main(void)
 {
@@ -32,10 +27,10 @@ int	main(void)
 	{
 		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
 		if (!line || g_exit_flag == 1)
-			exit_prog();
+			exit_prog(&shell, 0);
 		add_history(line);
 		free(line);
 	}
-	exit_prog(&shell);
+	exit_prog(&shell, 0);
 	return (0);
 }

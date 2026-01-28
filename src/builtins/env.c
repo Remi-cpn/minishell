@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 22:04:32 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/27 14:54:11 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/27 16:05:53 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-/**
- * This function manages the program's output properly.
- */
-void	exit_prog(t_data *shell, int status_error)
+void	env_cmd(t_data *shell, char **args)
 {
-	if (status_error != 0)
-		shell->exit_status = status_error;
-	free_env(shell->env);
-	rl_clear_history();
-	exit(shell->exit_status);
+	int		i;
+
+	i = 0;
+	if (args || args[0])
+	{
+		shell->exit_status = ERR_CMD_NOT_FOUND;
+		write(2, "env: too many arguments\n", 24);
+		return ;
+	}
+	while (shell->env[i])
+	{
+		ft_printf("%s\n", shell->env[i]);
+		i++;
+	}
 }

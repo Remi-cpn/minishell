@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/26 15:53:48 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/28 22:04:11 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,18 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 # **************************************************************************** #
 
 SRC			= $(SRC_DIR)/main.c \
+			  $(SRC_DIR)/init.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
 			  $(SRC_DIR)/builtins/dispatch.c \
+			  $(SRC_DIR)/builtins/cd.c \
 			  $(SRC_DIR)/builtins/echo.c \
+			  $(SRC_DIR)/builtins/env.c \
 			  $(SRC_DIR)/builtins/exit.c \
+			  $(SRC_DIR)/builtins/export.c \
+			  $(SRC_DIR)/builtins/export_not_args.c \
+			  $(SRC_DIR)/builtins/pwd.c \
 			  $(SRC_DIR)/builtins/utils.c
 
 OBJ			= ${SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o}

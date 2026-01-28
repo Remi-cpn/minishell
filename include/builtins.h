@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 17:11:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:03:48 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,18 @@ typedef struct s_exit
 }	t_exit;
 
 /** Functions */
-bool	check_is_options(char *arg, char *key);
 void	dispatch_builtins(t_data *shell, t_ast *ast);
 void	echo_cmd(char **args);
 void	exit_cmd(t_data *shell, char **args);
+void	pwd_cmd(t_data *shell, char **args);
+void	env_cmd(t_data *shell, char **args);
+void	cd_cmd(t_data *shell, char **args);
+void	export_cmd(t_data *shell, char **args);
+void	export_cmd_not_arg(t_data *shell);
+
+/** Utils */
+char	*get_env(t_data *shell, char *key);
+bool	check_is_options(char *arg, char *key);
+int		strkeycmp(const char *s1, const char *s2, char key);
 
 #endif
