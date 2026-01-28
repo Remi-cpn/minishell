@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_signals.h                                       :+:      :+:    :+:   */
+/*   ft_freedbptr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 11:28:40 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 17:11:34 by tseche           ###   ########.fr       */
+/*   Created: 2026/01/27 17:40:03 by tseche            #+#    #+#             */
+/*   Updated: 2026/01/27 17:42:03 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_SIGNALS_H
-# define MS_SIGNALS_H
+#include "./libft.h"
 
-# include "mini_shell.h"
-# include <signal.h>
+void	ft_freedb_ptr(void **ptr)
+{
+	char	**cp;
 
-/** Variables */
-extern volatile sig_atomic_t	g_exit_flag;
-
-/** Functions */
-void	init_signals_prompt(void);
-
-#endif
+	cp = ptr;
+	while (*(unsigned **)ptr)
+		free(*ptr++);
+	free(cp);
+}

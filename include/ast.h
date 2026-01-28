@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/27 16:36:00 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 09:20:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
+
+# include <stdbool.h>
 
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
@@ -37,6 +39,12 @@ typedef struct s_token
 	t_token_type	kind;
 }					t_token;
 
+//--------------------[LEXER]--------------------------
+
+t_token	lexer(char *src);
+t_token	expect(char *src, t_token_type type);
+t_token	next(char *src, t_token_type type);
+
 //--------------------[AST]----------------------------
 
 typedef enum e_ast_type
@@ -49,29 +57,6 @@ typedef enum e_ast_type
 	OR,      // ||
 	NORMAL,
 }					t_ast_type;
-
-// typedef struct s_node
-// {
-// 	struct s_node	kind;
-// 	struct s_ast	*next;
-
-// 	union
-// 	{
-// 		char		*del;
-// 		char		*input;
-
-// 		struct
-// 		{
-// 			char	*output;
-// 			bool	override;
-// 		};
-// 		struct
-// 		{
-// 			char	*name;
-// 			char	**args;
-// 		};
-// 	};
-// }					t_node;
 
 typedef struct s_ast
 {

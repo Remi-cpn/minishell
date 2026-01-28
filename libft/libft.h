@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:51:16 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 16:59:16 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/27 17:42:16 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memset(void *s, int c, size_t n);
 
 void		ft_freenull(void *p);
+void		ft_freedb_ptr(void **ptr);
 void		*ft_realloc(void *p, size_t n);
 
 /* ---------------------------- FONCTIONS PUT ------------------------------ */

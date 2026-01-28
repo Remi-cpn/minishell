@@ -6,7 +6,11 @@
 #    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 17:34:44 by rcompain          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2026/01/27 16:01:07 by rcompain         ###   ########.fr        #
+=======
+#    Updated: 2026/01/27 17:42:29 by tseche           ###   ########.fr        #
+>>>>>>> dev
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +68,7 @@ SRC_MEM = 	ft_memchr.c \
 			ft_memset.c \
 			ft_freenull.c \
 			ft_realloc.c \
+			ft_freedbptr.c \
 
 SRC_LST =	ft_lstnew.c \
 			ft_lstadd_front.c \
