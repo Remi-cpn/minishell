@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/28 10:32:31 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:06:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_token
 //--------------------[LEXER]--------------------------
 
 t_token	lexer(char *src);
-t_token	expect(char *src, t_token_type type);
-t_token	next(char *src, t_token_type type);
+bool	expect(char *src, t_token_type type);
+t_token	next(char *src);
 
 //--------------------[AST]----------------------------
 
@@ -111,5 +111,22 @@ typedef struct s_ast_normal
 	char			*name;
 	char			**args;
 }					t_ast_normal;
+
+//------------------[PARSER]----------------
+
+t_ast	*parse_expr(char *src);
+
+//------------------[LOOKUP]----------------
+
+void	gen_lookup(void);
+
+typedef t_ast *(* t_look_handler)(char *src);
+typedef struct s_lookup
+{
+	t_token_type	kind;
+	t_look_handler	fn;
+}				t_lookup;
+
+t_lookup	lookup[];
 
 #endif
