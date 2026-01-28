@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/27 17:59:19 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/28 17:16:15 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**dup_env()
 	return (env);
 }
 
-void	addnode(t_ast *node, t_ast tok, int i)
+t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 {
 	t_token	*tmp;
 
@@ -45,15 +45,29 @@ void	addnode(t_ast *node, t_ast tok, int i)
 	free(tmp);
 	if (!node);
 		return (NULL);
-	node[i + 1] = tok;
+	node[i + 1] = *tok;
+	return (node);
 }
 
 t_ast	*parse(char *src)
 {
 	char	**env;
 	int		i;
+	t_ast	*node;
+	t_ast	*tmp;
 
 	env = dup_env();
-	i = 0;
-	
+	gen_lookup();
+	i = 1;
+	node = parse_expr(src);
+	while (src)
+	{
+		tmp = parse_expr(src);
+		if (tmp == 0)
+			return (NULL);
+		node = addnode(node, tmp, i);
+		if (!node)
+			return (NULL);
+	}
+	return (&node);
 }
