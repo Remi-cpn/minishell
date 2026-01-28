@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:23:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 20:23:10 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:03:13 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 static int	find_var(t_data *shell, char *key, int *len_key)
 {
 	int		i;
+	int		len;
 
-	while (key[*len_key] && key[*len_key] != '=')
-		(*len_key)++;
+	len = 0;
+	while (key[len] && key[len] != '=')
+		len++;
+	if (len_key)
+		*len_key = len;
 	i = 0;
 	while (shell->env[i])
 	{
-		if (ft_strncmp(shell->env[i], key, *len_key) == 0)
+		if (ft_strncmp(shell->env[i], key, len) == 0)
 		{
-			if (shell->env[i][*len_key] == '=')
+			if (shell->env[i][len] == '=')
 				return (i);
 		}
 		i++;
@@ -36,7 +40,7 @@ static int	export_with_value(t_data *shell, char **args)
 	int	idx;
 	int	i;
 
-	idx = find_var(shell, args[0], 0);
+	idx = find_var(shell, args[0], NULL);
 	if (idx == -1)
 	{
 		i = 0;
@@ -89,7 +93,7 @@ static bool	arg_is_valid(bool *with_value, char *arg)
 {
 	int	i;
 
-	if (!((arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_'))
+	if (!(ft_isalpha(arg[0]) || arg[0] == '_'))
 		return (false);
 	i = 1;
 	while (arg[i] && arg[i] != '=')
@@ -105,12 +109,14 @@ static bool	arg_is_valid(bool *with_value, char *arg)
 
 void	export_cmd(t_data *shell, char **args)
 {
-	int		idx;
 	bool	with_value;
 	int		flag;
 
-	// if (!args)
-	// 	print_alpha(shell);
+	if (!args || !args[0])
+	{
+		export_cmd_not_arg(shell);
+		return ;
+	}
 	if (args[1])
 	{
 		shell->exit_status = ERROR;

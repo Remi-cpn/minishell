@@ -6,11 +6,23 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 10:36:20 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 21:23:22 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+int	strkeycmp(const char *s1, const char *s2, char key)
+{
+	size_t	i;
+
+	i = 0;
+	if (!key)
+		return (0);
+	while (s1[i] && s1[i] != key && s2[i] && s2[i] != key && s1[i] == s2[i])
+		i++;
+	return (((unsigned char)s1[i]) - ((unsigned char)s2[i]));
+}
 
 /**
  * This function returns the line in the environment starting with the key. 

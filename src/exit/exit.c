@@ -6,27 +6,11 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 10:32:20 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:04:32 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
-
-void	free_env(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = 0;
-	while (env[i])
-	{
-		free(env[i]);
-		env[i] = NULL;
-		i++;
-	}
-	free(env);
-}
 
 /**
  * This function manages the program's output properly.
