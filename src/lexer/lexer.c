@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/27 17:30:08 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/28 23:52:01 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,31 @@ int	len_word(char *src)
 	return (i);
 }
 
-t_token	lexer(char *src)
+t_token	lexer(t_src_info txt)
 {
-	if (ft_strncmp(src, "<<", 2) == 0)
-		return (token(src, DINFTYPE, 2));
-	else if (ft_strncmp(src, ">>", 2) == 0)
-		return (token(src, DSUPTYPE, 2));
-	else if (ft_strncmp(src, "&&", 2) == 0)
-		return (token(src, AMPERTYPE, 2));
-	else if (ft_strncmp(src, "||", 2) == 0)
-		return (token(src, VERBARTYPE, 2));
-	else if (ft_strncmp(src, ">", 1) == 0)
-		return (token(src, SUPTYPE, 1));
-	else if (ft_strncmp(src, "<", 1) == 0)
-		return (token(src, INFTYPE, 1));
-	else if (ft_strncmp(src, "\"", 1) == 0)
-		return (token(src, DQUOTETYPE, 1));
-	else if (ft_strncmp(src, "\'", 1) == 0)
-		return (token(src, SQUOTETYPE, 1));
-	else if (ft_strncmp(src, "(", 1) == 0)
-		return (token(src, LPARENTYPE, 1));
-	else if (ft_strncmp(src, ")", 2) == 0)
-		return (token(src, RPARENTYPE, 1));
-	else if (ft_strncmp(src, "$", 1) == 0)
-		return (token(src, DOLLARTYPE, 1));
-	else if (ft_isalpha(src) || ft_isdigit(src))
-		return (token(src, WORDTYPE, len_word(src)));
+	if (ft_strncmp(&txt.src[txt.i], "<<", 2) == 0)
+		return (token(&txt.src[txt.i], DINFTYPE, 2));
+	else if (ft_strncmp(&txt.src[txt.i], ">>", 2) == 0)
+		return (token(&txt.src[txt.i], DSUPTYPE, 2));
+	else if (ft_strncmp(&txt.src[txt.i], "&&", 2) == 0)
+		return (token(&txt.src[txt.i], AMPERTYPE, 2));
+	else if (ft_strncmp(&txt.src[txt.i], "||", 2) == 0)
+		return (token(&txt.src[txt.i], VERBARTYPE, 2));
+	else if (ft_strncmp(&txt.src[txt.i], ">", 1) == 0)
+		return (token(&txt.src[txt.i], SUPTYPE, 1));
+	else if (ft_strncmp(&txt.src[txt.i], "<", 1) == 0)
+		return (token(&txt.src[txt.i], INFTYPE, 1));
+	else if (ft_strncmp(&txt.src[txt.i], "\"", 1) == 0)
+		return (token(&txt.src[txt.i], DQUOTETYPE, 1));
+	else if (ft_strncmp(&txt.src[txt.i], "\'", 1) == 0)
+		return (token(&txt.src[txt.i], SQUOTETYPE, 1));
+	else if (ft_strncmp(&txt.src[txt.i], "(", 1) == 0)
+		return (token(&txt.src[txt.i], LPARENTYPE, 1));
+	else if (ft_strncmp(&txt.src[txt.i], ")", 2) == 0)
+		return (token(&txt.src[txt.i], RPARENTYPE, 1));
+	else if (ft_strncmp(&txt.src[txt.i], "$", 1) == 0)
+		return (token(&txt.src[txt.i], DOLLARTYPE, 1));
+	else if (ft_isalpha(&txt.src[txt.i]) || ft_isdigit(&txt.src[txt.i]))
+		return (token(&txt.src[txt.i], WORDTYPE, len_word(&txt.src[txt.i])));
 	//free_parsing, trow error "UNKNOWN CHARACTER"
 }

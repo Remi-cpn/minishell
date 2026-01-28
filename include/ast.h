@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/28 17:28:09 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 00:41:27 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,17 @@ typedef struct s_token
 	t_token_type	kind;
 }					t_token;
 
+typedef	struct s_src_info
+{
+	char	*src;
+	int		i;
+}				t_src_info;
+
 //--------------------[LEXER]--------------------------
 
-t_token	lexer(char *src);
-bool	expect(char *src, t_token_type type);
-t_token	next(char *src);
+t_token	lexer(t_src_info txt);
+bool	expect(t_src_info txt, t_token_type type);
+t_token	advance(t_src_info txt);
 
 //--------------------[AST]----------------------------
 
@@ -55,7 +61,7 @@ typedef enum e_ast_type
 	OUT,     // > | >>
 	AND,     // &&
 	OR,      // ||
-	NORMAL,
+	CMD,
 }					t_ast_type;
 
 typedef struct s_ast
@@ -104,23 +110,30 @@ typedef struct s_ast_out
 	bool			overwrite;
 }					t_ast_out;
 
-typedef struct s_ast_normal
+typedef struct s_ast_cmd
 {
 	t_ast_type kind; // NORMAL | anything other
 	struct s_ast	*next;
 	char			*name;
 	char			**args;
-}					t_ast_normal;
+}					t_ast_cmd;
+
 
 //------------------[PARSER]----------------
 
-t_ast	*parse_expr(char *src);
+t_ast	**parse(char *src);
+t_ast	*parse_expr(t_src_info txt);
+t_ast	*parse_output(t_src_info txt);
+t_ast	*parse_pipe(t_src_info txt);
+t_ast	*parse_input(t_src_info txt);
+t_ast	*parse_heredoc(t_src_info txt);
+t_ast	*parse_cmd(t_src_info txt);
 
 //------------------[LOOKUP]----------------
 
 void	gen_lookup(void);
 
-typedef t_ast *(* t_look_handler)(char *src);
+typedef t_ast *(* t_look_handler)(t_src_info txt);
 typedef struct s_lookup
 {
 	t_token_type	kind;
