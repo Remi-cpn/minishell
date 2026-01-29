@@ -6,13 +6,13 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/29 00:53:59 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:23:46 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
+#include <stdlib.h>
 
 t_ast	*parse_pipe(t_src_info txt)
 {
@@ -55,25 +55,31 @@ t_ast	*parse_output(t_src_info txt)
 	return ((t_ast *)node);
 }
 
-//do parse word ($tmp, "tmp", 'tmp', ...)
+// do parse word ($tmp, "tmp", 'tmp', ...)
 t_ast	*parse_cmd(t_src_info txt)
 {
 	t_ast_cmd	*node;
+	int			i;
 
 	node = malloc(sizeof(t_ast_cmd));
 	if (!node)
 		return (NULL);
 	node->kind = CMD;
 	if (!expect(txt, WORDTYPE))
-		//throw error NOT WORDTYPE
-	node->name = advance(txt).value;
+		// throw error NOT WORDTYPE
+		node->name = advance(txt).value;
 	if (!node->name)
 		return (NULL);
-	node->args = NULL;
-	while (expect(txt, WORDTYPE))
+	i = ft_count_word(&txt.src[txt.i], ' ') + 1;
+	node->args = ft_calloc(sizeof(t_ast *), i);
+	i = 0;
+	while (node->args && expect(txt, WORDTYPE))
 	{
-		node->args = ft_strjoin(node->args, advance(txt).value, 0, 0);
-		if (!node->args)
+		node->args[i] = advance(txt).value;
+		while ((txt.src[txt.i] >= '\a' && txt.src[txt.i] <= '\r')
+			|| txt.src[txt.i] == ' ')
+			txt.i++;
+		if (!node->args[i++])
 			return (NULL);
 	}
 	return ((t_ast *)node);

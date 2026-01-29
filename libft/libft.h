@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:51:16 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 17:42:16 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:30:36 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_list
 
 /* ------------------------------- FONCTIONS -------------------------------- */
 
+# ifndef __cplusplus
+
 int			ft_atoi(const char *s);
 long int	ft_atol(const char *s);
 void		ft_bzero(void *s, size_t n);
@@ -46,6 +48,7 @@ size_t		ft_count_word(char const *s, char c);
 char		**ft_split(char const *s, char c);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strdup(const char *s, int free_s);
+char		*ft_strndup(char *src, int start, int finish);
 char		*ft_strjoin(char const *s1, char const *s2, int free_s1,
 				int free_s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
@@ -99,5 +102,6 @@ int			ft_putnbrbase(int nbr, char *base);
 int			ft_putchar(char c);
 int			ft_putadrbase(uintptr_t nbr);
 int			ft_putnbr(long int nbr);
+# endif
 
 #endif

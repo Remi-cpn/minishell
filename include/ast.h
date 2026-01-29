@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/01/28 22:06:45 by rcompain         ###   ########.fr       */
-=======
-/*   Updated: 2026/01/29 00:41:27 by tseche           ###   ########.fr       */
->>>>>>> 5da22c3261c9c5f8f7d81cb8b71650384f253907
+/*   Updated: 2026/01/29 16:51:29 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,19 +119,7 @@ typedef struct s_ast_cmd
 }					t_ast_cmd;
 
 
-//------------------[PARSER]----------------
-
-t_ast	**parse(char *src);
-t_ast	*parse_expr(t_src_info txt);
-t_ast	*parse_output(t_src_info txt);
-t_ast	*parse_pipe(t_src_info txt);
-t_ast	*parse_input(t_src_info txt);
-t_ast	*parse_heredoc(t_src_info txt);
-t_ast	*parse_cmd(t_src_info txt);
-
 //------------------[LOOKUP]----------------
-
-void	gen_lookup(void);
 
 typedef t_ast *(* t_look_handler)(t_src_info txt);
 typedef struct s_lookup
@@ -144,6 +128,17 @@ typedef struct s_lookup
 	t_look_handler	fn;
 }				t_lookup;
 
-t_lookup	lookup[];
+void	gen_lookup(t_lookup *lookup);
+
+//------------------[PARSER]----------------
+
+t_ast	**parse(char *src, char **env);
+t_ast	*parse_expr(t_lookup *lookup, t_src_info txt);
+t_ast	*parse_output(t_src_info txt);
+t_ast	*parse_pipe(t_src_info txt);
+t_ast	*parse_input(t_src_info txt);
+t_ast	*parse_heredoc(t_src_info txt);
+t_ast	*parse_cmd(t_src_info txt);
+
 
 #endif

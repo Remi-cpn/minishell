@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
+#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 17:34:44 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/28 10:32:15 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/29 16:30:51 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC = 		ft_atoi.c \
 			ft_tolower.c \
 			ft_toupper.c \
 			ft_count_word.c \
+			ft_strndup.c \
 
 SRC_PUT =	ft_putchar_fd.c \
 			ft_putendl_fd.c \
