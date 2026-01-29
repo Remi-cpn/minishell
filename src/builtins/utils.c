@@ -6,12 +6,43 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 21:23:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:07:56 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
+/**
+ * Allows you to find a variable in env and to modify the size of the 
+ * variable name.
+ */
+int	find_var(t_data *shell, char *key, int *len_key)
+{
+	int		i;
+	int		len;
+
+	len = 0;
+	while (key[len] && key[len] != '=')
+		len++;
+	if (len_key)
+		*len_key = len;
+	i = 0;
+	while (shell->env[i])
+	{
+		if (ft_strncmp(shell->env[i], key, len) == 0)
+		{
+			if (shell->env[i][len] == '=')
+				return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
+/**
+ * The same as strncmp except that it compares up to a given character or 
+ * until the end.
+ */
 int	strkeycmp(const char *s1, const char *s2, char key)
 {
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 22:03:48 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:04:14 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	export_cmd_not_arg(t_data *shell);
 char	*get_env(t_data *shell, char *key);
 bool	check_is_options(char *arg, char *key);
 int		strkeycmp(const char *s1, const char *s2, char key);
+int		find_var(t_data *shell, char *key, int *len_key);
 
 #endif
