@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/28 23:52:01 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:33:16 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_token	token(char *src, t_token_type kind, int n)
 {
 	char	*tmp;
 
-	tmp = ft_strndup(src, n);
+	tmp = ft_strndup(src, 0, n);
 	if (!tmp)
 		return ((t_token){});
 	return ((t_token){.value = src, .kind = kind});
@@ -67,7 +67,7 @@ t_token	lexer(t_src_info txt)
 		return (token(&txt.src[txt.i], RPARENTYPE, 1));
 	else if (ft_strncmp(&txt.src[txt.i], "$", 1) == 0)
 		return (token(&txt.src[txt.i], DOLLARTYPE, 1));
-	else if (ft_isalpha(&txt.src[txt.i]) || ft_isdigit(&txt.src[txt.i]))
+	else if (ft_isalpha(txt.src[txt.i]) || ft_isdigit(txt.src[txt.i]))
 		return (token(&txt.src[txt.i], WORDTYPE, len_word(&txt.src[txt.i])));
-	//free_parsing, trow error "UNKNOWN CHARACTER"
+	return ((t_token){});
 }

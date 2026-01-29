@@ -6,12 +6,11 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:34:09 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/28 23:53:36 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:37:40 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ast.h"
-#include "../../libft/libft.h"
+#include "../../include/mini_shell.h"
 
 bool	expect(t_src_info txt, t_token_type type)
 {

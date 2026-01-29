@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:40:03 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/27 17:42:03 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 15:38:41 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_freedb_ptr(void **ptr)
 {
-	char	**cp;
+	void	**cp;
 
 	cp = ptr;
 	while (*(unsigned **)ptr)

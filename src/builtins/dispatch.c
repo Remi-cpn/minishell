@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 14:39:33 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:43:09 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	dispatch_builtins(t_data *shell, t_ast *ast)
 		return ;
 	cmd = (t_ast_cmd *)ast;
 	if (ft_strncmp(cmd->name, "echo", 4) == 0)
-		echo_cmd(cmd->args);
+		echo_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->name, "exit", 4) == 0)
 		exit_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->name, "env", 3) == 0)

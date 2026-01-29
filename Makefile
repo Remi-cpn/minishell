@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
+#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/29 10:33:51 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/29 15:45:45 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,13 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/builtins/export_not_args.c \
 			  $(SRC_DIR)/builtins/pwd.c \
 			  $(SRC_DIR)/builtins/unset.c \
-			  $(SRC_DIR)/builtins/utils.c
+			  $(SRC_DIR)/builtins/utils.c \
+			  $(SRC_DIR)/parser/lookup.c \
+			  $(SRC_DIR)/parser/parse_utils.c \
+			  $(SRC_DIR)/parser/parser.c \
+			  $(SRC_DIR)/lexer/lexer.c \
+			  $(SRC_DIR)/lexer/lexer_utils.c \
+			  
 
 OBJ			= ${SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o}
 
