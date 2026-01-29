@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 10:35:12 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:39:33 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	dispatch_builtins(t_data *shell, t_ast *ast)
 {
-	t_ast_normal	*cmd;
+	t_ast_cmd	*cmd;
 
-	if (ast->kind != NORMAL)
+	if (ast->kind != CMD)
 		return ;
-	cmd = (t_ast_normal *)ast;
+	cmd = (t_ast_cmd *)ast;
 	if (ft_strncmp(cmd->name, "echo", 4) == 0)
 		echo_cmd(cmd->args);
 	else if (ft_strncmp(cmd->name, "exit", 4) == 0)

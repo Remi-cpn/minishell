@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 10:37:02 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:33:46 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ void	cd_cmd(t_data *shell, char **args)
 		return ;
 	}
 	cd_cmd_next(shell, path);
+	shell->exit_status = SUCCES;
 }

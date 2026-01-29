@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 10:37:59 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:38:06 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	pwd_cmd(t_data *shell, char **args)
 		if (ft_strncmp(shell->env[i], "PWD=", 4) == 0)
 		{
 			ft_printf("%s\n", shell->env[i] + 4);
+			shell->exit_status = SUCCES;
 			return ;
 		}
 		i++;

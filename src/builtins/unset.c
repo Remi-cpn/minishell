@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 10:08:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 10:30:31 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:39:14 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,15 @@ static bool	arg_is_valid(char *arg)
 void	unset_cmd(t_data *shell, char **args)
 {
 	int	i;
+	int	status;
 
+	status = SUCCES;
 	i = 0;
 	while (args[i])
 	{
 		if (arg_is_valid(args[i]) == false)
 		{
-			shell->exit_status = ERROR;
+			status = ERROR;
 			write(2, "unset: ", 7);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, ": not a valid identifier\n", 25);
@@ -62,4 +64,5 @@ void	unset_cmd(t_data *shell, char **args)
 			remove_var(shell, args[i]);
 		i++;
 	}
+	shell->exit_status = status;
 }

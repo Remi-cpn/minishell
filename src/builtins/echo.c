@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:09:48 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 11:13:50 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:35:07 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static bool	check_is_options(char *arg, char *key)
 	return (true);
 }
 
-void	echo_cmd(char **args)
+void	echo_cmd(t_data *shell, char **args)
 {
 	int		i;
 	bool	n;
@@ -81,4 +81,5 @@ void	echo_cmd(char **args)
 		}
 		i++;
 	}
+	shell->exit_status = 0;
 }
