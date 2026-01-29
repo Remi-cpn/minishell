@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 20:23:36 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:35:12 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ void	dispatch_builtins(t_data *shell, t_ast *ast)
 		cd_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->name, "export", 6) == 0)
 		export_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->name, "unset", 5) == 0)
+		unset_cmd(shell, cmd->args);
 }

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 10:04:14 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:16:27 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,9 @@
 # define BUILTINS_H
 
 typedef struct s_data	t_data;
+typedef struct s_ast	t_ast;
 
 /** Structs */
-typedef struct s_echo
-{
-	bool	n;
-	bool	e;
-	bool	e_capital;
-}	t_echo;
-
 typedef struct s_exit
 {
 	bool	many_args;
@@ -38,10 +32,10 @@ void	env_cmd(t_data *shell, char **args);
 void	cd_cmd(t_data *shell, char **args);
 void	export_cmd(t_data *shell, char **args);
 void	export_cmd_not_arg(t_data *shell);
+void	unset_cmd(t_data *shell, char **args);
 
 /** Utils */
 char	*get_env(t_data *shell, char *key);
-bool	check_is_options(char *arg, char *key);
 int		strkeycmp(const char *s1, const char *s2, char key);
 int		find_var(t_data *shell, char *key, int *len_key);
 

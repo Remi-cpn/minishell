@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 10:07:56 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:22:35 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,30 +82,3 @@ char	*get_env(t_data *shell, char *key)
 	return (NULL);
 }
 
-/**
- * This function checks if the char *arg is composed only of options.
- */
-bool	check_is_options(char *arg, char *key)
-{
-	int	i;
-	int	j;
-	int	flag;
-
-	i = 0;
-	if (!arg[1])
-		return (false);
-	while (arg[++i])
-	{
-		j = 0;
-		flag = 0;
-		while (key[j] && flag == 0)
-		{
-			if (arg[i] == key[j])
-				flag = 1;
-			j++;
-		}
-		if (flag == 0)
-			return (false);
-	}
-	return (true);
-}
