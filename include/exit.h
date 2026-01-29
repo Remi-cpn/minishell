@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 20:41:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:21:56 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 /** Builtins */
 # define EXIT_TO_MANY_ARGS 1
-# define EXIT_NOT_NUMERIC 2
+# define EXIT_NOT_NUMERIC 255
 # define ERR_BUILTINS 20
 # define ERR_PWD 21
 

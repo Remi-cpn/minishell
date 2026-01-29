@@ -6,13 +6,13 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:09:48 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/26 11:27:45 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 11:13:50 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static void	exec_echo(t_echo *echo, char **args)
+static void	exec_echo(bool n, char **args)
 {
 	int	i;
 
@@ -24,40 +24,59 @@ static void	exec_echo(t_echo *echo, char **args)
 			ft_printf(" ");
 		i++;
 	}
-	if (echo->n == false)
+	if (n == false)
 		ft_printf("\n");
 }
 
-static void	add_echo_options(t_echo *echo, char *arg)
+/**
+ * This function checks if the char *arg is composed only of options.
+ */
+static bool	check_is_options(char *arg, char *key)
 {
 	int	i;
+	int	j;
+	int	flag;
 
 	i = 0;
+	if (arg[0] != '-')
+		return (false);
+	if (!arg[1])
+		return (false);
 	while (arg[++i])
 	{
-		if (arg[i] == 'n')
-			echo->n = true;
-		if (arg[i] == 'e')
-			echo->e = true;
-		if (arg[i] == 'E')
-			echo->e_capital = true;
+		j = 0;
+		flag = 0;
+		while (key[j] && flag == 0)
+		{
+			if (arg[i] == key[j])
+				flag = 1;
+			j++;
+		}
+		if (flag == 0)
+			return (false);
 	}
+	return (true);
 }
 
 void	echo_cmd(char **args)
 {
-	t_echo	echo;
 	int		i;
+	bool	n;
 
-	ft_memset(&echo, 0, sizeof(t_echo));
+	if (!args || !args[0])
+	{
+		ft_printf("\n");
+		return ;
+	}
+	n = false;
 	i = 0;
 	while (args[i])
 	{
-		if (check_is_options(args[i], "enE") == true)
-			add_echo_options(&echo, args[i]);
+		if (check_is_options(args[i], "n") == true)
+			n = true;
 		else
 		{
-			exec_echo(&echo, &args[i]);
+			exec_echo(n, &args[i]);
 			break ;
 		}
 		i++;
