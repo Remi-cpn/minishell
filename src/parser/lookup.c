@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:16:22 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/28 17:25:02 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 00:48:29 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ void	gen_lookup(void)
 	bind(DINFTYPE, &parse_heredoc);
 
 	bind(WORDTYPE, &parse_cmd);
+	//bind $ \" \' to parse_cmd
 }

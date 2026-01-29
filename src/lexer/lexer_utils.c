@@ -6,24 +6,23 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:34:09 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/27 17:33:00 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/28 23:53:36 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
 
-bool	expect(char *src, t_token_type type)
+bool	expect(t_src_info txt, t_token_type type)
 {
-	return (lexer(src).kind == type);
+	return (lexer(txt).kind == type);
 }
 
-t_token	next(char *src)
+t_token	advance(t_src_info txt)
 {
-	static int	i = 0;
 	t_token		tok;
 
-	tok = lexer(src[i]);
-	i += ft_strlen(tok.value);
+	tok = lexer(txt);
+	txt.i += ft_strlen(tok.value);
 	return (tok);
 }

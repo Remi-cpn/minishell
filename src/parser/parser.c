@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/28 17:16:15 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/29 00:22:23 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,37 @@ t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 	return (node);
 }
 
-t_ast	*parse(char *src)
+t_ast	*parse_expr(t_src_info txt)
+{
+	const t_token			tok = lexer(txt);
+	const t_look_handler	fn = lookup[tok.kind].fn;
+	t_ast					*tmp;
+	
+	if (!fn)
+		//THROW ERROR
+	tmp = fn(txt);
+	return (tmp);
+}
+
+t_ast	**parse(char *src)
 {
 	char	**env;
 	int		i;
-	t_ast	*node;
+	t_ast	**node;
 	t_ast	*tmp;
+	t_src_info	txt;
 
 	env = dup_env();
 	gen_lookup();
 	i = 1;
-	node = parse_expr(src);
+	txt = (t_src_info){.src = src, .i = 0};
+	node = malloc(sizeof(t_list *));
 	while (src)
 	{
-		tmp = parse_expr(src);
+		tmp = parse_expr(txt);
 		if (tmp == 0)
 			return (NULL);
-		node = addnode(node, tmp, i);
+		ft_lstadd_back(node, (t_list *)tmp);
 		if (!node)
 			return (NULL);
 	}
