@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 11:21:10 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:36:57 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exit_cmd(t_data *shell, char **args)
 	write(2, "exit\n", 5);
 	if (!args[0])
 	{
-		shell->exit = true;
+		call_to_exit(shell, SUCCES);
 		return ;
 	}
 	if (args[1])

@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 14:54:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 15:35:23 by rcompain         ###   ########.fr       */
+/*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
+/*   Updated: 2026/01/29 15:40:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-void	env_cmd(t_data *shell, char **args)
+void	exec_line(t_data *shell, t_ast **ast)
 {
-	int		i;
+	t_ast	*tmp;
 
-	i = 0;
-	if (args || args[0])
+	tmp = ast[0];
+	while (tmp && !shell->exit)
 	{
-		shell->exit_status = ERR_CMD_NOT_FOUND;
-		write(2, "env: too many arguments\n", 24);
-		return ;
+		if (tmp->kind == CMD)
+			dispatch_builtins(shell, tmp);
+		tmp = tmp->next;
 	}
-	while (shell->env[i])
-	{
-		ft_printf("%s\n", shell->env[i]);
-		i++;
-	}
-	shell->exit_status = 0;
 }
