@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 15:33:46 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:54:06 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	replace_pwd(t_data *shell, char *new_pwd, char *old_pwd)
 			free(shell->env[i]);
 			shell->env[i] = ft_strjoin("OLDPWD=", old_pwd, 0, 0);
 			if (!shell->env[i])
-				call_to_exit(shell, ERR_ALLOC);
+				call_to_exit(shell, ERR_ALLOC, NULL);
 		}
 		if (ft_strncmp(shell->env[i], "PWD=", 4) == 0)
 		{
 			free(shell->env[i]);
 			shell->env[i] = ft_strjoin("PWD=", new_pwd, 0, 0);
 			if (!shell->env[i])
-				call_to_exit(shell, ERR_ALLOC);
+				call_to_exit(shell, ERR_ALLOC, NULL);
 		}
 		i++;
 	}

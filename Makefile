@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/30 14:41:37 by rcompain         ###   ########.fr        #
+#    Updated: 2026/01/30 20:53:05 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/pipeline/open.c \
 			  $(SRC_DIR)/pipeline/exec_line.c \
 			  $(SRC_DIR)/pipeline/init_cmds.c \
-			  $(SRC_DIR)/pipeline/child_process.c
+			  $(SRC_DIR)/pipeline/utils.c
 			  
 
 OBJ			= ${SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o}

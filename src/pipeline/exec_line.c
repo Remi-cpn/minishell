@@ -6,11 +6,12 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 15:08:38 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:52:30 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+#include <sys/wait.h>
 
 static void	dispatch_builtins(t_data *shell, t_ast *ast)
 {
@@ -35,22 +36,85 @@ static void	dispatch_builtins(t_data *shell, t_ast *ast)
 		unset_cmd(shell, cmd->args);
 }
 
+// void	child_process(t_data *shell, char **cmd, int i, int pipes)
+// {
+// 	int	find;
+// 	int	j;
+
+// 	find = find_path(shell, cmd);
+// 	if (find == FAILURE)
+// 	{
+// 		shell->exit_status = ERROR;
+// 		return ;
+// 	}
+// 	dup2(pipex->fds[i - 1][0], STDIN_FILENO);
+// 	dup2(pipex->fds[i][1], STDOUT_FILENO);
+// 	j = 0;
+// 	while (j < pipex->nbr_fds)
+// 	{
+// 		close(pipex->fds[j][0]);
+// 		close(pipex->fds[j][1]);
+// 		j++;
+// 	}
+// 	execve(pipex->path, pipex->cmd[i], pipex->envp);
+// 	exit_prog(pipex, ERROR);
+// }
+
+static void	child_process_one_cmd(t_data *shell, t_cmd *cmd)
+{
+	if (cmd->fd_in != STDIN_FILENO)
+		dup2(cmd->fd_in, STDIN_FILENO);
+	if (cmd->fd_out != STDOUT_FILENO)
+		dup2(cmd->fd_out, STDOUT_FILENO);
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
+	execve(shell->cmd_path, cmd->args, shell->env);
+	exit_prog(shell, ERR_CMD_NOT_FOUND);
+}
+
+static void	exec_one_cmd(t_data *shell, t_cmd *cmd)
+{
+	int	pid;
+	int	find;
+	int	status;
+
+	if (cmd->is_builtin == true)
+		dispatch_builtins(shell, NULL);
+	else
+	{
+		find = find_path(shell, cmd->args);
+		if (find == -1)
+		{
+			call_to_exit(shell, ERR_PATH, "cmd: Path not found\n");
+			return ;
+		}
+		pid = fork();
+		if (pid == 0)
+			child_process_one_cmd(shell, cmd);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			shell->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			shell->exit_status = 128 + WTERMSIG(status);
+	}
+}
+
+// static void	exec_pipeline(t_data *shell, t_cmd *cmds)
+// {
+
+// }
+
 void	exec_line(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
 	int		i;
 
 	cmds = init_cmds(shell, ast);
-	if (!cmds)
-		return ;
 	i = 0;
-	while (i < shell->nbr_cmd)
-	{
-		if (cmds[i].is_builtin == true)
-			dispatch_builtins(shell, NULL);
-		else
-		{
-				
-		}
-	}
+	// if (shell->nbr_cmd > 1)
+	// 	// exec_pipeline(shell, cmds);
+	// else
+	exec_one_cmd(shell, &cmds[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:51:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 22:04:31 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:48:23 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ void	free_env(char **env)
 	free(env);
 }
 
-void	call_to_exit(t_data *shell, int status)
+void	call_to_exit(t_data *shell, int status, char *msg)
 {
+	if (msg)
+		write(2, msg, ft_strlen(msg));
 	shell->exit = true;
 	shell->exit_status = status;
 }

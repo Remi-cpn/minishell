@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 15:09:04 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:56:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static int	test_path(t_data *shell, char *path, char **paths, char **cmd)
+int	test_path(t_data *shell, char *path, char **paths, char **cmd)
 {
 	int		find;
 	char	*tmp;
@@ -37,7 +37,7 @@ static int	test_path(t_data *shell, char *path, char **paths, char **cmd)
 	return (SUCCES);
 }
 
-static int	find_path(t_data *shell, char **cmd)
+int	find_path(t_data *shell, char **cmd)
 {
 	int		i;
 	int		find;
@@ -62,28 +62,4 @@ static int	find_path(t_data *shell, char **cmd)
 	return (find);
 }
 
-void	child_process(t_data *shell, char **cmd, int i, int pipes)
-{
-	int	find;
-	int	j;
 
-	find = find_path(shell, cmd);
-	if (find == FAILURE)
-	{
-		shell->exit_status = ERROR;
-		return ;
-	}
-	if ()
-
-	dup2(pipex->fds[i - 1][0], STDIN_FILENO);
-	dup2(pipex->fds[i][1], STDOUT_FILENO);
-	j = 0;
-	while (j < pipex->nbr_fds)
-	{
-		close(pipex->fds[j][0]);
-		close(pipex->fds[j][1]);
-		j++;
-	}
-	execve(pipex->path, pipex->cmd[i], pipex->envp);
-	exit_prog(pipex, ERROR);
-}
