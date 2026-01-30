@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 13:40:45 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 21:00:52 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 void	open_fd_heredoc(t_cmd *cmd, t_ast_heredoc *heredoc)
 {
-	int	fd;
+	// int	fd;
 
-	//fd = creation d'un heredoc
-	if (fd == -1)
-	{
-		write(2, "fd: invalid\n", 12);
-		cmd->fd_in = -1;
-		return ;
-	}
-	cmd->fd_in = fd;
-	cmd->redir_in = true;
+	(void)heredoc;
+	(void)cmd;
+	// //fd = creation d'un heredoc
+	// if (fd == -1)
+	// {
+	// 	write(2, "fd: invalid\n", 12);
+	// 	cmd->fd_in = -1;
+	// 	return ;
+	// }
+	// cmd->fd_in = fd;
+	// cmd->redir_in = true;
 }
 
 void	open_fd_out(t_cmd *cmd, t_ast_out *out)

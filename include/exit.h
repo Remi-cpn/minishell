@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 16:49:36 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 21:03:30 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	exit_prog(t_data *shell, int status_error);
 void	check_exit_flag(t_data *shell);
 void	call_to_exit(t_data *shell, int status, char *msg);
 void	free_env(char **env);
+void	free_array(char **s);
 
 #endif

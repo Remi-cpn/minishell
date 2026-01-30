@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 13:48:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 21:02:09 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,24 +72,23 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	t_cmd	*cmds;
 	int		i;
 	t_ast	*tmp;
-	int		fd;
 
 	i = -1;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
 	if (!cmds)
-		return ;
+		return (NULL);
 	tmp = *ast;
 	while (tmp)
 	{
 		if (tmp->kind == CMD)
 		{
 			init_cmd(&cmds[++i], (t_ast_cmd *)tmp);
-			cmds[i].is_builtin = is_builtin((t_ast_cmd *)tmp);
+			cmds[i].is_builtin = is_builtins((t_ast_cmd *)tmp);
 		}
 		else if (tmp->kind == IN)
 			open_fd_in(&cmds[i], (t_ast_in *)tmp);
 		else if (tmp->kind == HEREDOC)
-			open_fd_herdoc(&cmds[i], (t_ast_heredoc *)tmp);
+			open_fd_heredoc(&cmds[i], (t_ast_heredoc *)tmp);
 		else if (tmp->kind == OUT)
 			open_fd_out(&cmds[i], (t_ast_out *)tmp);
 		tmp = tmp->next;
