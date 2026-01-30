@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/29 16:51:59 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/30 20:58:59 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_ast	*parse_expr(t_lookup *lookup,t_src_info txt)
 
 t_ast	**parse(char *src, char **env)
 {
-	int			i;
 	t_ast		**node;
 	t_ast		*tmp;
 	t_src_info	txt;
@@ -72,7 +71,6 @@ t_ast	**parse(char *src, char **env)
 
 	(void)env;
 	gen_lookup(lookup);
-	i = 1;
 	txt = (t_src_info){.src = src, .i = 0};
 	node = malloc(sizeof(t_list *));
 	if (!node)

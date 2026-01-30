@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/28 10:32:26 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:07:28 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@
 # include "builtins.h"
 # include "exit.h"
 # include "ms_signals.h"
+# include "pipeline.h"
 
 /** Structs */
 typedef struct s_data
 {
+	int		nbr_cmd;
+	char	*cmd_path;
 	bool	exit;
 	int		exit_status;
 	char	**env;

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:23:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 15:37:38 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:55:11 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void	export_cmd(t_data *shell, char **args)
 	else
 		flag = export_without_value(shell, args);
 	if (flag == -1)
-		call_to_exit(shell, ERR_ALLOC);
+		call_to_exit(shell, ERR_ALLOC, NULL);
 	shell->exit_status = SUCCES;
 }

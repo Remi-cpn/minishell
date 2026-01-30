@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 15:34:50 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:41:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_exit
 }	t_exit;
 
 /** Functions */
-void	dispatch_builtins(t_data *shell, t_ast *ast);
 void	echo_cmd(t_data *shell, char **args);
 void	exit_cmd(t_data *shell, char **args);
 void	pwd_cmd(t_data *shell, char **args);

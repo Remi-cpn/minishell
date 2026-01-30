@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
+#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/01/29 15:45:45 by tseche           ###   ########.fr        #
+#    Updated: 2026/01/30 20:53:05 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
-			  $(SRC_DIR)/builtins/dispatch.c \
 			  $(SRC_DIR)/builtins/cd.c \
 			  $(SRC_DIR)/builtins/echo.c \
 			  $(SRC_DIR)/builtins/env.c \
@@ -55,6 +54,10 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/parser/parser.c \
 			  $(SRC_DIR)/lexer/lexer.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \
+			  $(SRC_DIR)/pipeline/open.c \
+			  $(SRC_DIR)/pipeline/exec_line.c \
+			  $(SRC_DIR)/pipeline/init_cmds.c \
+			  $(SRC_DIR)/pipeline/utils.c
 			  
 
 OBJ			= ${SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o}
