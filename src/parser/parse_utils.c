@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/29 16:23:46 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/31 15:45:52 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@
 t_ast	*parse_pipe(t_src_info txt)
 {
 	t_ast_pipe	*node;
+	t_token		tok;
 
 	node = malloc(sizeof(t_ast_pipe));
 	if (!node)
 		return (NULL);
-	advance(txt);
+	tok = advance(txt);
+	if (tok.kind == UNKNOWN)
+		return (NULL);
 	node->kind = PIPE;
 	return ((t_ast *)node);
 }
@@ -29,11 +32,14 @@ t_ast	*parse_pipe(t_src_info txt)
 t_ast	*parse_heredoc(t_src_info txt)
 {
 	t_ast_pipe	*node;
+	t_token		tok;
 
 	node = malloc(sizeof(t_ast_heredoc));
 	if (!node)
 		return (NULL);
-	advance(txt);
+	tok = advance(txt);
+	if (tok.kind == UNKNOWN)
+		return (NULL);
 	node->kind = HEREDOC;
 	return ((t_ast *)node);
 }
@@ -48,6 +54,8 @@ t_ast	*parse_output(t_src_info txt)
 		return (NULL);
 	node->kind = OUT;
 	tok = advance(txt);
+	if (tok.kind == UNKNOWN)
+		return (NULL);
 	node->output = tok.value;
 	node->overwrite = true;
 	if (tok.kind == DSUPTYPE)
@@ -66,9 +74,9 @@ t_ast	*parse_cmd(t_src_info txt)
 		return (NULL);
 	node->kind = CMD;
 	if (!expect(txt, WORDTYPE))
-		// throw error NOT WORDTYPE
-		node->name = advance(txt).value;
-	if (!node->name)
+		return (NULL);
+	node->name = advance(txt).value;
+	if (node->name)
 		return (NULL);
 	i = ft_count_word(&txt.src[txt.i], ' ') + 1;
 	node->args = ft_calloc(sizeof(t_ast *), i);

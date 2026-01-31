@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/29 16:33:16 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/31 16:33:55 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,57 +17,68 @@ static t_token	token(char *src, t_token_type kind, int n)
 {
 	char	*tmp;
 
+	if (n == -1)
+		return ((t_token){.kind = UNKNOWN, .value = NULL});
 	tmp = ft_strndup(src, 0, n);
 	if (!tmp)
 		return ((t_token){});
 	return ((t_token){.value = src, .kind = kind});
 }
 
-int	len_word(char *src)
+int	word(char *src)
 {
 	int	i;
+	int	quote;
 
 	i = 0;
-	if ((src[i] >= 'A' && src[i] <= 'Z') || (src[i] >= 'a' && src[i] <= 'z'))
+	quote = 0;
+	if (src[i] == '\"')
+		quote = 2;
+	else if (src[i] == '\'')
+		quote = 1;
+	if (src[i] == '$')
+		i++;
+	if (ft_isalnum(src[i]))
 	{
-		while ((src[i] >= 'A' && src[i] <= 'Z')
-			|| (src[i] >= 'a' && src[i] <= 'z')
-			|| src[i] == '_')
+		while (ft_isalnum(src[i]) || src[i] == '_')
 			i++;
 	}
-	else
-	{
-		while ((src[i] >= '0' && src[i] <= '9'))
-			i++;
-	}
+	if (quote == 2 && src[i] == '\"')
+		return (++i);
+	else if (quote == 2)
+		return (-1);
+	if (quote == 1 && src[i] == '\'')
+		return (++i);
+	else if (quote == 1)
+		return (-1);
 	return (i);
 }
 
 t_token	lexer(t_src_info txt)
 {
-	if (ft_strncmp(&txt.src[txt.i], "<<", 2) == 0)
+	if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "<<", 2) == 0)
 		return (token(&txt.src[txt.i], DINFTYPE, 2));
-	else if (ft_strncmp(&txt.src[txt.i], ">>", 2) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], ">>", 2) == 0)
 		return (token(&txt.src[txt.i], DSUPTYPE, 2));
-	else if (ft_strncmp(&txt.src[txt.i], "&&", 2) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "&&", 2) == 0)
 		return (token(&txt.src[txt.i], AMPERTYPE, 2));
-	else if (ft_strncmp(&txt.src[txt.i], "||", 2) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "||", 2) == 0)
 		return (token(&txt.src[txt.i], VERBARTYPE, 2));
-	else if (ft_strncmp(&txt.src[txt.i], ">", 1) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], ">", 1) == 0)
 		return (token(&txt.src[txt.i], SUPTYPE, 1));
-	else if (ft_strncmp(&txt.src[txt.i], "<", 1) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "<", 1) == 0)
 		return (token(&txt.src[txt.i], INFTYPE, 1));
-	else if (ft_strncmp(&txt.src[txt.i], "\"", 1) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "\"", 1) == 0)
 		return (token(&txt.src[txt.i], DQUOTETYPE, 1));
-	else if (ft_strncmp(&txt.src[txt.i], "\'", 1) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "\'", 1) == 0)
 		return (token(&txt.src[txt.i], SQUOTETYPE, 1));
-	else if (ft_strncmp(&txt.src[txt.i], "(", 1) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "(", 1) == 0)
 		return (token(&txt.src[txt.i], LPARENTYPE, 1));
-	else if (ft_strncmp(&txt.src[txt.i], ")", 2) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], ")", 2) == 0)
 		return (token(&txt.src[txt.i], RPARENTYPE, 1));
-	else if (ft_strncmp(&txt.src[txt.i], "$", 1) == 0)
+	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "$", 1) == 0)
 		return (token(&txt.src[txt.i], DOLLARTYPE, 1));
-	else if (ft_isalpha(txt.src[txt.i]) || ft_isdigit(txt.src[txt.i]))
-		return (token(&txt.src[txt.i], WORDTYPE, len_word(&txt.src[txt.i])));
-	return ((t_token){});
+	else if (txt.i < txt.len && ft_isalnum(txt.src[txt.i]))
+		return (token(&txt.src[txt.i], WORDTYPE, word(&txt.src[txt.i])));
+	return ((t_token){.kind = UNKNOWN, .value = NULL});
 }

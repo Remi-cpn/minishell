@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/29 16:51:29 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/31 16:18:11 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 # define AST_H
 
 # include <stdbool.h>
+# include <stddef.h>
 
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
 {
-	SQUOTETYPE, // \'
-	DQUOTETYPE, // \"
-	PIPETYPE,   // |
-	SUPTYPE,    // >
-	INFTYPE,    // <
-	DSUPTYPE,   // >>
-	DINFTYPE,   // <<
-	LPARENTYPE, // (
-	RPARENTYPE, // )
-	AMPERTYPE,  // &&
-	VERBARTYPE, // ||
-	DOLLARTYPE, //	$
-	WORDTYPE,   // [.]+
+	SQUOTETYPE,// \'
+	DQUOTETYPE,// \"
+	PIPETYPE,// |
+	SUPTYPE,// >
+	INFTYPE,// <
+	DSUPTYPE,// >>
+	DINFTYPE,// <<
+	LPARENTYPE,// (
+	RPARENTYPE,// )
+	AMPERTYPE,// &&
+	VERBARTYPE,// ||
+	DOLLARTYPE,//	$
+	WORDTYPE,// [.]+
+	UNKNOWN,
 }					t_token_type;
 
 typedef struct s_token
@@ -39,10 +41,11 @@ typedef struct s_token
 	t_token_type	kind;
 }					t_token;
 
-typedef	struct s_src_info
+typedef struct s_src_info
 {
 	char	*src;
-	int		i;
+	size_t	i;
+	size_t	len;
 }				t_src_info;
 
 //--------------------[LEXER]--------------------------
@@ -55,12 +58,12 @@ t_token	advance(t_src_info txt);
 
 typedef enum e_ast_type
 {
-	HEREDOC, // <<
-	IN,      // <
-	PIPE,    // |
-	OUT,     // > | >>
-	AND,     // &&
-	OR,      // ||
+	HEREDOC,// <<
+	IN,// <
+	PIPE,// |
+	OUT,// > | >>
+	AND,// &&
+	OR,// ||
 	CMD,
 }					t_ast_type;
 
@@ -72,39 +75,39 @@ typedef struct s_ast
 
 typedef struct s_ast_pipe
 {
-	t_ast_type kind; // PIPE | '|'
+	t_ast_type		kind; // PIPE | '|'
 	struct s_ast	*next;
 }					t_ast_pipe;
 
 typedef struct s_ast_and
 {
-	t_ast_type kind; // AND | '&&'
+	t_ast_type		kind; // AND | '&&'
 	struct s_ast	*next;
 }					t_ast_and;
 
 typedef struct s_ast_or
 {
-	t_ast_type kind; // OR | '||'
+	t_ast_type		kind; // OR | '||'
 	struct s_ast	*next;
 }					t_ast_or;
 
 typedef struct s_ast_heredoc
 {
-	t_ast_type kind; // HEREDOC | '<<'
+	t_ast_type		kind; // HEREDOC | '<<'
 	struct s_ast	*next;
 	char			*del;
 }					t_ast_heredoc;
 
 typedef struct s_ast_in
 {
-	t_ast_type kind; // IN | '<'
+	t_ast_type		kind; // IN | '<'
 	struct s_ast	*next;
 	char			*input;
 }					t_ast_in;
 
 typedef struct s_ast_out
 {
-	t_ast_type kind; // OUT | ('>' | '>>')
+	t_ast_type		kind; // OUT | ('>' | '>>')
 	struct s_ast	*next;
 	char			*output;
 	bool			overwrite;
@@ -112,16 +115,15 @@ typedef struct s_ast_out
 
 typedef struct s_ast_cmd
 {
-	t_ast_type kind; // NORMAL | anything other
+	t_ast_type		kind; // NORMAL | anything other
 	struct s_ast	*next;
 	char			*name;
 	char			**args;
 }					t_ast_cmd;
 
-
 //------------------[LOOKUP]----------------
 
-typedef t_ast *(* t_look_handler)(t_src_info txt);
+typedef t_ast *(*	t_look_handler)(t_src_info txt);
 typedef struct s_lookup
 {
 	t_token_type	kind;
@@ -139,6 +141,5 @@ t_ast	*parse_pipe(t_src_info txt);
 t_ast	*parse_input(t_src_info txt);
 t_ast	*parse_heredoc(t_src_info txt);
 t_ast	*parse_cmd(t_src_info txt);
-
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 11:22:35 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/31 16:21:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,3 @@ char	*get_env(t_data *shell, char *key)
 	}
 	return (NULL);
 }
-

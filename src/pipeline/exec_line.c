@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 20:52:30 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/31 16:34:22 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ static void	exec_one_cmd(t_data *shell, t_cmd *cmd)
 			shell->exit_status = 128 + WTERMSIG(status);
 	}
 }
+//static void	exec_pipeline(t_data *shell, t_cmd *cmds);
 
-// static void	exec_pipeline(t_data *shell, t_cmd *cmds)
-// {
-
-// }
-
+// i = 0;
+// if (shell->nbr_cmd > 1)
+//  exec_pipeline(shell, cmds);
+// else
 void	exec_line(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
@@ -113,8 +113,5 @@ void	exec_line(t_data *shell, t_ast **ast)
 
 	cmds = init_cmds(shell, ast);
 	i = 0;
-	// if (shell->nbr_cmd > 1)
-	// 	// exec_pipeline(shell, cmds);
-	// else
 	exec_one_cmd(shell, &cmds[i]);
 }
