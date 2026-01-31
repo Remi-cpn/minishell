@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 16:55:30 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/31 16:22:36 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ void	handler_prompt(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	// if (sig == SIGCHLD)
-	// {
-	// 	//Fin de l'enfant.
-	// 	return ;
-	// }
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/30 20:58:59 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/01/31 16:29:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
 
-char	**dup_env()
+char	**dup_env(void)
 {
-	char 	**env;
+	char	**env;
 	int		i;
 
 	i = 0;
@@ -49,7 +49,7 @@ t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 	return (node);
 }
 
-t_ast	*parse_expr(t_lookup *lookup,t_src_info txt)
+t_ast	*parse_expr(t_lookup *lookup, t_src_info txt)
 {
 	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
@@ -71,7 +71,9 @@ t_ast	**parse(char *src, char **env)
 
 	(void)env;
 	gen_lookup(lookup);
-	txt = (t_src_info){.src = src, .i = 0};
+	if (!src)
+		return (NULL);
+	txt = (t_src_info){.src = src, .i = 0, .len = ft_strlen(src)};
 	node = malloc(sizeof(t_list *));
 	if (!node)
 		return (NULL);

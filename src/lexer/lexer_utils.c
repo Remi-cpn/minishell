@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:34:09 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/29 16:37:40 by tseche           ###   ########.fr       */
+/*   Updated: 2026/01/31 15:36:50 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_token	advance(t_src_info txt)
 	t_token		tok;
 
 	tok = lexer(txt);
-	txt.i += ft_strlen(tok.value);
+	if (tok.kind == UNKNOWN)
+		txt.i += 1;
+	else
+		txt.i += ft_strlen(tok.value);
 	return (tok);
 }
