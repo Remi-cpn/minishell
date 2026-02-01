@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/31 16:18:11 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 19:08:41 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
 {
-	SQUOTETYPE,// \'
-	DQUOTETYPE,// \"
 	PIPETYPE,// |
 	SUPTYPE,// >
 	INFTYPE,// <
@@ -30,9 +28,9 @@ typedef enum e_token_type
 	RPARENTYPE,// )
 	AMPERTYPE,// &&
 	VERBARTYPE,// ||
-	DOLLARTYPE,//	$
 	WORDTYPE,// [.]+
 	UNKNOWN,
+	eof
 }					t_token_type;
 
 typedef struct s_token
@@ -50,9 +48,9 @@ typedef struct s_src_info
 
 //--------------------[LEXER]--------------------------
 
-t_token	lexer(t_src_info txt);
-bool	expect(t_src_info txt, t_token_type type);
-t_token	advance(t_src_info txt);
+t_token	lexer(t_src_info *txt);
+bool	expect(t_src_info *txt, t_token_type type);
+t_token	advance(t_src_info *txt);
 
 //--------------------[AST]----------------------------
 
@@ -65,6 +63,7 @@ typedef enum e_ast_type
 	AND,// &&
 	OR,// ||
 	CMD,
+	END
 }					t_ast_type;
 
 typedef struct s_ast
@@ -123,7 +122,7 @@ typedef struct s_ast_cmd
 
 //------------------[LOOKUP]----------------
 
-typedef t_ast *(*	t_look_handler)(t_src_info txt);
+typedef t_ast *(*	t_look_handler)(t_src_info *txt);
 typedef struct s_lookup
 {
 	t_token_type	kind;
@@ -135,11 +134,11 @@ void	gen_lookup(t_lookup *lookup);
 //------------------[PARSER]----------------
 
 t_ast	**parse(char *src, char **env);
-t_ast	*parse_expr(t_lookup *lookup, t_src_info txt);
-t_ast	*parse_output(t_src_info txt);
-t_ast	*parse_pipe(t_src_info txt);
-t_ast	*parse_input(t_src_info txt);
-t_ast	*parse_heredoc(t_src_info txt);
-t_ast	*parse_cmd(t_src_info txt);
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);
+t_ast	*parse_output(t_src_info *txt);
+t_ast	*parse_pipe(t_src_info *txt);
+t_ast	*parse_input(t_src_info *txt);
+t_ast	*parse_heredoc(t_src_info *txt);
+t_ast	*parse_cmd(t_src_info *txt);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/31 15:45:52 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 18:18:14 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #include "../../libft/libft.h"
 #include <stdlib.h>
 
-t_ast	*parse_pipe(t_src_info txt)
+t_ast	*parse_pipe(t_src_info *txt)
 {
 	t_ast_pipe	*node;
 	t_token		tok;
 
+	advance(txt);
 	node = malloc(sizeof(t_ast_pipe));
 	if (!node)
 		return (NULL);
@@ -29,11 +30,12 @@ t_ast	*parse_pipe(t_src_info txt)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_heredoc(t_src_info txt)
+t_ast	*parse_heredoc(t_src_info *txt)
 {
 	t_ast_pipe	*node;
 	t_token		tok;
 
+	advance(txt);
 	node = malloc(sizeof(t_ast_heredoc));
 	if (!node)
 		return (NULL);
@@ -44,11 +46,12 @@ t_ast	*parse_heredoc(t_src_info txt)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_output(t_src_info txt)
+t_ast	*parse_output(t_src_info *txt)
 {
 	t_ast_out	*node;
 	t_token		tok;
 
+	advance(txt);
 	node = malloc(sizeof(t_ast_out));
 	if (!node)
 		return (NULL);
@@ -64,7 +67,7 @@ t_ast	*parse_output(t_src_info txt)
 }
 
 // do parse word ($tmp, "tmp", 'tmp', ...)
-t_ast	*parse_cmd(t_src_info txt)
+t_ast	*parse_cmd(t_src_info *txt)
 {
 	t_ast_cmd	*node;
 	int			i;
@@ -76,17 +79,17 @@ t_ast	*parse_cmd(t_src_info txt)
 	if (!expect(txt, WORDTYPE))
 		return (NULL);
 	node->name = advance(txt).value;
-	if (node->name)
+	if (!node->name)
 		return (NULL);
-	i = ft_count_word(&txt.src[txt.i], ' ') + 1;
+	i = ft_count_word(&txt->src[txt->i], ' ') + 1;
 	node->args = ft_calloc(sizeof(t_ast *), i);
 	i = 0;
 	while (node->args && expect(txt, WORDTYPE))
 	{
 		node->args[i] = advance(txt).value;
-		while ((txt.src[txt.i] >= '\a' && txt.src[txt.i] <= '\r')
-			|| txt.src[txt.i] == ' ')
-			txt.i++;
+		while ((txt->src[txt->i] >= '\a' && txt->src[txt->i] <= '\r')
+			|| txt->src[txt->i] == ' ')
+			txt->i++;
 		if (!node->args[i++])
 			return (NULL);
 	}
