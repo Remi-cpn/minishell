@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/31 16:32:32 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 17:19:55 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 // }
 // cmd->fd_in = fd;
 // cmd->redir_in = true;
-void	open_fd_heredoc(t_cmd *cmd, t_ast_heredoc *heredoc)
+void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
 {
 	(void)heredoc;
 	(void)cmd;
 }
 
-void	open_fd_out(t_cmd *cmd, t_ast_out *out)
+void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
 {
 	int	fd;
 
@@ -38,14 +38,14 @@ void	open_fd_out(t_cmd *cmd, t_ast_out *out)
 	if (fd == -1)
 	{
 		write(2, "fd: invalid\n", 12);
-		cmd->fd_in = -1;
+		shell->exit_status = ERROR;
 		return ;
 	}
 	cmd->fd_out = fd;
 	cmd->redir_out = true;
 }
 
-void	open_fd_in(t_cmd *cmd, t_ast_in *in)
+void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in)
 {
 	int	fd;
 
@@ -53,7 +53,7 @@ void	open_fd_in(t_cmd *cmd, t_ast_in *in)
 	if (fd == -1)
 	{
 		write(2, "fd: invalid\n", 12);
-		cmd->fd_in = -1;
+		shell->exit_status = ERROR;
 		return ;
 	}
 	cmd->fd_in = fd;

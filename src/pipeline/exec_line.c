@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/31 16:34:22 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 17:20:47 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ void	exec_line(t_data *shell, t_ast **ast)
 
 	cmds = init_cmds(shell, ast);
 	i = 0;
-	exec_one_cmd(shell, &cmds[i]);
+	if (shell->exit_status != ERROR)
+		exec_one_cmd(shell, &cmds[i]);
 }

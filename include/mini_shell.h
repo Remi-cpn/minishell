@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 10:07:28 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/01 17:33:34 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 typedef struct s_data
 {
 	int		nbr_cmd;
+	t_cmd	*cmds; // Pointeur pour free entre chaque readline
 	char	*cmd_path;
 	bool	exit;
 	int		exit_status;
