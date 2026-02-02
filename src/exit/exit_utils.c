@@ -6,11 +6,27 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:51:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 21:03:34 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/02 16:31:17 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+void	print_error(char *name, char c)
+{
+	write(2, "minishell: ", 11);
+	if (name)
+	{
+		write(2, name, ft_strlen(name));
+		write(2, ": ", 2);
+	}
+	if (c)
+	{
+		write(2, &c, 1);
+		write(2, ": ", 2);
+	}
+	perror(NULL);
+}
 
 void	free_array(char **s)
 {
@@ -19,7 +35,19 @@ void	free_array(char **s)
 	i = 0;
 	while (s && s[i])
 		ft_freenull(s[i++]);
-	ft_freenull(s);
+	if (s)
+		ft_freenull(s);
+}
+
+void	free_cmds(t_cmd *cmds)
+{
+	if (cmds)
+	{
+		free_array(cmds->args);
+		cmds->args = NULL;
+		ft_freenull(cmds);
+		cmds = NULL;
+	}
 }
 
 void	free_env(char **env)

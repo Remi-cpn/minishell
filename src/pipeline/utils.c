@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/31 16:32:44 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/02 16:32:19 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,32 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int	test_path(t_data *shell, char *path, char **paths, char **cmd)
+void	get_exit_status(t_data *shell, int status)
 {
-	int		find;
-	char	*tmp;
-
-	tmp = ft_strjoin(path, "/", 0, 0);
-	tmp = ft_strjoin(tmp, cmd[0], 1, 0);
-	find = access(tmp, X_OK);
-	if (find == FAILURE)
-	{
-		ft_freenull(tmp);
-		return (FAILURE);
-	}
-	shell->cmd_path = ft_strdup(tmp, 0);
-	ft_freenull(tmp);
-	if (!shell->cmd_path)
-	{
-		free_array(paths);
-		exit_prog(shell, ERROR);
-	}
-	return (SUCCES);
+	if (WIFEXITED(status))
+		shell->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->exit_status = 128 + WTERMSIG(status);
+	else
+		shell->exit_status = ERROR;
 }
 
-int	find_path(t_data *shell, char **cmd)
+void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
-	int		i;
-	int		find;
-	char	**paths;
-
-	i = find_var(shell, "PATH", NULL);
-	if (i == -1)
-		return (-1);
-	find = FAILURE;
-	paths = ft_split(shell->env[i] + 5, ':');
-	if (!paths)
-		exit_prog(shell, ERR_ALLOC);
-	i = 0;
-	while (paths && paths[i] && find == FAILURE)
-	{
-		find = test_path(shell, paths[i], paths, cmd);
-		i++;
-	}
-	free_array(paths);
-	if (find == FAILURE)
-		exit_prog(shell, ERROR);
-	return (find);
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return ;
+	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
+		echo_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
+		exit_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
+		env_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
+		pwd_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
+		cd_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
+		export_cmd(shell, cmd->args);
+	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
+		unset_cmd(shell, cmd->args);
 }

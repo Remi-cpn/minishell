@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 19:19:13 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/02 08:38:36 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	main(void)
 		if (!line || g_exit_flag == 1)
 			exit_prog(&shell, 0);
 		add_history(line);
+		//parsing;
+		//exec;
+		//free ast;
+		free_cmds(shell.cmds);
 		free(line);
 	}
 	exit_prog(&shell, 0);

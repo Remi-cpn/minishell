@@ -6,7 +6,7 @@
 #    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/01 16:44:01 by tseche           ###   ########.fr        #
+#    Updated: 2026/02/02 14:57:23 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,9 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \
 			  $(SRC_DIR)/pipeline/open.c \
 			  $(SRC_DIR)/pipeline/exec_line.c \
+			  $(SRC_DIR)/pipeline/exec_pipeline.c \
 			  $(SRC_DIR)/pipeline/init_cmds.c \
+			  $(SRC_DIR)/pipeline/find_path.c \
 			  $(SRC_DIR)/pipeline/utils.c
 			  
 

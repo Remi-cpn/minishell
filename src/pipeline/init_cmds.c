@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 21:02:09 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:36:03 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,29 @@ static char	**init_args(t_ast_cmd	*ast_cmd)
 		return (NULL);
 	args[0] = ft_strdup(ast_cmd->name, 0);
 	if (!args[0])
-		return (NULL);
+		ft_freenull(args);
 	i = 0;
-	while (ast_cmd->args[i])
+	while (args && ast_cmd->args[i])
 	{
 		args[i + 1] = ft_strdup(ast_cmd->args[i], 0);
 		if (!args[i + 1])
-			return (NULL);
+			free_array(args);
 		i++;
 	}
 	return (args);
 }
 
-static void	init_cmd(t_cmd *cmd, t_ast_cmd	*ast_cmd)
+static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
 {
-	cmd->args = init_args(ast_cmd);
 	cmd->fd_in = STDIN_FILENO;
 	cmd->fd_out = STDOUT_FILENO;
 	cmd->redir_in = false;
 	cmd->redir_out = false;
-	cmd->is_builtin = false;
+	cmd->last_cmd = false;
+	cmd->is_builtin = is_builtins(ast_cmd);
+	cmd->args = init_args(ast_cmd);
+	if (!cmd->args)
+		call_to_exit(shell, ERR_ALLOC, NULL);
 }
 
 t_cmd	*init_cmds(t_data *shell, t_ast **ast)
@@ -76,22 +79,22 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	i = -1;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
 	if (!cmds)
-		return (NULL);
+		call_to_exit(shell, ERR_ALLOC, NULL);
 	tmp = *ast;
-	while (tmp)
+	while (shell->exit_status != ERROR && tmp)
 	{
 		if (tmp->kind == CMD)
-		{
-			init_cmd(&cmds[++i], (t_ast_cmd *)tmp);
-			cmds[i].is_builtin = is_builtins((t_ast_cmd *)tmp);
-		}
+			init_cmd(shell, &cmds[++i], (t_ast_cmd *)tmp);
 		else if (tmp->kind == IN)
-			open_fd_in(&cmds[i], (t_ast_in *)tmp);
+			open_fd_in(shell, &cmds[i], (t_ast_in *)tmp);
 		else if (tmp->kind == HEREDOC)
-			open_fd_heredoc(&cmds[i], (t_ast_heredoc *)tmp);
+			open_fd_heredoc(shell, &cmds[i], (t_ast_heredoc *)tmp);
 		else if (tmp->kind == OUT)
-			open_fd_out(&cmds[i], (t_ast_out *)tmp);
+			open_fd_out(shell, &cmds[i], (t_ast_out *)tmp);
 		tmp = tmp->next;
 	}
+	if (shell->exit_status != ERROR && i >= 0 && &cmds[i])
+		cmds[i].last_cmd = true;
+	shell->cmds = cmds;
 	return (cmds);
 }
