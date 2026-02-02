@@ -6,24 +6,28 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:16:22 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/31 16:29:01 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/02 16:02:21 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-void	bind(t_lookup *lookup, t_token_type kind, t_look_handler fn)
+void	bind(t_lookup *lookup, t_token_type kind,
+			t_look_handler fn, t_ast_type type)
 {
 	lookup[kind].fn = fn;
+	lookup[kind].type = type;
 }
 
 //bind(INFTYPE, &parse_input);
 //bind $ \" \' to parse_cmd
 void	gen_lookup(t_lookup *lookup)
 {
-	bind(lookup, PIPETYPE, &parse_pipe);
-	bind(lookup, SUPTYPE, &parse_output);
-	bind(lookup, DSUPTYPE, &parse_output);
-	bind(lookup, DINFTYPE, &parse_heredoc);
-	bind(lookup, WORDTYPE, &parse_cmd);
+	bind(lookup, AMPERTYPE, &parse_ord, AND);
+	bind(lookup, VERBARTYPE, &parse_ord, OR);
+	bind(lookup, PIPETYPE, &parse_ord, PIPE);
+	bind(lookup, DINFTYPE, &parse_ord, HEREDOC);
+	bind(lookup, SUPTYPE, &parse_output, OUT);
+	bind(lookup, DSUPTYPE, &parse_output, IN);
+	bind(lookup, WORDTYPE, &parse_cmd, CMD);
 }

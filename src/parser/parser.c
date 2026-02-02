@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/01 19:00:47 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/02 16:29:48 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
 	t_ast			*tmp;
-
 	if (tok.kind == UNKNOWN)
 		return (NULL);
 	if (tok.kind == eof)
@@ -69,7 +68,13 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	fn = lookup[tok.kind].fn;
 	if (!fn)
 		return (NULL);
-	tmp = fn(txt);
+	tmp = fn(txt, lookup[tok.kind].type);
+	if (!tmp)
+	{
+		ft_putstr_fd("syntax error near unexpected token ", 2);
+		ft_putchar_fd(txt->src[txt->i], 2);
+		ft_putchar_fd('\n', 2);
+	}
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/01 19:08:41 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/02 16:03:45 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,10 @@ typedef struct s_ast_cmd
 
 //------------------[LOOKUP]----------------
 
-typedef t_ast *(*	t_look_handler)(t_src_info *txt);
+typedef t_ast *(*	t_look_handler)(t_src_info *txt, t_ast_type type);
 typedef struct s_lookup
 {
-	t_token_type	kind;
+	t_ast_type	type;
 	t_look_handler	fn;
 }				t_lookup;
 
@@ -135,10 +135,9 @@ void	gen_lookup(t_lookup *lookup);
 
 t_ast	**parse(char *src, char **env);
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);
-t_ast	*parse_output(t_src_info *txt);
-t_ast	*parse_pipe(t_src_info *txt);
-t_ast	*parse_input(t_src_info *txt);
-t_ast	*parse_heredoc(t_src_info *txt);
-t_ast	*parse_cmd(t_src_info *txt);
+t_ast	*parse_output(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_input(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind);
 
 #endif
