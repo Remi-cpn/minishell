@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 17:19:08 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/01 18:11:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 
 # define FAILURE -1
+# define CHILD 0
 
 /** Struct */
 typedef struct s_cmd

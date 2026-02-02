@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 17:20:47 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/01 21:18:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	exec_one_cmd(t_data *shell, t_cmd *cmd)
 	int	status;
 
 	if (cmd->is_builtin == true)
-		dispatch_builtins(shell, NULL);
+		dispatch_builtins(shell, NULL); // choix a faire sur builins depuis cmd
 	else
 	{
 		find = find_path(shell, cmd->args);
@@ -100,19 +100,42 @@ static void	exec_one_cmd(t_data *shell, t_cmd *cmd)
 			shell->exit_status = 128 + WTERMSIG(status);
 	}
 }
-//static void	exec_pipeline(t_data *shell, t_cmd *cmds);
 
-// i = 0;
-// if (shell->nbr_cmd > 1)
-//  exec_pipeline(shell, cmds);
-// else
+static void	exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nbr_cmd - 1)
+	{
+		pid[i] = fork();
+		if (pid[i] == CHILD)
+			//childprocess
+		i++;
+	}
+	i = 0;
+	while (i < shell->nbr_cmd)
+		waitpid(pid[i++], NULL, 0);
+}
+
 void	exec_line(t_data *shell, t_ast **ast)
 {
+	pid_t	*pid;
 	t_cmd	*cmds;
 	int		i;
 
 	cmds = init_cmds(shell, ast);
 	i = 0;
-	if (shell->exit_status != ERROR)
+	if (shell->exit_status != ERROR && shell->nbr_cmd < 1)
 		exec_one_cmd(shell, &cmds[i]);
+	else if (shell->exit_status != ERROR)
+	{
+		pid = ft_calloc(shell->nbr_cmd, sizeof(pid_t));
+		if (!pid)
+		{
+			call_to_exit(shell, ERR_ALLOC, NULL);
+			return ;
+		}
+		exec_pipeline(shell, cmds, pid);
+	}
 }

@@ -3,16 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/31 16:32:44 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 21:18:49 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <fcntl.h>
 #include <unistd.h>
+
+void	close_fd(t_data *shell, t_cmd *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (i < shell->nbr_cmd)
+	{
+		if (cmds[i].fd_in != STDIN_FILENO)
+			close(cmds[i].fd_in);
+		if (cmds[i].fd_out != STDOUT_FILENO)
+			close(cmds[i].fd_out);
+		i++;
+	}
+}
 
 int	test_path(t_data *shell, char *path, char **paths, char **cmd)
 {
