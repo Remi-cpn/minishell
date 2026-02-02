@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 08:38:36 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/02 17:06:00 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,4 @@ int main(void)
 	}
 	exit_prog(&shell, 0);
 	return (0);
-}
-	*/
+}*/
