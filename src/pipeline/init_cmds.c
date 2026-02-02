@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 17:33:07 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:36:03 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
 	cmd->fd_out = STDOUT_FILENO;
 	cmd->redir_in = false;
 	cmd->redir_out = false;
+	cmd->last_cmd = false;
 	cmd->is_builtin = is_builtins(ast_cmd);
 	cmd->args = init_args(ast_cmd);
 	if (!cmd->args)
@@ -92,6 +93,8 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 			open_fd_out(shell, &cmds[i], (t_ast_out *)tmp);
 		tmp = tmp->next;
 	}
+	if (shell->exit_status != ERROR && i >= 0 && &cmds[i])
+		cmds[i].last_cmd = true;
 	shell->cmds = cmds;
 	return (cmds);
 }

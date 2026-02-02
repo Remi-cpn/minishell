@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 17:37:47 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/02 16:32:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define SIGTERM_EXIT 143
 
 typedef struct s_data	t_data;
+typedef struct s_cmd	t_cmd;
 
 /** Functions */
 void	exit_prog(t_data *shell, int status_error);
@@ -44,5 +45,6 @@ void	call_to_exit(t_data *shell, int status, char *msg);
 void	free_env(char **env);
 void	free_array(char **s);
 void	free_cmds(t_cmd *cmds);
+void	print_error(char *name, char c);
 
 #endif
