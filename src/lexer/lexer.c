@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer->c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tseche <tseche@student->42->fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/31 16:33:55 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 17:56:09 by tseche           ###   ########->fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_token	token(char *src, t_token_type kind, int n)
 	tmp = ft_strndup(src, 0, n);
 	if (!tmp)
 		return ((t_token){});
-	return ((t_token){.value = src, .kind = kind});
+	return ((t_token){.value = tmp, .kind = kind});
 }
 
 int	word(char *src)
@@ -54,31 +54,29 @@ int	word(char *src)
 	return (i);
 }
 
-t_token	lexer(t_src_info txt)
+t_token	lexer(t_src_info *txt)
 {
-	if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "<<", 2) == 0)
-		return (token(&txt.src[txt.i], DINFTYPE, 2));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], ">>", 2) == 0)
-		return (token(&txt.src[txt.i], DSUPTYPE, 2));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "&&", 2) == 0)
-		return (token(&txt.src[txt.i], AMPERTYPE, 2));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "||", 2) == 0)
-		return (token(&txt.src[txt.i], VERBARTYPE, 2));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], ">", 1) == 0)
-		return (token(&txt.src[txt.i], SUPTYPE, 1));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "<", 1) == 0)
-		return (token(&txt.src[txt.i], INFTYPE, 1));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "\"", 1) == 0)
-		return (token(&txt.src[txt.i], DQUOTETYPE, 1));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "\'", 1) == 0)
-		return (token(&txt.src[txt.i], SQUOTETYPE, 1));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "(", 1) == 0)
-		return (token(&txt.src[txt.i], LPARENTYPE, 1));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], ")", 2) == 0)
-		return (token(&txt.src[txt.i], RPARENTYPE, 1));
-	else if (txt.i < txt.len && ft_strncmp(&txt.src[txt.i], "$", 1) == 0)
-		return (token(&txt.src[txt.i], DOLLARTYPE, 1));
-	else if (txt.i < txt.len && ft_isalnum(txt.src[txt.i]))
-		return (token(&txt.src[txt.i], WORDTYPE, word(&txt.src[txt.i])));
+	if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "<<", 2) == 0)
+		return (token(&txt->src[txt->i], DINFTYPE, 2));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
+		return (token(&txt->src[txt->i], DSUPTYPE, 2));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
+		return (token(&txt->src[txt->i], AMPERTYPE, 2));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
+		return (token(&txt->src[txt->i], VERBARTYPE, 2));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], ">", 1) == 0)
+		return (token(&txt->src[txt->i], SUPTYPE, 1));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "<", 1) == 0)
+		return (token(&txt->src[txt->i], INFTYPE, 1));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "\"", 1) == 0)
+		return (token(&txt->src[txt->i], DQUOTETYPE, 1));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "\'", 1) == 0)
+		return (token(&txt->src[txt->i], SQUOTETYPE, 1));
+	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "|", 1) == 0)
+		return (token(&txt->src[txt->i], PIPETYPE, 1));
+	else if (txt->i < txt->len && (ft_isalnum(txt->src[txt->i]  || txt->src[txt->i] == '$' || txt->src[txt->i] == '\'' || txt->src[txt->i] == '\"')))
+		return (token(&txt->src[txt->i], WORDTYPE, word(&txt->src[txt->i])));
+	if (txt->i >= txt->len)
+		return ((t_token){.kind = eof, .value = NULL});
 	return ((t_token){.kind = UNKNOWN, .value = NULL});
 }

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/31 16:29:47 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/01 19:00:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,23 @@ t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 	return (node);
 }
 
-t_ast	*parse_expr(t_lookup *lookup, t_src_info txt)
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 {
 	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
 	t_ast			*tmp;
 
+	if (tok.kind == UNKNOWN)
+		return (NULL);
+	if (tok.kind == eof)
+	{
+		tmp = malloc(sizeof(t_ast));
+		if (!tmp)
+			return (NULL);
+		tmp->kind = END;
+		tmp->next = NULL;
+		return (tmp);
+	}
 	fn = lookup[tok.kind].fn;
 	if (!fn)
 		return (NULL);
@@ -66,18 +77,25 @@ t_ast	**parse(char *src, char **env)
 {
 	t_ast		**node;
 	t_ast		*tmp;
-	t_src_info	txt;
+	t_src_info	*txt;
 	t_lookup	lookup[13];
 
 	(void)env;
 	gen_lookup(lookup);
-	if (!src)
-		return (NULL);
-	txt = (t_src_info){.src = src, .i = 0, .len = ft_strlen(src)};
-	node = malloc(sizeof(t_list *));
+	txt = ft_calloc(sizeof(t_src_info), 1);
+	txt->src = src;
+	txt->len = ft_strlen(src);
+	node = ft_calloc(sizeof(t_list *), 1);
 	if (!node)
 		return (NULL);
-	while (src)
+	tmp = parse_expr(lookup, txt);
+	if (!tmp)
+	{
+		free(node);
+		return (NULL);
+	}
+	*node = tmp;
+	while (tmp->kind != END)
 	{
 		tmp = parse_expr(lookup, txt);
 		if (!tmp)
