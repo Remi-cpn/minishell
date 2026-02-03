@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 16:32:48 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:28:46 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ typedef struct s_cmd
 	bool	redir_in;
 	bool	redir_out;
 	bool	last_cmd;
+	bool	next_or;
+	bool	next_and;
 }	t_cmd;
 
 /** Functions */
 t_cmd	*init_cmds(t_data *shell, t_ast **ast);
-void	exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid);
+t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd);
+t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid);
 
 void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc);
 void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out);

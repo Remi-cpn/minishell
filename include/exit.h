@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 10:54:12 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:43:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@
 # define SIGINT_EXIT 130
 # define SIGQUIT_EXIT 131
 # define SIGTERM_EXIT 143
+
+/** Error mini_shell*/
+# define ERR_PIPE -2
+# define ERR_FORK -3
 
 typedef struct s_data	t_data;
 typedef struct s_cmd	t_cmd;

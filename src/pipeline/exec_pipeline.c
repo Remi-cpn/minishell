@@ -6,11 +6,17 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:34:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:35:51 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+static void	error_pipeline(t_data *shell, char *msg, int error_status)
+{
+	print_error(msg, NULL, 0, NULL);
+	shell->exit_status = error_status;
+}
 
 static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2])
 {
@@ -53,34 +59,52 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	exit_prog(shell, ERROR);
 }
 
-void	exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
+static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
+{
+	int	pipefd[2];
+	int	flag_pipe;
+
+	if (cmd->last_cmd == false)
+	{
+		if (pipe(pipefd) == -1)
+		{
+			error_pipeline(shell, "pipe error", ERR_PIPE);
+			return (-1);
+		}
+	}
+	pid = fork();
+	if (pid == -1)
+		error_pipeline(shell, "fork", ERR_FORK);
+	else if (pid == CHILD)
+		child_process(shell, cmd, prev_read, pipefd);
+	if (prev_read != -1)
+		close(prev_read);
+	if (cmd->last_cmd == false && pid != -1)
+	{
+		close(pipefd[1]);
+		return (pipefd[0]);
+	}
+	return (-1);
+}
+
+t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 {
 	int	i;
+	int	j;
 	int	prev_read;
 	int	pipefd[2];
 	int	status;
 
-	i = -1;
-	prev_read = -1;
-	while (++i < shell->nbr_cmd)
-	{
-		if (i < shell->nbr_cmd - 1)
-			pipe(pipefd);
-		pid[i] = fork();
-		if (pid[i] == CHILD)
-			child_process(shell, &cmds[i], prev_read, pipefd);
-		if (prev_read != -1)
-			close(prev_read);
-		if (cmds[i].last_cmd == false)
-		{
-			close(pipefd[1]);
-			prev_read = pipefd[0];
-		}
-		else
-			prev_read = -1;
-	}
 	i = 0;
-	while (i < shell->nbr_cmd)
-		waitpid(pid[i++], &status, 0);
+	prev_read = -1;
+	while (prev_read != -1 || i == 0)
+	{
+		prev_read = pipeline(shell, &cmds[i], pid[i], prev_read);
+		i++;
+	}
+	j = 0;
+	while (j < i)
+		waitpid(pid[j++], &status, 0);
 	get_exit_status(shell, status);
+	return (cmds + i);
 }
