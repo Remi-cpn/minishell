@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 10:08:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 15:39:14 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:28:38 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,13 @@ void	unset_cmd(t_data *shell, char **args)
 	int	status;
 
 	status = SUCCES;
-	i = 0;
+	i = 1;
 	while (args[i])
 	{
 		if (arg_is_valid(args[i]) == false)
 		{
 			status = ERROR;
-			write(2, "unset: ", 7);
-			write(2, args[i], ft_strlen(args[i]));
-			write(2, ": not a valid identifier\n", 25);
+			print_error("unset", args[i], 0, "not a valid identifier");
 		}
 		else
 			remove_var(shell, args[i]);

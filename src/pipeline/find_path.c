@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 16:32:46 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:42:33 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static int	test_path(t_data *shell, char *path, char **paths, char **cmd)
+static int	test_path(t_data *shell, char *path, char **cmd)
 {
 	int		find;
 	char	*tmp;
@@ -41,12 +41,12 @@ static int	path_absolu(t_data *shell, char **cmd)
 {
 	if (access(cmd[0], F_OK) != 0)
 	{
-		write(2, "cmd: No such file or directory\n", 31);
+		print_error("cmd", cmd[0], 0, "no such file or directory");
 		return (ERR_CMD_NOT_FOUND);
 	}
 	if (access(cmd[0], X_OK) != 0)
 	{
-		write(2, "cmd: Permission denied\n", 23);
+		print_error("cmd", cmd[0], 0, "permission denied");
 		return (ERR_CMD_NOT_EXEC);
 	}
 	ft_freenull(shell->cmd_path);
@@ -72,7 +72,7 @@ static int	path_relatif(t_data *shell, char **cmd)
 	i = 0;
 	while (paths && paths[i] && find == FAILURE)
 	{
-		find = test_path(shell, paths[i], paths, cmd);
+		find = test_path(shell, paths[i], cmd);
 		i++;
 	}
 	free_array(paths);

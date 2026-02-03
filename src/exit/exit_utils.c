@@ -6,13 +6,13 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:51:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 16:31:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 10:55:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-void	print_error(char *name, char c)
+void	print_error(char *name, char *arg, char c, char *msg)
 {
 	write(2, "minishell: ", 11);
 	if (name)
@@ -20,12 +20,23 @@ void	print_error(char *name, char c)
 		write(2, name, ft_strlen(name));
 		write(2, ": ", 2);
 	}
+	if (arg)
+	{
+		write(2, arg, ft_strlen(arg));
+		write(2, ": ", 2);
+	}
 	if (c)
 	{
 		write(2, &c, 1);
 		write(2, ": ", 2);
 	}
-	perror(NULL);
+	if (msg)
+	{
+		write(2, msg, ft_strlen(msg));
+		write(2, "\n", 1);
+	}
+	else
+		perror(NULL);
 }
 
 void	free_array(char **s)

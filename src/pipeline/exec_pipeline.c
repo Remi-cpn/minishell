@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 14:33:34 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:34:32 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 				int pipefd[2])
 {
 	int	find;
-	int	j;
 
 	find = find_path(shell, cmd->args);
 	if (find == FAILURE)
@@ -47,7 +46,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	closed_fds(cmd, prev_read, pipefd);
 	if (cmd->is_builtin == true)
 	{
-		dispatch_builtins(shell, NULL);
+		dispatch_builtins(shell, cmd);
 		exit_prog(shell, shell->exit_status);
 	}
 	execve(shell->cmd_path, cmd->args, shell->env);

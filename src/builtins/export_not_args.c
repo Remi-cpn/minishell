@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 20:30:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 20:55:27 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:23:05 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	export_cmd_not_arg(t_data *shell)
 	env_cp = env_cpy(shell->env);
 	if (!env_cp)
 	{
-		call_to_exit(shell, ERR_ALLOC, NULL);
+		shell->exit_status = ERR_ALLOC;
 		return ;
 	}
 	sort_env(env_cp);
