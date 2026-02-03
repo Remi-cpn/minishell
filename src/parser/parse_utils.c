@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/01 18:18:14 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/02 16:09:46 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,20 @@
 #include "../../libft/libft.h"
 #include <stdlib.h>
 
-t_ast	*parse_pipe(t_src_info *txt)
+t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_pipe	*node;
-	t_token		tok;
 
 	advance(txt);
 	node = malloc(sizeof(t_ast_pipe));
 	if (!node)
 		return (NULL);
-	tok = advance(txt);
-	if (tok.kind == UNKNOWN)
-		return (NULL);
-	node->kind = PIPE;
+	node->kind = kind;
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_heredoc(t_src_info *txt)
-{
-	t_ast_pipe	*node;
-	t_token		tok;
 
-	advance(txt);
-	node = malloc(sizeof(t_ast_heredoc));
-	if (!node)
-		return (NULL);
-	tok = advance(txt);
-	if (tok.kind == UNKNOWN)
-		return (NULL);
-	node->kind = HEREDOC;
-	return ((t_ast *)node);
-}
-
-t_ast	*parse_output(t_src_info *txt)
+t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_out	*node;
 	t_token		tok;
@@ -55,7 +36,9 @@ t_ast	*parse_output(t_src_info *txt)
 	node = malloc(sizeof(t_ast_out));
 	if (!node)
 		return (NULL);
-	node->kind = OUT;
+	node->kind = kind;
+	if (!expect(txt, WORDTYPE))
+		return (NULL);
 	tok = advance(txt);
 	if (tok.kind == UNKNOWN)
 		return (NULL);
@@ -66,8 +49,25 @@ t_ast	*parse_output(t_src_info *txt)
 	return ((t_ast *)node);
 }
 
+t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
+{
+	t_ast_in	*node;
+	t_token		tok;
+
+	advance(txt);
+	node = malloc(sizeof(t_ast_in));
+	if (!node)
+		return (NULL);
+	node->kind = kind;
+	tok = advance(txt);
+	if (tok.kind == UNKNOWN)
+		return (NULL);
+	node->input = tok.value;
+	return ((t_ast *)node);
+}
+
 // do parse word ($tmp, "tmp", 'tmp', ...)
-t_ast	*parse_cmd(t_src_info *txt)
+t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_cmd	*node;
 	int			i;
@@ -75,7 +75,7 @@ t_ast	*parse_cmd(t_src_info *txt)
 	node = malloc(sizeof(t_ast_cmd));
 	if (!node)
 		return (NULL);
-	node->kind = CMD;
+	node->kind = kind;
 	if (!expect(txt, WORDTYPE))
 		return (NULL);
 	node->name = advance(txt).value;

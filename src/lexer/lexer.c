@@ -68,13 +68,9 @@ t_token	lexer(t_src_info *txt)
 		return (token(&txt->src[txt->i], SUPTYPE, 1));
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "<", 1) == 0)
 		return (token(&txt->src[txt->i], INFTYPE, 1));
-	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "\"", 1) == 0)
-		return (token(&txt->src[txt->i], DQUOTETYPE, 1));
-	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "\'", 1) == 0)
-		return (token(&txt->src[txt->i], SQUOTETYPE, 1));
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "|", 1) == 0)
 		return (token(&txt->src[txt->i], PIPETYPE, 1));
-	else if (txt->i < txt->len && (ft_isalnum(txt->src[txt->i]  || txt->src[txt->i] == '$' || txt->src[txt->i] == '\'' || txt->src[txt->i] == '\"')))
+	else if (txt->i < txt->len && (ft_isalnum(txt->src[txt->i])  || txt->src[txt->i] == '$' || txt->src[txt->i] == '\'' || txt->src[txt->i] == '\"'))
 		return (token(&txt->src[txt->i], WORDTYPE, word(&txt->src[txt->i])));
 	if (txt->i >= txt->len)
 		return ((t_token){.kind = eof, .value = NULL});
