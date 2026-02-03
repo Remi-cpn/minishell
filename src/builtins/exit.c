@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/30 20:54:54 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:28:04 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	select_error(t_data *shell, bool b, int status)
 {
 	shell->exit = b;
 	if (status == EXIT_NOT_NUMERIC)
-		write(2, "exit: numeric argument required\n", 32);
+		print_error("exit", NULL, 0, "numeric argument required");
 	else if (status == EXIT_TO_MANY_ARGS)
-		write(2, "exit: too many arguments\n", 25);
+		print_error("exit", NULL, 0, "too many arguments");
 	shell->exit_status = status;
 }
 
@@ -46,14 +46,14 @@ void	exit_cmd(t_data *shell, char **args)
 
 	ft_memset(&exit, 0, sizeof(t_exit));
 	write(2, "exit\n", 5);
-	if (!args[0])
+	if (!args[1])
 	{
 		call_to_exit(shell, SUCCES, NULL);
 		return ;
 	}
-	if (args[1])
+	if (args[2])
 		exit.many_args = true;
-	check_num(&exit, args[0]);
+	check_num(&exit, args[1]);
 	if (exit.not_num == true)
 		select_error(shell, true, EXIT_NOT_NUMERIC);
 	else if (exit.many_args == true && exit.not_num == false)

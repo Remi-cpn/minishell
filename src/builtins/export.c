@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:23:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/31 16:21:19 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/03 11:28:22 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,19 @@ static int	export_with_value(t_data *shell, char **args)
 		while (shell->env[i])
 			i++;
 		shell->env = ft_realloc(shell->env, i + 2);
-		if (!shell->env)
-			return (-1);
-		shell->env[i + 1] = ft_strdup(args[0], 0);
-		if (!shell->env[i + 1])
-			return (-1);
+		if (shell->env)
+			shell->env[i + 1] = ft_strdup(args[0], 0);
+		if (!shell->env || !shell->env[i + 1])
+			return (ERR_ALLOC);
 	}
 	else
 	{
 		free(shell->env[idx]);
 		shell->env[idx] = ft_strdup(args[0], 0);
 		if (!shell->env[idx])
-			return (-1);
+			return (ERR_ALLOC);
 	}
-	return (0);
+	return (SUCCES);
 }
 
 static int	export_without_value(t_data *shell, char **args)
@@ -55,15 +54,15 @@ static int	export_without_value(t_data *shell, char **args)
 			i++;
 		shell->env = ft_realloc(shell->env, i + 2);
 		if (!shell->env)
-			return (-1);
+			return (ERR_ALLOC);
 		if (args[0][len_key] == '=')
 			shell->env[i + 1] = ft_strdup(args[0], 0);
 		else
 			shell->env[i + 1] = ft_strjoin(args[0], "=", 0, 0);
 		if (!shell->env[i + 1])
-			return (-1);
+			return (ERR_ALLOC);
 	}
-	return (0);
+	return (SUCCES);
 }
 
 static bool	arg_is_valid(bool *with_value, char *arg)
@@ -84,34 +83,39 @@ static bool	arg_is_valid(bool *with_value, char *arg)
 	return (true);
 }
 
-void	export_cmd(t_data *shell, char **args)
+static void	export_cmd_with_args(t_data *shell, char **args)
 {
 	bool	with_value;
 	int		flag;
+	int		i;
 
-	if (!args || !args[0])
+	i = 1;
+	flag = 0;
+	while (args[i])
 	{
-		export_cmd_not_arg(shell);
-		return ;
+		with_value = true;
+		if (arg_is_valid(&with_value, args[i]) == false)
+		{
+			shell->exit_status = ERROR;
+			print_error("export", args[i], 0, "invalid arguments");
+		}
+		else if (with_value == true)
+			flag = export_with_value(shell, args);
+		else
+			flag = export_without_value(shell, args);
+		if (flag != 0)
+			shell->exit_status = flag;
+		i++;
 	}
-	if (args[1])
-	{
-		shell->exit_status = ERROR;
-		write(2, "export: too many args\n", 22);
-		return ;
-	}
-	with_value = true;
-	if (arg_is_valid(&with_value, args[0]) == false)
-	{
-		shell->exit_status = ERROR;
-		write(2, "export: invalid args\n", 21);
-		return ;
-	}
-	if (with_value == true)
-		flag = export_with_value(shell, args);
-	else
-		flag = export_without_value(shell, args);
-	if (flag == -1)
-		call_to_exit(shell, ERR_ALLOC, NULL);
+}
+
+void	export_cmd(t_data *shell, char **args)
+{
 	shell->exit_status = SUCCES;
+	if (!args[1])
+		export_cmd_not_arg(shell);
+	else
+		export_cmd_with_args(shell, args);
+	if (shell->exit_status == ERR_ALLOC)
+		print_error("export", NULL, 0, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 14:34:13 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:33:14 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	exec_one_cmd(t_data *shell, t_cmd *cmd)
 	int	status;
 
 	if (cmd->is_builtin == true)
-		dispatch_builtins(shell, NULL); // choix a faire sur builins depuis cmd
+		dispatch_builtins(shell, cmd);
 	else
 	{
 		find = find_path(shell, cmd->args);

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 11:36:03 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:40:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 			open_fd_out(shell, &cmds[i], (t_ast_out *)tmp);
 		tmp = tmp->next;
 	}
-	if (shell->exit_status != ERROR && i >= 0 && &cmds[i])
+	if (shell->exit_status != ERROR && i >= 0)
 		cmds[i].last_cmd = true;
 	shell->cmds = cmds;
 	return (cmds);
