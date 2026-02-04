@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 17:35:51 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:32:25 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 {
 	int	pipefd[2];
-	int	flag_pipe;
 
 	if (cmd->last_cmd == false)
 	{
@@ -92,7 +91,6 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	int	i;
 	int	j;
 	int	prev_read;
-	int	pipefd[2];
 	int	status;
 
 	i = 0;
@@ -106,5 +104,5 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	while (j < i)
 		waitpid(pid[j++], &status, 0);
 	get_exit_status(shell, status);
-	return (cmds + i);
+	return (cmds + i - 1);
 }

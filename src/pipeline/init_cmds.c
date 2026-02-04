@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 15:18:29 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:39:41 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static bool	is_builtins(t_ast_cmd	*cmd)
 {
+	if (!cmd || !cmd->name)
+		return (false);
 	if (ft_strncmp(cmd->name, "echo", 4) == 0)
 		return (true);
 	else if (ft_strncmp(cmd->name, "exit", 4) == 0)
@@ -76,7 +78,8 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
 	cmd->next_and = false;
 	cmd->next_or = false;
 	cmd->is_builtin = is_builtins(ast_cmd);
-	cmd->args = init_args(ast_cmd);
+	if (ast_cmd->name)
+		cmd->args = init_args(ast_cmd);
 	if (!cmd->args)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 }
@@ -92,10 +95,13 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 	tmp = *ast;
-	while (shell->exit_status != ERROR && tmp && cmds[i].last_cmd == false)
+	while (shell->exit_status != ERROR && tmp && (i < 0 || cmds[i].last_cmd == false))
 	{
 		if (tmp->kind == CMD)
+		{
 			init_cmd(shell, &cmds[++i], (t_ast_cmd *)tmp);
+			print_cmd(&cmds[i], i);
+		}
 		else if (tmp->kind == IN)
 			open_fd_in(shell, &cmds[i], (t_ast_in *)tmp);
 		else if (tmp->kind == HEREDOC)
@@ -106,6 +112,8 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 			init_or_and_end(&cmds[i], tmp->kind);
 		tmp = tmp->next;
 	}
+	ft_printf("Total cmds initialized: %d\n", i + 1);
+	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
 	shell->cmds = cmds;
 	return (cmds);
 }

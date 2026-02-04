@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 15:25:21 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:23:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 	int	find;
 	int	status;
 
+	ft_printf("DEBUG exec_one_cmd: cmd=%p, cmd->args=%p\n", cmd, cmd->args);
+	if (cmd->args && cmd->args[0])
+		ft_printf("DEBUG: cmd->args[0]=%s\n", cmd->args[0]);
 	if (cmd->is_builtin == true)
 		dispatch_builtins(shell, cmd);
 	else
@@ -46,5 +49,5 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 		waitpid(pid, &status, 0);
 		get_exit_status(shell, status);
 	}
-	return (cmd + 1);
+	return (cmd);
 }

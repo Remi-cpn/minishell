@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:51:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 10:55:01 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:44:41 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,23 @@ void	free_array(char **s)
 		ft_freenull(s);
 }
 
-void	free_cmds(t_cmd *cmds)
+void	free_cmds(t_data *shell, t_cmd *cmds)
 {
+	int	i;
+
+	i = 0;
 	if (cmds)
 	{
-		free_array(cmds->args);
-		cmds->args = NULL;
+		while (cmds[i].args)
+		{
+			free_array(cmds[i].args);
+			cmds[i].args = NULL;
+			i++;
+		}
 		ft_freenull(cmds);
 		cmds = NULL;
 	}
+	shell->nbr_cmd = 0;
 }
 
 void	free_env(char **env)

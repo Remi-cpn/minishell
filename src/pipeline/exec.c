@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 17:35:47 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:32:34 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	exec(t_data *shell, t_ast **ast)
 	bool	and_ok;
 	bool	or_ok;
 
-	and_ok = false;
-	or_ok = false;
 	cmds = init_cmds(shell, ast);
-	while (cmds && shell->exit == false)
+	while (cmds->args && shell->exit == false)
 	{
+		and_ok = false;
+		or_ok = false;
 		cmds = dispatch_exec(shell, cmds, &and_ok, &or_ok);
 		if (shell->exit_status == ERR_FORK || shell->exit_status == ERR_PIPE)
 			return ;

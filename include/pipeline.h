@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 15:28:46 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:26:58 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_cmd
 }	t_cmd;
 
 /** Functions */
+void	exec(t_data *shell, t_ast **ast);
 t_cmd	*init_cmds(t_data *shell, t_ast **ast);
 t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd);
 t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid);

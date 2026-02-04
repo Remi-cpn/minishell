@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/02 16:03:45 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/04 13:37:19 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,9 @@ void	gen_lookup(t_lookup *lookup);
 
 //------------------[PARSER]----------------
 
-t_ast	**parse(char *src, char **env);
+typedef struct s_data	t_data;
+
+t_ast	**parse(char *src, char **env, t_data *shell);
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
