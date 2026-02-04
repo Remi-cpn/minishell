@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 10:54:12 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:45:25 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 # define SIGQUIT_EXIT 131
 # define SIGTERM_EXIT 143
 
+/** Error mini_shell*/
+# define ERR_PIPE -2
+# define ERR_FORK -3
+
 typedef struct s_data	t_data;
 typedef struct s_cmd	t_cmd;
 
@@ -44,7 +48,7 @@ void	check_exit_flag(t_data *shell);
 void	call_to_exit(t_data *shell, int status, char *msg);
 void	free_env(char **env);
 void	free_array(char **s);
-void	free_cmds(t_cmd *cmds);
+void	free_cmds(t_data *shell, t_cmd *cmds);
 void	print_error(char *name, char *arg, char c, char *msg);
 
 #endif

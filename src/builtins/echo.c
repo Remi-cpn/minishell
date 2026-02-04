@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:09:48 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:24:29 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:52:19 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ static void	exec_echo(bool n, char **args)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
+	if (n == true)
+		i++;
 	while (args[i])
 	{
 		ft_printf("%s", args[i]);
@@ -77,7 +79,7 @@ void	echo_cmd(t_data *shell, char **args)
 			n = true;
 		else
 		{
-			exec_echo(n, &args[i]);
+			exec_echo(n, args);
 			break ;
 		}
 		i++;

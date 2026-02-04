@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
+#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/02 14:57:23 by rcompain         ###   ########.fr        #
+#    Updated: 2026/02/04 14:40:52 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #                                   SETTINGS                                   #
 # **************************************************************************** #
 
-NAME		= mini_shell
+NAME		= minishell
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g
 LDFLAGS		= -lreadline
@@ -37,6 +37,7 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 
 SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/init.c \
+			  $(SRC_DIR)/test.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
@@ -55,8 +56,9 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/lexer/lexer.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \
 			  $(SRC_DIR)/pipeline/open.c \
-			  $(SRC_DIR)/pipeline/exec_line.c \
+			  $(SRC_DIR)/pipeline/exec_one_cmd.c \
 			  $(SRC_DIR)/pipeline/exec_pipeline.c \
+			  $(SRC_DIR)/pipeline/exec.c \
 			  $(SRC_DIR)/pipeline/init_cmds.c \
 			  $(SRC_DIR)/pipeline/find_path.c \
 			  $(SRC_DIR)/pipeline/utils.c

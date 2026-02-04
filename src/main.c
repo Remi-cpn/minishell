@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/02 17:06:00 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/04 14:52:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,35 @@
 #define CYAN "\033[36m"
 #define RESET "\033[0m"
 
-int	main(void)
-{
-	char	*line;
-	t_data	shell;
+// int	main(void)
+// {
+// 	char	*line;
+// 	t_data	shell;
 
-	init_signals_prompt();
-	init_data(&shell);
-	while (shell.exit == false)
-	{
-		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
-		if (!line || g_exit_flag == 1)
-			exit_prog(&shell, 0);
-		add_history(line);
-		//parsing;
-		//exec;
-		//free ast;
-		free_cmds(shell.cmds);
-		free(line);
-	}
-	exit_prog(&shell, 0);
-	return (0);
-}
-/*
+// 	init_signals_prompt();
+// 	init_data(&shell);
+// 	while (shell.exit == false)
+// 	{
+// 		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
+// 		if (!line || g_exit_flag == 1)
+// 			exit_prog(&shell, 0);
+// 		add_history(line);
+// 		//parsing;
+// 		//exec;
+// 		//free ast;
+// 		free_cmds(shell.cmds);
+// 		free(line);
+// 	}
+// 	exit_prog(&shell, 0);
+// 	return (0);
+// }
+
 int main(void)
 {
 	char	*line;
 	t_data	shell;
+	t_ast	**node;
+	t_ast	*chose;
 
 	init_signals_prompt();
 	init_data(&shell);
@@ -52,15 +54,23 @@ int main(void)
 		if (!line || g_exit_flag == 1)
 			exit_prog(&shell, 0);
 		add_history(line);
-		t_ast **node = parse(line, __environ);
-		t_ast *chose = (*node);
+		node = parse(line, __environ, &shell);
+		chose = (*node);
+		if (!chose)
+		{
+			free(line);
+			continue ;
+		}
 		while (chose)
 		{
 			ft_printf("%d\n", chose->kind);
 			chose = chose->next;
 		}
+		ft_printf("Parsing done\n");
+		exec(&shell, node);
+		free_cmds(&shell, shell.cmds);
 		free(line);
 	}
 	exit_prog(&shell, 0);
 	return (0);
-}*/
+}

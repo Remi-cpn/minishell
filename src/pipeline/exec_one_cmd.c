@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_line.c                                        :+:      :+:    :+:   */
+/*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:33:14 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:23:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,45 +27,27 @@ static void	child_process_one_cmd(t_data *shell, t_cmd *cmd)
 	exit_prog(shell, ERR_CMD_NOT_FOUND);
 }
 
-static void	exec_one_cmd(t_data *shell, t_cmd *cmd)
+t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 {
 	int	pid;
 	int	find;
 	int	status;
 
+	ft_printf("DEBUG exec_one_cmd: cmd=%p, cmd->args=%p\n", cmd, cmd->args);
+	if (cmd->args && cmd->args[0])
+		ft_printf("DEBUG: cmd->args[0]=%s\n", cmd->args[0]);
 	if (cmd->is_builtin == true)
 		dispatch_builtins(shell, cmd);
 	else
 	{
 		find = find_path(shell, cmd->args);
 		if (find == -1)
-			return ;
+			return (NULL);
 		pid = fork();
 		if (pid == 0)
 			child_process_one_cmd(shell, cmd);
 		waitpid(pid, &status, 0);
 		get_exit_status(shell, status);
 	}
-}
-
-void	exec_line(t_data *shell, t_ast **ast)
-{
-	pid_t	*pid;
-	t_cmd	*cmds;
-	int		i;
-
-	cmds = init_cmds(shell, ast);
-	i = 0;
-	if (shell->exit_status != ERROR && shell->nbr_cmd <= 1)
-		exec_one_cmd(shell, &cmds[i]);
-	else if (shell->exit_status != ERROR)
-	{
-		pid = ft_calloc(shell->nbr_cmd, sizeof(pid_t));
-		if (!pid)
-		{
-			call_to_exit(shell, ERR_ALLOC, NULL);
-			return ;
-		}
-		exec_pipeline(shell, cmds, pid);
-	}
+	return (cmd);
 }

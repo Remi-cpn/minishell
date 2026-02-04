@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 17:33:34 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:39:19 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,8 @@ typedef struct s_data
 
 /** Functions */
 void	init_data(t_data *shell);
+
+//* TESTING */
+void	print_cmd(t_cmd *cmd, int index);
 
 #endif

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/02 16:29:48 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/04 13:35:13 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
+#include "../../include/mini_shell.h"
 
 char	**dup_env(void)
 {
@@ -78,7 +79,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	return (tmp);
 }
 
-t_ast	**parse(char *src, char **env)
+t_ast	**parse(char *src, char **env, t_data *shell)
 {
 	t_ast		**node;
 	t_ast		*tmp;
@@ -100,6 +101,8 @@ t_ast	**parse(char *src, char **env)
 		return (NULL);
 	}
 	*node = tmp;
+	if (tmp->kind == CMD)
+		shell->nbr_cmd++;
 	while (tmp->kind != END)
 	{
 		tmp = parse_expr(lookup, txt);
@@ -108,6 +111,8 @@ t_ast	**parse(char *src, char **env)
 		ft_lstadd_back((t_list **)node, (t_list *)tmp);
 		if (!node)
 			return (NULL);
+		if (tmp->kind == CMD)
+			shell->nbr_cmd++;
 	}
 	return (node);
 }
