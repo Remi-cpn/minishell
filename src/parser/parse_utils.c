@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/02 16:09:46 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/04 18:34:42 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	t_ast_cmd	*node;
 	int			i;
 
-	node = malloc(sizeof(t_ast_cmd));
+	node = ft_calloc(1, sizeof(t_ast_cmd));
 	if (!node)
 		return (NULL);
 	node->kind = kind;

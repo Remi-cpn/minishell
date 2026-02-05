@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 14:45:25 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/04 18:31:29 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ typedef struct s_cmd	t_cmd;
 void	exit_prog(t_data *shell, int status_error);
 void	check_exit_flag(t_data *shell);
 void	call_to_exit(t_data *shell, int status, char *msg);
+void	print_error(char *name, char *arg, char c, char *msg);
+
+/** Free */
+void	free_ast(t_ast **ast);
 void	free_env(char **env);
 void	free_array(char **s);
 void	free_cmds(t_data *shell, t_cmd *cmds);
-void	print_error(char *name, char *arg, char c, char *msg);
 
 #endif
