@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/04 14:40:52 by rcompain         ###   ########.fr        #
+#    Updated: 2026/02/04 18:31:02 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/init.c \
 			  $(SRC_DIR)/test.c \
 			  $(SRC_DIR)/exit/exit.c \
+			  $(SRC_DIR)/exit/free.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/signals/init_signals_prompt.c \
 			  $(SRC_DIR)/builtins/cd.c \
