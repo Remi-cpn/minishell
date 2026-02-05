@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/04 18:34:42 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 18:39:31 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ast.h"
+#include "../../include/mini_shell.h"
 #include "../../libft/libft.h"
 #include <stdlib.h>
 
-t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_ord(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_pipe	*node;
 
@@ -27,7 +27,7 @@ t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
 }
 
 
-t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_out	*node;
 	t_token		tok;
@@ -49,7 +49,7 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_in	*node;
 	t_token		tok;
@@ -67,7 +67,7 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
 }
 
 // do parse word ($tmp, "tmp", 'tmp', ...)
-t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_cmd	*node;
 	int			i;

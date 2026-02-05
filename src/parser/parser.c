@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/04 21:32:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 18:52:33 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 	return (node);
 }
 
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
 {
-	const t_token	tok = lexer(txt);
+	const t_token	tok = lexer(txt, shell);
 	t_look_handler	fn;
 	t_ast			*tmp;
+
 	if (tok.kind == UNKNOWN)
 		return (NULL);
 	if (tok.kind == eof)
@@ -69,13 +70,9 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	fn = lookup[tok.kind].fn;
 	if (!fn)
 		return (NULL);
-	tmp = fn(txt, lookup[tok.kind].type);
+	tmp = fn(txt, lookup[tok.kind].type, shell);
 	if (!tmp)
-	{
-		ft_putstr_fd("syntax error near unexpected token ", 2);
-		ft_putchar_fd(txt->src[txt->i], 2);
-		ft_putchar_fd('\n', 2);
-	}
+		shell->exit_status = -1;
 	return (tmp);
 }
 
@@ -94,10 +91,16 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 	node = ft_calloc(sizeof(t_list *), 1);
 	if (!node)
 		return (NULL);
-	tmp = parse_expr(lookup, txt);
+	tmp = parse_expr(lookup, txt, shell);
 	if (!tmp)
 	{
 		free(node);
+		return (NULL);
+	}
+	else if (tmp->kind == AND || tmp->kind == PIPE || tmp->kind == OR)
+	{
+		print_error(NULL, NULL, NULL, "Unexpected token");
+		shell->exit_status = -1;
 		return (NULL);
 	}
 	*node = tmp;
@@ -105,7 +108,7 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 		shell->nbr_cmd++;
 	while (tmp->kind != END)
 	{
-		tmp = parse_expr(lookup, txt);
+		tmp = parse_expr(lookup, txt, shell);
 		if (!tmp)
 			return (NULL);
 		ft_lstadd_back((t_list **)node, (t_list *)tmp);
