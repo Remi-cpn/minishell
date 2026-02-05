@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 15:34:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 20:25:49 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 	{
 		find = find_path(shell, cmd->args);
 		if (find == -1)
-			return (NULL);
+			return (cmd);
 		pid = fork();
 		if (pid == 0)
 			child_process_one_cmd(shell, cmd);

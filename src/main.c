@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 18:27:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 21:04:34 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 #define CYAN "\033[36m"
 #define RESET "\033[0m"
 
-int main(void)
+int	main(void)
 {
 	char	*line;
 	t_data	shell;
 	t_ast	**node;
-	t_ast	*chose;
 
 	init_signals_prompt();
 	init_data(&shell);
@@ -32,19 +31,11 @@ int main(void)
 			exit_prog(&shell, 0);
 		add_history(line);
 		node = parse(line, __environ, &shell);
-		chose = (*node);
-		if (!chose)
+		if (shell.exit_status == SUCCES)
 		{
-			free(line);
-			continue ;
+			ft_printf("Parsing done\n");
+			exec(&shell, node);
 		}
-		while (chose)
-		{
-			ft_printf("%d\n", chose->kind);
-			chose = chose->next;
-		}
-		ft_printf("Parsing done\n");
-		exec(&shell, node);
 		free_cmds(&shell, shell.cmds);
 		free_ast(node);
 		free(line);

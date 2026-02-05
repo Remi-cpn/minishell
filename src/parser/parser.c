@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/04 21:32:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 20:59:06 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,30 +89,37 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 	(void)env;
 	gen_lookup(lookup);
 	txt = ft_calloc(sizeof(t_src_info), 1);
+	if (!txt)
+		return (NULL);
 	txt->src = src;
 	txt->len = ft_strlen(src);
 	node = ft_calloc(sizeof(t_list *), 1);
-	if (!node)
-		return (NULL);
 	tmp = parse_expr(lookup, txt);
-	if (!tmp)
+	if (tmp && node)
 	{
-		free(node);
-		return (NULL);
-	}
-	*node = tmp;
-	if (tmp->kind == CMD)
-		shell->nbr_cmd++;
-	while (tmp->kind != END)
-	{
-		tmp = parse_expr(lookup, txt);
-		if (!tmp)
-			return (NULL);
-		ft_lstadd_back((t_list **)node, (t_list *)tmp);
-		if (!node)
-			return (NULL);
+		*node = tmp;
 		if (tmp->kind == CMD)
 			shell->nbr_cmd++;
+		while (tmp->kind != END)
+		{
+			tmp = parse_expr(lookup, txt);
+			if (!tmp)
+			{
+				free(txt);
+				free_ast(node);
+				return (NULL);
+			}
+			ft_lstadd_back((t_list **)node, (t_list *)tmp);
+			if (!node)
+			{
+				free(txt);
+				free_ast(node);
+				return (NULL);
+			}
+			if (tmp->kind == CMD)
+				shell->nbr_cmd++;
+		}
 	}
+	free(txt);
 	return (node);
 }
