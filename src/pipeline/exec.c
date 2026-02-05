@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 14:32:34 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 17:38:31 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 		}
 		exec_pipeline(shell, cmds, pid);
 	}
+	ft_printf("cmds->next_and = %d | shell->exit.status = %d\n", cmds->next_and, shell->exit_status);
 	if (cmds->next_and == true && shell->exit_status == SUCCES)
 		*and_ok = true;
 	if (cmds->next_or == true && shell->exit_status == SUCCES)
 		*or_ok = true;
+	write(2, "lala\n", 5);
 	return (cmds);
 }
 

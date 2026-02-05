@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 11:26:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:58:54 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast);
 t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd);
 t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid);
 
-void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc);
-void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out);
+void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc,
+			int i);
+void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out, int i);
 void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in);
 
 int		find_path(t_data *shell, char **cmd);

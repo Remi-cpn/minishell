@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:30:52 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:58:53 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@
 // }
 // cmd->fd_in = fd;
 // cmd->redir_in = true;
-void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
+void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc,
+				int i)
 {
 	(void)heredoc;
 	(void)cmd;
 	(void)shell;
+	(void)i;
 }
 
-void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
+void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out, int i)
 {
 	int	fd;
 
@@ -42,8 +44,11 @@ void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
 		print_error("fd", out->output, 0, "invalid");
 		return ;
 	}
-	cmd->fd_out = fd;
-	cmd->redir_out = true;
+	if (i >= 0)
+	{
+		cmd[i].fd_out = fd;
+		cmd[i].redir_out = true;
+	}
 }
 
 void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in)
