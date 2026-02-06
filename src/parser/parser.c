@@ -6,15 +6,15 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 12:17:07 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 14:34:01 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <errno.h>
 #include "../../include/ast.h"
-#include "../../libft/libft.h"
 #include "../../include/mini_shell.h"
+#include "../../libft/libft.h"
+#include <errno.h>
+#include <unistd.h>
 
 char	**dup_env(void)
 {
@@ -77,14 +77,13 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	return (tmp);
 }
 
-t_ast	**parse(char *src, char **env, t_data *shell)
+t_ast	**parse(char *src, t_data *shell)
 {
 	t_ast		**node;
 	t_ast		*tmp;
 	t_src_info	*txt;
 	t_lookup	lookup[13];
 
-	(void)env;
 	gen_lookup(lookup);
 	txt = ft_calloc(sizeof(t_src_info), 1);
 	if (!txt)
@@ -95,32 +94,19 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 	tmp = parse_expr(lookup, txt);
 	if (tmp && node)
 	{
-		free(node);
-		return (NULL);
-	}
-	*node = tmp;
-	if (tmp->kind == CMD)
-		shell->nbr_cmd++;
-	while (tmp->kind != END)
-	{
-		while (ft_iswhitespace(txt->src[txt->i]))
-			txt->i++;
-		tmp = parse_expr(lookup, txt);
-		if (!tmp)
-			return (NULL);
-		ft_lstadd_back((t_list **)node, (t_list *)tmp);
-		if (!node)
-			return (NULL);
+		*node = tmp;
 		if (tmp->kind == CMD)
 			shell->nbr_cmd++;
 		while (tmp->kind != END)
 		{
+			while (ft_iswhitespace(txt->src[txt->i]))
+				txt->i++;
 			tmp = parse_expr(lookup, txt);
 			if (!tmp)
-				break;
+				break ;
 			ft_lstadd_back((t_list **)node, (t_list *)tmp);
 			if (!node)
-				break;
+				break ;
 			if (tmp->kind == CMD)
 				shell->nbr_cmd++;
 		}
