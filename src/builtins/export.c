@@ -6,61 +6,64 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:23:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:28:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:38:39 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static int	export_with_value(t_data *shell, char **args)
+static int	export_with_value(t_data *shell, char *arg)
 {
 	int	idx;
 	int	i;
 
-	idx = find_var(shell, args[0], NULL);
+	idx = find_var(shell, arg, NULL);
 	if (idx == -1)
 	{
 		i = 0;
 		while (shell->env[i])
 			i++;
-		shell->env = ft_realloc(shell->env, i + 2);
-		if (shell->env)
-			shell->env[i + 1] = ft_strdup(args[0], 0);
-		if (!shell->env || !shell->env[i + 1])
+		shell->env = ft_realloc(shell->env, i + 1, i + 2, sizeof(char *));
+		if (!shell->env)
 			return (ERR_ALLOC);
+		shell->env[i] = ft_strdup(arg, 0);
+		if (!shell->env[i])
+			return (ERR_ALLOC);
+		shell->env[i + 1] = NULL;
 	}
 	else
 	{
 		free(shell->env[idx]);
-		shell->env[idx] = ft_strdup(args[0], 0);
+		shell->env[idx] = ft_strdup(arg, 0);
 		if (!shell->env[idx])
 			return (ERR_ALLOC);
 	}
 	return (SUCCES);
 }
 
-static int	export_without_value(t_data *shell, char **args)
+static int	export_without_value(t_data *shell, char *arg)
 {
 	int	idx;
 	int	i;
 	int	len_key;
 
 	len_key = 0;
-	idx = find_var(shell, args[0], &len_key);
+	idx = find_var(shell, arg, &len_key);
 	if (idx == -1)
 	{
 		i = 0;
 		while (shell->env[i])
 			i++;
-		shell->env = ft_realloc(shell->env, i + 2);
+		shell->env = ft_realloc(shell->env, i + 1, i + 2, sizeof(char *));
 		if (!shell->env)
 			return (ERR_ALLOC);
-		if (args[0][len_key] == '=')
-			shell->env[i + 1] = ft_strdup(args[0], 0);
+		if (arg[len_key] == '=')
+			shell->env[i] = ft_strdup(arg, 0);
 		else
-			shell->env[i + 1] = ft_strjoin(args[0], "=", 0, 0);
-		if (!shell->env[i + 1])
+			shell->env[i] = ft_strjoin(arg, "=", 0, 0);
+		if (!shell->env[i])
 			return (ERR_ALLOC);
+		shell->env[i + 1] = NULL;
 	}
 	return (SUCCES);
 }
@@ -100,13 +103,17 @@ static void	export_cmd_with_args(t_data *shell, char **args)
 			print_error("export", args[i], 0, "invalid arguments");
 		}
 		else if (with_value == true)
-			flag = export_with_value(shell, args);
+			flag = export_with_value(shell, args[i]);
 		else
-			flag = export_without_value(shell, args);
+			flag = export_without_value(shell, args[i]);
 		if (flag != 0)
 			shell->exit_status = flag;
 		i++;
 	}
+	ft_printf("ADDED/SET: %s\n", args[i - 1]);
+	for (int k = 0; shell->env[k]; k++)
+    ft_printf("ENV[%d]=%s\n", k, shell->env[k]);
+
 }
 
 void	export_cmd(t_data *shell, char **args)
