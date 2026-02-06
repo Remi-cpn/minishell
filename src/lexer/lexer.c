@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 12:16:11 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 15:48:08 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,20 @@ static t_token	token(char *src, t_token_type kind, int n)
 		return ((t_token){.kind = UNKNOWN, .value = NULL});
 	tmp = ft_strndup(src, 0, n - 1);
 	if (!tmp)
-		return ((t_token){});
+		return ((t_token){.value = "", .kind = ERROR});
 	return ((t_token){.value = tmp, .kind = kind});
+}
+
+int	len_digit(char *src)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isdigit(src[i]))
+		i++;
+	if (src[i] && !ft_iswhitespace(src[i]))
+		return (-1);
+	return (i);
 }
 
 int	word(char *src)
@@ -33,6 +45,8 @@ int	word(char *src)
 	int	len_quote;
 
 	i = 0;
+	if (ft_isdigit(src[i]))
+		return (len_digit(src));
 	while (src[i])
 	{
 		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-'))
@@ -58,27 +72,32 @@ int	word(char *src)
 
 t_token	lexer(t_src_info *txt)
 {
+	t_token	tok;
+
 	while (ft_iswhitespace(txt->src[txt->i]))
 		txt->i++;
+	if (txt->i >= txt->len)
+		return ((t_token){.kind = eof, .value = NULL});
 	if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "<<", 2) == 0)
-		return (token(&txt->src[txt->i], DINFTYPE, 2));
+		tok = token(&txt->src[txt->i], DINFTYPE, 2);
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
-		return (token(&txt->src[txt->i], DSUPTYPE, 2));
+		tok = token(&txt->src[txt->i], DSUPTYPE, 2);
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
-		return (token(&txt->src[txt->i], AMPERTYPE, 2));
+		tok = token(&txt->src[txt->i], AMPERTYPE, 2);
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
-		return (token(&txt->src[txt->i], VERBARTYPE, 2));
+		tok = token(&txt->src[txt->i], VERBARTYPE, 2);
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], ">", 1) == 0)
-		return (token(&txt->src[txt->i], SUPTYPE, 1));
+		tok = token(&txt->src[txt->i], SUPTYPE, 1);
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "<", 1) == 0)
-		return (token(&txt->src[txt->i], INFTYPE, 1));
+		tok = token(&txt->src[txt->i], INFTYPE, 1);
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "|", 1) == 0)
-		return (token(&txt->src[txt->i], PIPETYPE, 1));
+		tok = token(&txt->src[txt->i], PIPETYPE, 1);
 	else if (txt->i < txt->len && (ft_isalnum(txt->src[txt->i])
 			|| txt->src[txt->i] == '$' || txt->src[txt->i] == '\''
 			|| txt->src[txt->i] == '\"' || txt->src[txt->i] == '-'))
-		return (token(&txt->src[txt->i], WORDTYPE, word(&txt->src[txt->i])));
-	if (txt->i >= txt->len)
-		return ((t_token){.kind = eof, .value = NULL});
-	return ((t_token){.kind = UNKNOWN, .value = NULL});
+		tok = token(&txt->src[txt->i], WORDTYPE, word(&txt->src[txt->i]));
+	else
+		return ((t_token){.kind = UNKNOWN, .value = NULL});
+	return (tok);
+		
 }
