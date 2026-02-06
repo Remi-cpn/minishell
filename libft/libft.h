@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:51:16 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/29 16:30:36 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 11:38:55 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		*ft_memset(void *s, int c, size_t n);
 
 void		ft_freenull(void *p);
 void		ft_freedb_ptr(void **ptr);
-void		*ft_realloc(void *p, size_t n);
+void		*ft_realloc(void *p, size_t old_size, size_t new_size, size_t bit);
 
 /* ---------------------------- FONCTIONS PUT ------------------------------ */
 

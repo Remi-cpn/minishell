@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/05 20:59:06 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:41:48 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 	t_ast	*tmp;
 
 	tmp = node;
-	node = ft_realloc(tmp, sizeof(t_ast) * (i + 1));
+	node = ft_realloc(tmp, i, i + 1, sizeof(t_ast));
 	free(tmp);
 	if (!node)
 		return (NULL);
@@ -104,22 +104,16 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 		{
 			tmp = parse_expr(lookup, txt);
 			if (!tmp)
-			{
-				free(txt);
-				free_ast(node);
-				return (NULL);
-			}
+				break;
 			ft_lstadd_back((t_list **)node, (t_list *)tmp);
 			if (!node)
-			{
-				free(txt);
-				free_ast(node);
-				return (NULL);
-			}
+				break;
 			if (tmp->kind == CMD)
 				shell->nbr_cmd++;
 		}
 	}
+	if (!tmp || !node)
+		shell->exit_status = ERR_ALLOC;
 	free(txt);
 	return (node);
 }

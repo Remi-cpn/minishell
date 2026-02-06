@@ -3,38 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:55:19 by tseche            #+#    #+#             */
-/*   Updated: 2026/01/31 16:19:23 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 11:38:47 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <malloc.h>
 #include "./libft.h"
 
-void	*ft_realloc(void *p, size_t n)
+void	*ft_realloc(void *p, size_t old_size, size_t new_size, size_t bit)
 {
 	void	*ptr;
+	size_t	copy_size;
 
-	if (n == 0 && p != NULL)
+	if (new_size == 0)
 	{
 		free(p);
 		return (NULL);
 	}
-	else if (!p)
-	{
-		p = malloc(n);
-		if (!p)
-			return (NULL);
-		return (p);
-	}
-	ptr = malloc(n);
+	ptr = malloc(new_size * bit);
 	if (!ptr)
 		return (NULL);
-	if (p)
-		ft_memcpy(ptr, p, n - 1);
-	((unsigned char *)ptr)[n - 1] = 0;
+	if (!p)
+	{
+		ft_memset(ptr, 0, new_size * bit);
+		return (ptr);
+	}
+	copy_size = new_size;
+	if (old_size < new_size)
+		copy_size = old_size;
+	ft_memcpy(ptr, p, copy_size * bit);
 	free(p);
 	return (ptr);
 }
