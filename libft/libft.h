@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:51:16 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 11:38:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:16:03 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include "unistd.h"
-# include "stdlib.h"
-# include "stdint.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdint.h>
+# include <stdbool.h>
 
 /* ------------------------------- STRUCTURES ------------------------------- */
 
@@ -38,6 +39,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
+bool		ft_iswhitespace(char c);
 char		*ft_itoa(int n);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
