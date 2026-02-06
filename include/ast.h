@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/04 13:37:19 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 09:54:38 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_src_info
 t_token	lexer(t_src_info *txt);
 bool	expect(t_src_info *txt, t_token_type type);
 t_token	advance(t_src_info *txt);
+size_t len_quoted(char *src, char q);
 
 //--------------------[AST]----------------------------
 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 11:41:48 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:17:07 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <errno.h>
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
 #include "../../include/mini_shell.h"
@@ -55,6 +56,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
 	t_ast			*tmp;
+
 	if (tok.kind == UNKNOWN)
 		return (NULL);
 	if (tok.kind == eof)
@@ -71,11 +73,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 		return (NULL);
 	tmp = fn(txt, lookup[tok.kind].type);
 	if (!tmp)
-	{
-		ft_putstr_fd("syntax error near unexpected token ", 2);
-		ft_putchar_fd(txt->src[txt->i], 2);
-		ft_putchar_fd('\n', 2);
-	}
+		errno = 1;
 	return (tmp);
 }
 
@@ -97,7 +95,22 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 	tmp = parse_expr(lookup, txt);
 	if (tmp && node)
 	{
-		*node = tmp;
+		free(node);
+		return (NULL);
+	}
+	*node = tmp;
+	if (tmp->kind == CMD)
+		shell->nbr_cmd++;
+	while (tmp->kind != END)
+	{
+		while (ft_iswhitespace(txt->src[txt->i]))
+			txt->i++;
+		tmp = parse_expr(lookup, txt);
+		if (!tmp)
+			return (NULL);
+		ft_lstadd_back((t_list **)node, (t_list *)tmp);
+		if (!node)
+			return (NULL);
 		if (tmp->kind == CMD)
 			shell->nbr_cmd++;
 		while (tmp->kind != END)

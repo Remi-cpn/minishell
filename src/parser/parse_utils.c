@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/04 18:34:42 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:33:07 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/ast.h"
+#include "../../include/mini_shell.h"
 #include "../../libft/libft.h"
 #include <stdlib.h>
 
@@ -25,7 +25,6 @@ t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
 	node->kind = kind;
 	return ((t_ast *)node);
 }
-
 
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 {
@@ -66,7 +65,6 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
 	return ((t_ast *)node);
 }
 
-// do parse word ($tmp, "tmp", 'tmp', ...)
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_cmd	*node;
@@ -84,14 +82,16 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	i = ft_count_word(&txt->src[txt->i], ' ') + 1;
 	node->args = ft_calloc(sizeof(t_ast *), i);
 	i = 0;
-	while (node->args && expect(txt, WORDTYPE))
+	while (node->args)
 	{
-		node->args[i] = advance(txt).value;
-		while ((txt->src[txt->i] >= '\a' && txt->src[txt->i] <= '\r')
-			|| txt->src[txt->i] == ' ')
-			txt->i++;
-		if (!node->args[i++])
+		if (lexer(txt).kind != UNKNOWN && lexer(txt).kind != eof)
+			node->args[i] = advance(txt).value;
+		else if (lexer(txt).kind == eof)
+			break ;
+		else
 			return (NULL);
+		while (ft_iswhitespace(txt->src[txt->i]))
+			txt->i++;
 	}
 	return ((t_ast *)node);
 }

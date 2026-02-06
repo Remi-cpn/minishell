@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/05 15:51:41 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:16:11 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
+#include "../../include/exit.h"
 
 static t_token	token(char *src, t_token_type kind, int n)
 {
@@ -19,8 +21,7 @@ static t_token	token(char *src, t_token_type kind, int n)
 
 	if (n == -1)
 		return ((t_token){.kind = UNKNOWN, .value = NULL});
-	tmp = ft_strndup(src, 0, n);
-	//tmp = ft_substr(src, 0, n, 0);
+	tmp = ft_strndup(src, 0, n - 1);
 	if (!tmp)
 		return ((t_token){});
 	return ((t_token){.value = tmp, .kind = kind});
@@ -29,34 +30,36 @@ static t_token	token(char *src, t_token_type kind, int n)
 int	word(char *src)
 {
 	int	i;
-	int	quote;
+	int	len_quote;
 
 	i = 0;
-	quote = 0;
-	if (src[i] == '\"')
-		quote = 2;
-	else if (src[i] == '\'')
-		quote = 1;
-	if (src[i] == '$')
-		i++;
-	if (ft_isalnum(src[i]))
+	while (src[i])
 	{
-		while (ft_isalnum(src[i]) || src[i] == '_')
+		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-'))
+			return (-1);
+		if (src[i] == '\"' || src[i] == '\'')
+		{
+			len_quote = len_quoted(&src[i], src[i]);
+			if (len_quote == -1)
+			{
+				print_error(NULL, NULL, 0, "unfinished quotation");
+				errno = 1;
+				return (-1);
+			}
+			i += len_quote;
+		}
+		else if (!ft_iswhitespace(src[i]))
 			i++;
+		else
+			break ;
 	}
-	if (quote == 2 && src[i] == '\"')
-		return (++i);
-	else if (quote == 2)
-		return (-1);
-	if (quote == 1 && src[i] == '\'')
-		return (++i);
-	else if (quote == 1)
-		return (-1);
 	return (i);
 }
 
 t_token	lexer(t_src_info *txt)
 {
+	while (ft_iswhitespace(txt->src[txt->i]))
+		txt->i++;
 	if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], "<<", 2) == 0)
 		return (token(&txt->src[txt->i], DINFTYPE, 2));
 	else if (txt->i < txt->len && ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
@@ -73,7 +76,7 @@ t_token	lexer(t_src_info *txt)
 		return (token(&txt->src[txt->i], PIPETYPE, 1));
 	else if (txt->i < txt->len && (ft_isalnum(txt->src[txt->i])
 			|| txt->src[txt->i] == '$' || txt->src[txt->i] == '\''
-			|| txt->src[txt->i] == '\"'))
+			|| txt->src[txt->i] == '\"' || txt->src[txt->i] == '-'))
 		return (token(&txt->src[txt->i], WORDTYPE, word(&txt->src[txt->i])));
 	if (txt->i >= txt->len)
 		return ((t_token){.kind = eof, .value = NULL});
