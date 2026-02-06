@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 12:17:15 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 14:36:39 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(void)
 		if (!line || g_exit_flag == 1)
 			exit_prog(&shell, 0);
 		add_history(line);
-		node = parse(line, __environ, &shell);
+		node = parse(line, &shell);
 		if (shell.exit_status == SUCCES)
 		{
 			ft_printf("Parsing done\n");
