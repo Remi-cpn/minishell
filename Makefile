@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
+#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/04 18:31:02 by rcompain         ###   ########.fr        #
+#    Updated: 2026/02/06 09:55:46 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/parser/parser.c \
 			  $(SRC_DIR)/lexer/lexer.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \
+			  $(SRC_DIR)/lexer/word.c \
 			  $(SRC_DIR)/pipeline/open.c \
 			  $(SRC_DIR)/pipeline/exec_one_cmd.c \
 			  $(SRC_DIR)/pipeline/exec_pipeline.c \

@@ -6,21 +6,20 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/05 17:04:26 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 11:31:57 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/ast.h"
 
-size_t len_quoted(char *src, char q)
+size_t	len_quoted(char *src, char q)
 {
 	char	*s;
 
 	s = src;
-	while (*src &&*src != q && src++)
+	while (*src && *src != q && src++)
 		;
 	if (!*src)
 		return (-1);
 	return (src - s);
 }
-

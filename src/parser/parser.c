@@ -6,11 +6,12 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/05 18:52:33 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 10:24:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <errno.h>
 #include "../../include/ast.h"
 #include "../../libft/libft.h"
 #include "../../include/mini_shell.h"
@@ -50,9 +51,9 @@ t_ast	*addnode(t_ast *node, t_ast *tok, int i)
 	return (node);
 }
 
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 {
-	const t_token	tok = lexer(txt, shell);
+	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
 	t_ast			*tmp;
 
@@ -70,9 +71,9 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
 	fn = lookup[tok.kind].fn;
 	if (!fn)
 		return (NULL);
-	tmp = fn(txt, lookup[tok.kind].type, shell);
+	tmp = fn(txt, lookup[tok.kind].type);
 	if (!tmp)
-		shell->exit_status = -1;
+		errno = 1;
 	return (tmp);
 }
 
@@ -91,16 +92,10 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 	node = ft_calloc(sizeof(t_list *), 1);
 	if (!node)
 		return (NULL);
-	tmp = parse_expr(lookup, txt, shell);
+	tmp = parse_expr(lookup, txt);
 	if (!tmp)
 	{
 		free(node);
-		return (NULL);
-	}
-	else if (tmp->kind == AND || tmp->kind == PIPE || tmp->kind == OR)
-	{
-		print_error(NULL, NULL, NULL, "Unexpected token");
-		shell->exit_status = -1;
 		return (NULL);
 	}
 	*node = tmp;
@@ -108,7 +103,9 @@ t_ast	**parse(char *src, char **env, t_data *shell)
 		shell->nbr_cmd++;
 	while (tmp->kind != END)
 	{
-		tmp = parse_expr(lookup, txt, shell);
+		while (ft_iswhitespace(txt->src[txt->i]))
+			txt->i++;
+		tmp = parse_expr(lookup, txt);
 		if (!tmp)
 			return (NULL);
 		ft_lstadd_back((t_list **)node, (t_list *)tmp);

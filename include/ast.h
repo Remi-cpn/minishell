@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/05 18:33:44 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 09:54:38 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stdbool.h>
 # include <stddef.h>
-
-typedef struct s_data t_data;
 
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
@@ -50,7 +48,7 @@ typedef struct s_src_info
 
 //--------------------[LEXER]--------------------------
 
-t_token	lexer(t_src_info *txt, t_data *shell);
+t_token	lexer(t_src_info *txt);
 bool	expect(t_src_info *txt, t_token_type type);
 t_token	advance(t_src_info *txt);
 size_t len_quoted(char *src, char q);
@@ -125,7 +123,7 @@ typedef struct s_ast_cmd
 
 //------------------[LOOKUP]----------------
 
-typedef t_ast *(*	t_look_handler)(t_src_info *txt, t_ast_type type, t_data *shell);
+typedef t_ast *(*	t_look_handler)(t_src_info *txt, t_ast_type type);
 typedef struct s_lookup
 {
 	t_ast_type	type;
@@ -139,10 +137,10 @@ void	gen_lookup(t_lookup *lookup);
 typedef struct s_data	t_data;
 
 t_ast	**parse(char *src, char **env, t_data *shell);
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell);
-t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell);
-t_ast	*parse_ord(t_src_info *txt, t_ast_type kind, t_data *shell);
-t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell);
-t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell);
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);
+t_ast	*parse_output(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_input(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind);
 
 #endif

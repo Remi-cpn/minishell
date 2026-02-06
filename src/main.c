@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 18:27:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 09:54:20 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int main(void)
 			exit_prog(&shell, 0);
 		add_history(line);
 		node = parse(line, __environ, &shell);
+		//check parse correct e.g (start with |)
 		chose = (*node);
 		if (!chose)
 		{
