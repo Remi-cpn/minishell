@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 12:16:11 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 15:56:04 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_token	token(char *src, t_token_type kind, int n)
 		return ((t_token){.kind = UNKNOWN, .value = NULL});
 	tmp = ft_strndup(src, 0, n - 1);
 	if (!tmp)
-		return ((t_token){});
+		return ((t_token){.kind = ERROR, .value = NULL});
 	return ((t_token){.value = tmp, .kind = kind});
 }
 

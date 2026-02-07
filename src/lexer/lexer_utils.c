@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:34:09 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/01 17:58:58 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 15:56:48 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 bool	expect(t_src_info *txt, t_token_type type)
 {
-	return (lexer(txt).kind == type);
+	t_token	tok;
+	bool	res;
+
+	tok = lexer(txt);
+	if (tok.kind ==)
+		return (false);
+	res = tok.kind == type;
+	free(tok);
+	return (res);
 }
 
 t_token	advance(t_src_info *txt)
