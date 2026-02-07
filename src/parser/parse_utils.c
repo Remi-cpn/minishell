@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 14:35:53 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 15:41:30 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	i = 0;
 	while (node->args)
 	{
-		if (lexer(txt).kind != UNKNOWN && lexer(txt).kind != eof)
+		if (expect(txt, WORDTYPE))
 			node->args[i] = advance(txt).value;
-		else if (lexer(txt).kind == eof)
-			break ;
-		else
+		else if (expect(txt, UNKNOWN) || expect(txt, ERROR))
 			return (NULL);
+		else
+			break ;
 		while (ft_iswhitespace(txt->src[txt->i]))
 			txt->i++;
 	}
