@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 16:23:27 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:19:13 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,13 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 	return (-1);
 }
 
+/**
+ * This function executes a series of commands in a pipeline. It handles the
+ * creation of pipes, forking of child processes, and execution of commands.
+ * It also manages the file descriptors for input and output redirection.
+ * Finally, it waits for all child processes to finish and retrieves the exit
+ * status of the last command executed.
+ */
 t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 {
 	int	i;

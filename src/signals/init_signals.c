@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_signals_prompt.c                              :+:      :+:    :+:   */
+/*   init_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 16:05:00 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:01:33 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_signals_child(void)
 /**
  * This function redirects the signals to reproduce the behavior of bash.
  */
-void	handler_prompt(int sig)
+static void	handler_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 16:45:07 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 18:19:37 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ static void	child_process_one_cmd(t_data *shell, t_cmd *cmd)
 	exit_prog(shell, ERR_CMD_NOT_FOUND);
 }
 
+/** This function executes a single command that is not part of a pipeline. It
+ * handles built-in commands directly in the parent process, and for external
+ * commands, it forks a child process to execute the command using execve.
+ * After execution, it waits for the child process to finish and retrieves the
+ * exit status.
+ */
 t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 {
 	int	pid;

@@ -6,12 +6,15 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 14:27:56 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:22:58 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
+/** This function frees the memory allocated for the AST.
+ * It traverses the AST and frees the memory for each node based on its type.
+ */
 void	free_ast(t_ast **ast)
 {
 	t_ast	*current;
@@ -41,17 +44,24 @@ void	free_ast(t_ast **ast)
 		free(ast);
 }
 
+/**
+ * This function frees the memory allocated for an array of strings.
+ */
 void	free_array(char **s)
 {
 	int	i;
 
 	i = 0;
-	while (s && s[i])
+	if (!s)
+		return ;
+	while (s[i])
 		ft_freenull(s[i++]);
-	if (s)
-		ft_freenull(s);
+	ft_freenull(s);
 }
 
+/** 
+ * This function frees the memory allocated for the command structures.
+ */
 void	free_cmds(t_data *shell, t_cmd *cmds)
 {
 	int	i;
@@ -69,20 +79,4 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 		cmds = NULL;
 	}
 	shell->nbr_cmd = 0;
-}
-
-void	free_env(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = 0;
-	while (env[i])
-	{
-		free(env[i]);
-		env[i] = NULL;
-		i++;
-	}
-	free(env);
 }

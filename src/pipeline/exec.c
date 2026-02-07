@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 15:45:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:17:23 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 	return (cmds);
 }
 
+/** This function executes the series of command structures.
+ * It handles the execution flow based on the presence of AND and OR operators
+ * between commands. It also manages the exit status of each command to determine
+ * if the next command should be executed or skipped.
+ */
 void	exec(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;

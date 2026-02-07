@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 14:50:40 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:18:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,13 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 }
 
+/**
+ * This function initializes the command structures based on the AST.
+ * It iterates through the AST and sets up the command structures.
+ * It also handles the file descriptors for input and output redirection,
+ * as well as the logic for AND and OR operators between commands.
+ * Finally, it returns the array of initialized command structures.
+ */
 t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
