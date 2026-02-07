@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 11:23:26 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:03:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+/**
+ * This function retrieves the exit status of a child process and updates
+ * the shell's exit status accordingly.
+ */
 void	get_exit_status(t_data *shell, int status)
 {
 	if (WIFEXITED(status))
@@ -24,6 +28,10 @@ void	get_exit_status(t_data *shell, int status)
 		shell->exit_status = ERROR;
 }
 
+
+/**
+ * This function dispatches the built-in commands.
+ */
 void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
 	//Une fois plus de ' ' dans les args, on peut mettre +1 pour cmp jusqu'a '\0'

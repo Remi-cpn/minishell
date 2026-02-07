@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_signals_prompt.c                              :+:      :+:    :+:   */
+/*   init_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/31 16:22:36 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 18:30:35 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,38 @@
 volatile sig_atomic_t	g_exit_flag = 0;
 
 /**
+ * This function ignores all signals during the execution of a child process.
+ */
+void	init_signals_parent(void)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+/**
+ * This function restores the default behavior of signals during the execution
+ * of a child process.
+ */
+void	init_signals_child(void)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = SIG_DFL;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+/**
  * This function redirects the signals to reproduce the behavior of bash.
  */
-void	handler_prompt(int sig)
+static void	handler_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{

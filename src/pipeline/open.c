@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/05 16:58:53 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:03:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc,
 	(void)i;
 }
 
+/**
+ * This function opens the file descriptor for output redirection.
+ */
 void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out, int i)
 {
 	int	fd;
@@ -51,6 +54,10 @@ void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out, int i)
 	}
 }
 
+
+/**
+ * This function opens the file descriptor for input redirection.
+ */
 void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in)
 {
 	int	fd;
