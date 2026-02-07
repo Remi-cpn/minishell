@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 15:39:39 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 18:06:04 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ t_ast	**parse(char *src, t_data *shell);
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_input(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind);
 

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 08:34:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/01 18:33:57 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 17:54:23 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*lst_tmp;
 
-	lst_tmp = *lst; 
+	lst_tmp = *lst;
 	if (!lst || !new)
 		return ;
 	if (!*lst)

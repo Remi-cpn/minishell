@@ -6,23 +6,49 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 15:41:30 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 18:06:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <errno.h>
 #include "../../include/mini_shell.h"
 #include "../../libft/libft.h"
-#include <stdlib.h>
 
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_pipe	*node;
+	t_token		tok;
 
-	advance(txt);
+	tok = advance(txt);
+	free(tok.value);
 	node = malloc(sizeof(t_ast_pipe));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
+	return ((t_ast *)node);
+}
+
+t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind)
+{
+	t_ast_heredoc	*node;
+	t_token			tok;
+
+	tok = advance(txt);
+	free(tok.value);
+	node = malloc(sizeof(t_ast_heredoc));
+	if (!node)
+		return (NULL);
+	node->kind = kind;
+	tok = advance(txt);
+	if (tok.kind != WORDTYPE)
+	{
+		
+		ft_printf("Syntax error near unexpected token `%s\'\n", tok.value);
+		errno = 1;
+		return (NULL);
+	}
+	node->del = tok.value;
 	return ((t_ast *)node);
 }
 
@@ -31,7 +57,8 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 	t_ast_out	*node;
 	t_token		tok;
 
-	advance(txt);
+	tok = advance(txt);
+	free(tok.value);
 	node = malloc(sizeof(t_ast_out));
 	if (!node)
 		return (NULL);
@@ -69,6 +96,7 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_cmd	*node;
 	int			i;
+	t_token		tmp;
 
 	node = ft_calloc(1, sizeof(t_ast_cmd));
 	if (!node)
@@ -84,14 +112,20 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	i = 0;
 	while (node->args)
 	{
-		if (expect(txt, WORDTYPE))
+		tmp = lexer(txt);
+		if (tmp.kind != UNKNOWN && tmp.kind != eof)
 			node->args[i] = advance(txt).value;
-		else if (expect(txt, UNKNOWN) || expect(txt, ERROR))
-			return (NULL);
-		else
+		else if (tmp.kind == eof)
 			break ;
+		else
+		{
+			ft_freedb_ptr((void **)node->args);
+			free(tmp.value);
+			return (NULL);
+		}
 		while (ft_iswhitespace(txt->src[txt->i]))
 			txt->i++;
+		free(tmp.value);
 	}
 	return ((t_ast *)node);
 }
