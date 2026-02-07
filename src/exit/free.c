@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 18:29:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:06:38 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 
 void	free_env(char **env)
 {
-	int	i;
+	int i;
 
 	if (!env)
 		return ;

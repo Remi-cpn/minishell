@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 14:36:24 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/06 15:39:39 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdbool.h>
 # include <stddef.h>
+
+typedef struct s_data	t_data;
 
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
@@ -30,6 +32,7 @@ typedef enum e_token_type
 	VERBARTYPE,// ||
 	WORDTYPE,// [.]+
 	UNKNOWN,
+	ERROR,
 	eof
 }					t_token_type;
 
@@ -133,8 +136,6 @@ typedef struct s_lookup
 void	gen_lookup(t_lookup *lookup);
 
 //------------------[PARSER]----------------
-
-typedef struct s_data	t_data;
 
 t_ast	**parse(char *src, t_data *shell);
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);

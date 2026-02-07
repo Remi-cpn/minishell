@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/05 17:36:38 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:46:03 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static void	init_or_and_end(t_cmd *cmd, int kind)
 	else if (kind == AND)
 		cmd->next_and = true;
 	cmd->last_cmd = true;
-	ft_printf("test\n");
 }
 
 static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
