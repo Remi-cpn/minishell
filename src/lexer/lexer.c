@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 15:48:08 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 18:05:40 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,17 @@ static t_token	token(char *src, t_token_type kind, int n)
 		return ((t_token){.kind = UNKNOWN, .value = NULL});
 	tmp = ft_strndup(src, 0, n - 1);
 	if (!tmp)
-		return ((t_token){.value = "", .kind = ERROR});
+		return ((t_token){.kind = UNKNOWN, .value = NULL});
 	return ((t_token){.value = tmp, .kind = kind});
 }
 
-int	len_digit(char *src)
+int	digits(char *src)
 {
 	int	i;
 
 	i = 0;
-	while (ft_isdigit(src[i]))
+	while (src[i])
 		i++;
-	if (src[i] && !ft_iswhitespace(src[i]))
-		return (-1);
 	return (i);
 }
 
@@ -46,7 +44,7 @@ int	word(char *src)
 
 	i = 0;
 	if (ft_isdigit(src[i]))
-		return (len_digit(src));
+		return (digits(src));
 	while (src[i])
 	{
 		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-'))
@@ -56,7 +54,7 @@ int	word(char *src)
 			len_quote = len_quoted(&src[i], src[i]);
 			if (len_quote == -1)
 			{
-				print_error(NULL, NULL, 0, "unfinished quotation");
+				ft_printf("Syntax error near unexpected token `%c\'\n", src[i]);
 				errno = 1;
 				return (-1);
 			}
