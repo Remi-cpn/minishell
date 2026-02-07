@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 11:32:25 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:23:27 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 {
 	int	find;
 
+	init_signals_child();
 	find = find_path(shell, cmd->args);
 	if (find == FAILURE)
 		exit_prog(shell, shell->exit_status);
@@ -95,6 +96,7 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 
 	i = 0;
 	prev_read = -1;
+	init_signals_parent();
 	while (prev_read != -1 || i == 0)
 	{
 		prev_read = pipeline(shell, &cmds[i], pid[i], prev_read);
@@ -104,5 +106,6 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	while (j < i)
 		waitpid(pid[j++], &status, 0);
 	get_exit_status(shell, status);
+	init_signals_prompt();
 	return (cmds + i - 1);
 }

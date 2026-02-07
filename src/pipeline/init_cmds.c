@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 16:46:03 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 14:50:40 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,8 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 
 	i = -1;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
-	if (!cmds)
-		call_to_exit(shell, ERR_ALLOC, NULL);
 	tmp = *ast;
-	while (shell->exit_status != ERROR && tmp && (i < 0 || cmds[i].last_cmd == false))
+	while (cmds && shell->exit_status != ERROR && tmp && i < shell->nbr_cmd)
 	{
 		if (tmp->kind == CMD)
 			init_cmd(shell, &cmds[++i], (t_ast_cmd *)tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 16:06:38 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/07 14:27:56 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 	i = 0;
 	if (cmds)
 	{
-		while (cmds[i].args)
+		while (i < shell->nbr_cmd)
 		{
 			free_array(cmds[i].args);
 			cmds[i].args = NULL;
@@ -73,7 +73,7 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 
 void	free_env(char **env)
 {
-	int i;
+	int	i;
 
 	if (!env)
 		return ;
