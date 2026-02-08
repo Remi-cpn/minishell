@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:22:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/08 23:35:17 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,9 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 		cmds = NULL;
 	}
 	shell->nbr_cmd = 0;
+	if (shell->cmd_path)
+	{
+		ft_freenull(shell->cmd_path);
+		shell->cmd_path = NULL;
+	}
 }
