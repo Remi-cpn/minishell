@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 04:03:11 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 11:15:05 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(void)
 	init_data(&shell);
 	while (shell.exit == false)
 	{
+		shell.need_cmd = 1;
 		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
 		if (!line || g_exit_flag == 1)
 			exit_prog(&shell, 0);
