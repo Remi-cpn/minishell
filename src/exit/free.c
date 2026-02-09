@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/08 23:35:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:19:12 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	free_ast(t_ast **ast)
 		free(current);
 		current = next;
 	}
-	if (ast)
-		free(ast);
+	free(ast);
 }
 
 /**
@@ -55,33 +54,37 @@ void	free_array(char **s)
 	if (!s)
 		return ;
 	while (s[i])
-		ft_freenull(s[i++]);
-	ft_freenull(s);
+	{
+		s[i] = ft_freenull(s[i]);
+		i++;
+	}
+	s = ft_freenull(s);
 }
 
 /** 
  * This function frees the memory allocated for the command structures.
  */
-void	free_cmds(t_data *shell, t_cmd *cmds)
+void	free_cmds(t_data *shell)
 {
 	int	i;
 
 	i = 0;
-	if (cmds)
+	if (shell->cmds)
 	{
 		while (i < shell->nbr_cmd)
 		{
-			free_array(cmds[i].args);
-			cmds[i].args = NULL;
+			free_array(shell->cmds[i].args);
 			i++;
 		}
-		ft_freenull(cmds);
-		cmds = NULL;
+		shell->cmds = ft_freenull(shell->cmds);
 	}
 	shell->nbr_cmd = 0;
 	if (shell->cmd_path)
-	{
-		ft_freenull(shell->cmd_path);
-		shell->cmd_path = NULL;
-	}
+		shell->cmd_path = ft_freenull(shell->cmd_path);
+}
+
+void	reset_line(t_data *shell)
+{
+	free_cmds(shell);
+	shell->exit_status = SUCCES;
 }

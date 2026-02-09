@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 10:06:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 18:31:29 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:13:11 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ void	print_error(char *name, char *arg, char c, char *msg);
 void	free_ast(t_ast **ast);
 void	free_env(char **env);
 void	free_array(char **s);
-void	free_cmds(t_data *shell, t_cmd *cmds);
+void	free_cmds(t_data *shell);
 
 #endif

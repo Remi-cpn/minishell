@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 07:07:31 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 16:06:09 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	**init_args(t_ast_cmd	*ast_cmd)
 		return (NULL);
 	args[0] = ft_strdup(ast_cmd->name, 0);
 	if (!args[0])
-		ft_freenull(args);
+		args = ft_freenull(args);
 	i = 0;
 	while (args && ast_cmd->args[i])
 	{
@@ -97,27 +97,33 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	int		i;
 	t_ast	*tmp;
 
-	i = -1;
+	i = 0;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
 	tmp = *ast;
-	if (shell->nbr_cmd == 1)
-			print_cmd(&cmds[0], i);
 	while (cmds && shell->exit_status != ERROR && tmp && i < shell->nbr_cmd)
 	{
 		if (tmp->kind == CMD)
-			init_cmd(shell, &cmds[++i], (t_ast_cmd *)tmp);
+			init_cmd(shell, &cmds[i], (t_ast_cmd *)tmp);
 		else if (tmp->kind == IN)
 			open_fd_in(shell, &cmds[i], (t_ast_in *)tmp);
 		else if (tmp->kind == HEREDOC)
 			open_fd_heredoc(shell, &cmds[i], (t_ast_heredoc *)tmp, i);
 		else if (tmp->kind == OUT)
-			open_fd_out(shell, cmds, (t_ast_out *)tmp, i);
+			open_fd_out(shell, cmds, (t_ast_out *)tmp, i++);
 		else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == END)
+		{
 			init_or_and_end(&cmds[i], tmp->kind);
-		tmp = tmp->next;
-		if (i < shell->nbr_cmd - 1)
 			print_cmd(&cmds[i], i);
+			i++;
+		}
+		else
+		{
+			print_cmd(&cmds[i], i);
+			i++;
+		}
+		tmp = tmp->next;
 	}
+	print_cmd(&cmds[i], i);
 	ft_printf("Total cmds initialized: %d\n", i + 1);
 	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
 	shell->cmds = cmds;

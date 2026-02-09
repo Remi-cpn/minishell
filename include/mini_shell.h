@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/05 18:21:46 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 12:42:50 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ typedef struct s_data
 	bool	exit;
 	int		exit_status;
 	char	**env;
+	int		*pid_adr;
 }	t_data;
 
 /** Functions */
 void	init_data(t_data *shell);
+void	reset_line(t_data *shell);
 
 //* TESTING */
 void	print_cmd(t_cmd *cmd, int index);
