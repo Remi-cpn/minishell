@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/07 18:06:04 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 05:36:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ t_token	lexer(t_src_info *txt);
 bool	expect(t_src_info *txt, t_token_type type);
 t_token	advance(t_src_info *txt);
 size_t len_quoted(char *src, char q);
+int		is_start_word(char c);
+int		len_word(char *src);
+void	report_parsing_error(char c, char *s);
 
 //--------------------[AST]----------------------------
 
@@ -144,5 +147,6 @@ t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_input(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind);
+void	parse_args_cmd(t_ast_cmd *node, t_src_info *txt);
 
 #endif

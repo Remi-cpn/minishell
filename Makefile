@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
+#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/07 16:06:12 by rcompain         ###   ########.fr        #
+#    Updated: 2026/02/09 05:39:58 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/builtins/utils.c \
 			  $(SRC_DIR)/parser/lookup.c \
 			  $(SRC_DIR)/parser/parse_utils.c \
+			  $(SRC_DIR)/parser/parse_args.c \
 			  $(SRC_DIR)/parser/parser.c \
 			  $(SRC_DIR)/lexer/lexer.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \

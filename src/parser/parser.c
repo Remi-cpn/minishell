@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 04:25:51 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 06:20:02 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,29 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	return (tmp);
 }
 
-t_ast	**parse(char *src, t_data *shell)
+t_src_info	*init_parse(char *src, t_lookup *lookup)
 {
-	t_ast		**node;
-	t_ast		*tmp;
 	t_src_info	*txt;
-	t_lookup	lookup[13];
-	bool		need_cmd;
 
-	gen_lookup(lookup);
 	txt = ft_calloc(sizeof(t_src_info), 1);
 	if (!txt)
 		return (NULL);
 	txt->src = src;
 	txt->len = ft_strlen(src);
-	need_cmd = 1;
-	node = ft_calloc(sizeof(t_list *), 1);
+	gen_lookup(lookup);
+	return (txt);
+}
+
+t_ast	*next_expr(
+	t_lookup *lookup,
+	t_src_info *txt,
+	t_ast **node
+)
+{
+	static int	need_cmd = 1;
+	t_ast		*tmp;
+
+	txt->i += skip_whitespace(&txt->src[txt->i]);
 	tmp = parse_expr(lookup, txt);
 	if (!tmp)
 	{
@@ -68,48 +75,57 @@ t_ast	**parse(char *src, t_data *shell)
 		free(txt);
 		return (NULL);
 	}
-	if (need_cmd && ((tmp->kind == AND || tmp->kind == OR || tmp->kind == PIPE)))
+	if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE) && need_cmd)
+		need_cmd = 0;
+	else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
 	{
-		ft_printf("Syntax error near unexpected token `%c\'\n", txt->src[txt->i - 1]);
-		free(node);
-		free(tmp);
+		report_parsing_error(txt->src[txt->i - 1], NULL);
+		ft_freedb_ptr((void **)node);
 		free(txt);
-		errno = 1;
+		free(tmp);
 		return (NULL);
 	}
-	if (tmp && node)
-	{
-		*node = tmp;
-		if (tmp->kind == CMD)
-			shell->nbr_cmd++;
-		while (tmp->kind != END)
-		{
-			while (ft_iswhitespace(txt->src[txt->i]))
-				txt->i++;
-			tmp = parse_expr(lookup, txt);
-			if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE) && need_cmd)
-					need_cmd = 0;
-			else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
-			{
-				ft_printf("Syntax error near unexpected token `%c\'\n", txt->src[txt->i - 1]);
-				ft_freedb_ptr((void **)node);
-				free(txt);
-				errno = 1;
-				return (NULL);
-			}
-			else if (tmp->kind == CMD)
-				need_cmd = 0;
-			if (!tmp)
-				break ;
-			ft_lstadd_back((t_list **)node, (t_list *)tmp);
-			if (!node)
-				break ;
-			if (tmp->kind == CMD)
-				shell->nbr_cmd++;
-		}
-	}
-	if (!tmp || !node)
+	else if (tmp->kind == CMD)
+		need_cmd = 0;
+	return (tmp);
+}
+
+void	set_flag(
+	t_ast **node,
+	t_ast *next,
+	t_src_info *txt,
+	t_data *shell
+)
+{
+	if (!next || !node || !txt)
 		shell->exit_status = ERR_ALLOC;
 	free(txt);
+}
+
+t_ast	**parse(char *src, t_data *shell)
+{
+	t_ast		**node;
+	t_ast		*next;
+	t_src_info	*txt;
+	t_lookup	lookup[13];
+
+	txt = init_parse(src, lookup);
+	node = ft_calloc(sizeof(t_list *), 1);
+	if (node && txt)
+	{
+		next = next_expr(lookup, txt, node);
+		if (!next)
+			return (NULL);
+		*node = next;
+		while (node && next && next->kind != END)
+		{
+			if (next->kind == CMD)
+				shell->nbr_cmd++;
+			next = next_expr(lookup, txt, node);
+			if (!node || !next)
+				break ;
+			ft_lstadd_back((t_list **)node, (t_list *)next);
+		}
+	}
 	return (node);
 }

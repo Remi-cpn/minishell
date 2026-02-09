@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 04:23:55 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 05:39:25 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind)
 		return (NULL);
 	node->kind = kind;
 	tok = advance(txt);
-	if (tok.kind != WORDTYPE)
+	if (tok.kind == UNKNOWN || tok.kind == eof)
 	{
-		
-		ft_printf("Syntax error near unexpected token `%s\'\n", tok.value);
-		errno = 1;
+		report_parsing_error(0, tok.value);
+		free(tok.value);
 		return (NULL);
 	}
 	node->del = tok.value;
@@ -63,11 +62,13 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	if (!expect(txt, WORDTYPE))
-		return (NULL);
 	tok = advance(txt);
-	if (tok.kind == UNKNOWN)
+	if (tok.kind == UNKNOWN || tok.kind == eof)
+	{
+		report_parsing_error(0, tok.value);
+		free(tok.value);
 		return (NULL);
+	}
 	node->output = tok.value;
 	node->overwrite = true;
 	if (tok.kind == DSUPTYPE)
@@ -86,8 +87,12 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
 		return (NULL);
 	node->kind = kind;
 	tok = advance(txt);
-	if (tok.kind == UNKNOWN)
+	if (tok.kind == UNKNOWN || tok.kind == eof)
+	{
+		report_parsing_error(0, tok.value);
+		free(tok.value);
 		return (NULL);
+	}
 	node->input = tok.value;
 	return ((t_ast *)node);
 }
@@ -96,17 +101,11 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_cmd	*node;
 	int			i;
-	t_token		tmp;
 
 	node = ft_calloc(1, sizeof(t_ast_cmd));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	if (!expect(txt, WORDTYPE))
-	{
-		free(node);
-		return (NULL);
-	}
 	node->name = advance(txt).value;
 	if (!node->name)
 	{
@@ -115,29 +114,12 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	}
 	i = ft_count_word(&txt->src[txt->i], ' ') + 1;
 	node->args = ft_calloc(sizeof(t_ast *), i);
-	i = 0;
-	while (node->args)
+	if (!node->args)
 	{
-		tmp = lexer(txt);
-		if (tmp.kind == WORDTYPE)
-			node->args[i] = advance(txt).value;
-		else if (tmp.kind != WORDTYPE && tmp.kind != UNKNOWN)
-		{
-			if (tmp.kind == eof)
-				break ;
-			free(tmp.value);
-			break ;
-		}
-		else//tmp.kind == UNKNOWN
-		{
-			ft_freedb_ptr((void **)node->args);
-			free(node->name);
-			free(node);
-			return (NULL);
-		}
-		while (ft_iswhitespace(txt->src[txt->i]))
-			txt->i++;
-		free(tmp.value);
+		free(node->name);
+		free(node);
+		return (NULL);
 	}
+	parse_args_cmd(node, txt);
 	return ((t_ast *)node);
 }

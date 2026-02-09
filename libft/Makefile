@@ -6,7 +6,7 @@
 #    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 17:34:44 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/05 18:13:28 by tseche           ###   ########.fr        #
+#    Updated: 2026/02/09 05:33:31 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC = 		ft_atoi.c \
 			ft_isdigit.c \
 			ft_isprint.c \
 			ft_iswhitespace.c \
+			ft_skip_whitespace.c \
 			ft_itoa.c \
 			ft_split.c \
 			ft_strchr.c \
