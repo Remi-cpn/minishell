@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 05:36:54 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 06:29:36 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_src_info
 t_token	lexer(t_src_info *txt);
 bool	expect(t_src_info *txt, t_token_type type);
 t_token	advance(t_src_info *txt);
-size_t len_quoted(char *src, char q);
+size_t	len_quoted(char *src, char q);
 int		is_start_word(char c);
 int		len_word(char *src);
 void	report_parsing_error(char c, char *s);
@@ -129,10 +129,13 @@ typedef struct s_ast_cmd
 
 //------------------[LOOKUP]----------------
 
-typedef t_ast *(*	t_look_handler)(t_src_info *txt, t_ast_type type);
+typedef t_ast *(*		t_look_handler)(
+	t_src_info		*txt,
+	t_ast_type		type
+);
 typedef struct s_lookup
 {
-	t_ast_type	type;
+	t_ast_type		type;
 	t_look_handler	fn;
 }				t_lookup;
 
