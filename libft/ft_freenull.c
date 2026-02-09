@@ -6,14 +6,14 @@
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 14:53:44 by rcompain          #+#    #+#             */
-/*   Updated: 2025/12/20 15:04:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:10:54 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_freenull(void *p)
+void	*ft_freenull(void *p)
 {
 	free(p);
-	p = NULL;
+	return (NULL);
 }

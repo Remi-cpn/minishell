@@ -6,7 +6,7 @@
 #    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/09 05:39:58 by tseche           ###   ########.fr        #
+#    Updated: 2026/02/09 16:24:47 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -g 
 LDFLAGS		= -lreadline
 RM			= rm -f
 AR			= ar rcs

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 11:15:09 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 16:32:57 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,37 @@ void	free_array(char **s)
 	if (!s)
 		return ;
 	while (s[i])
-		ft_freenull(s[i++]);
-	ft_freenull(s);
+	{
+		s[i] = ft_freenull(s[i]);
+		i++;
+	}
+	s = ft_freenull(s);
 }
 
 /** 
  * This function frees the memory allocated for the command structures.
  */
-void	free_cmds(t_data *shell, t_cmd *cmds)
+void	free_cmds(t_data *shell)
 {
 	int	i;
 
 	i = 0;
-	if (cmds)
+	if (shell->cmds)
 	{
 		while (i < shell->nbr_cmd)
 		{
-			free_array(cmds[i].args);
-			cmds[i].args = NULL;
+			free_array(shell->cmds[i].args);
 			i++;
 		}
-		ft_freenull(cmds);
-		cmds = NULL;
+		shell->cmds = ft_freenull(shell->cmds);
 	}
 	shell->nbr_cmd = 0;
 	if (shell->cmd_path)
-	{
-		ft_freenull(shell->cmd_path);
-		shell->cmd_path = NULL;
-	}
+		shell->cmd_path = ft_freenull(shell->cmd_path);
+}
+
+void	reset_line(t_data *shell)
+{
+	free_cmds(shell);
+	shell->exit_status = SUCCES;
 }

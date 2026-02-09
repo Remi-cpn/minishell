@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:26:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:25:25 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:13:38 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	exit_prog(t_data *shell, int status_error)
 		shell->exit_status = status_error;
 	if (status_error < 0)
 		errno = 1;
+	if (shell->cmds)
+		free_cmds(shell);
 	free_array(shell->env);
 	rl_clear_history();
 	exit(status_error);

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:17:47 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:08:16 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static int	test_path(t_data *shell, char *path, char **cmd)
 	find = access(tmp, X_OK);
 	if (find == FAILURE)
 	{
-		ft_freenull(tmp);
+		tmp = ft_freenull(tmp);
 		return (FAILURE);
 	}
-	ft_freenull(shell->cmd_path);
+	shell->cmd_path = ft_freenull(shell->cmd_path);
 	shell->cmd_path = ft_strdup(tmp, 0);
-	ft_freenull(tmp);
+	tmp = ft_freenull(tmp);
 	if (!shell->cmd_path)
 		return (ERR_ALLOC);
 	return (SUCCES);
@@ -49,7 +49,7 @@ static int	path_absolu(t_data *shell, char **cmd)
 		print_error("cmd", cmd[0], 0, "permission denied");
 		return (ERR_CMD_NOT_EXEC);
 	}
-	ft_freenull(shell->cmd_path);
+	shell->cmd_path = ft_freenull(shell->cmd_path);
 	shell->cmd_path = ft_strdup(cmd[0], 0);
 	if (!shell->cmd_path)
 		return (ERR_ALLOC);
