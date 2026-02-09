@@ -6,28 +6,47 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 11:15:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:06:53 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-// //fd = creation d'un heredoc
-// if (fd == -1)
-// {
-// 	write(2, "fd: invalid\n", 12);
-// 	cmd->fd_in = -1;
-// 	return ;
-// }
-// cmd->fd_in = fd;
-// cmd->redir_in = true;
-void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc,
-				int i)
+static int	heredoc_to_pipe(t_ast_heredoc *h)
 {
-	(void)heredoc;
-	(void)cmd;
-	(void)shell;
-	(void)i;
+	int		fd[2];
+	char	*line;
+
+	if (pipe(fd) == -1)
+		return (-1);
+	while (true)
+	{
+		line = readline("> ");
+		if (!line || ft_strncmp(line, h->del, ft_strlen(h->del)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		ft_putendl_fd(line, fd[1]);
+		free(line);
+	}
+	close(fd[1]);
+	return (fd[0]);
+}
+
+void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
+{
+	int	fd;
+
+	fd = heredoc_to_pipe(heredoc);
+	if (fd == -1)
+	{
+		shell->exit_status = ERROR;
+		print_error("fd", heredoc->del, 0, "invalid");
+		return ;
+	}
+	cmd->fd_in = fd;
+	cmd->redir_in = true;
 }
 
 /**

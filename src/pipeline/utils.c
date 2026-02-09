@@ -6,13 +6,34 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 14:30:54 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 00:31:22 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <fcntl.h>
 #include <unistd.h>
+
+bool	is_builtins(t_ast_cmd	*cmd)
+{
+	if (!cmd || !cmd->name)
+		return (false);
+	if (ft_strncmp(cmd->name, "echo", 4) == 0)
+		return (true);
+	else if (ft_strncmp(cmd->name, "exit", 4) == 0)
+		return (true);
+	else if (ft_strncmp(cmd->name, "env", 3) == 0)
+		return (true);
+	else if (ft_strncmp(cmd->name, "pwd", 3) == 0)
+		return (true);
+	else if (ft_strncmp(cmd->name, "cd", 2) == 0)
+		return (true);
+	else if (ft_strncmp(cmd->name, "export", 6) == 0)
+		return (true);
+	else if (ft_strncmp(cmd->name, "unset", 5) == 0)
+		return (true);
+	return (false);
+}
 
 /**
  * This function retrieves the exit status of a child process and updates
