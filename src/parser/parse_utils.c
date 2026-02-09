@@ -6,23 +6,48 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 14:35:53 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 08:18:19 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <errno.h>
 #include "../../include/mini_shell.h"
 #include "../../libft/libft.h"
-#include <stdlib.h>
 
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
 {
 	t_ast_pipe	*node;
+	t_token		tok;
 
-	advance(txt);
+	tok = advance(txt);
+	free(tok.value);
 	node = malloc(sizeof(t_ast_pipe));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
+	return ((t_ast *)node);
+}
+
+t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind)
+{
+	t_ast_heredoc	*node;
+	t_token			tok;
+
+	tok = advance(txt);
+	free(tok.value);
+	node = malloc(sizeof(t_ast_heredoc));
+	if (!node)
+		return (NULL);
+	node->kind = kind;
+	tok = advance(txt);
+	if (tok.kind == UNKNOWN || tok.kind == eof)
+	{
+		report_parsing_error(0, tok.value);
+		free(tok.value);
+		return (NULL);
+	}
+	node->del = tok.value;
 	return ((t_ast *)node);
 }
 
@@ -31,20 +56,21 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 	t_ast_out	*node;
 	t_token		tok;
 
-	advance(txt);
+	tok = advance(txt);
+	free(tok.value);
 	node = malloc(sizeof(t_ast_out));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	if (!expect(txt, WORDTYPE))
-		return (NULL);
+	node->overwrite = tok.kind == SUPTYPE;
 	tok = advance(txt);
-	if (tok.kind == UNKNOWN)
+	if (tok.kind == UNKNOWN || tok.kind == eof)
+	{
+		report_parsing_error(0, tok.value);
+		free(tok.value);
 		return (NULL);
+	}
 	node->output = tok.value;
-	node->overwrite = true;
-	if (tok.kind == DSUPTYPE)
-		node->overwrite = false;
 	return ((t_ast *)node);
 }
 
@@ -59,8 +85,12 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
 		return (NULL);
 	node->kind = kind;
 	tok = advance(txt);
-	if (tok.kind == UNKNOWN)
+	if (tok.kind == UNKNOWN || tok.kind == eof)
+	{
+		report_parsing_error(0, tok.value);
+		free(tok.value);
 		return (NULL);
+	}
 	node->input = tok.value;
 	return ((t_ast *)node);
 }
@@ -74,24 +104,20 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	if (!expect(txt, WORDTYPE))
-		return (NULL);
 	node->name = advance(txt).value;
 	if (!node->name)
+	{
+		free(node);
 		return (NULL);
+	}
 	i = ft_count_word(&txt->src[txt->i], ' ') + 1;
 	node->args = ft_calloc(sizeof(t_ast *), i);
-	i = 0;
-	while (node->args)
+	if (!node->args)
 	{
-		if (lexer(txt).kind != UNKNOWN && lexer(txt).kind != eof)
-			node->args[i] = advance(txt).value;
-		else if (lexer(txt).kind == eof)
-			break ;
-		else
-			return (NULL);
-		while (ft_iswhitespace(txt->src[txt->i]))
-			txt->i++;
+		free(node->name);
+		free(node);
+		return (NULL);
 	}
+	node = (t_ast_cmd *)parse_args_cmd(node, txt);
 	return ((t_ast *)node);
 }

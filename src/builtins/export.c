@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:23:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/06 11:38:39 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:24:57 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,6 @@ static void	export_cmd_with_args(t_data *shell, char **args)
 			shell->exit_status = flag;
 		i++;
 	}
-	ft_printf("ADDED/SET: %s\n", args[i - 1]);
-	for (int k = 0; shell->env[k]; k++)
-    ft_printf("ENV[%d]=%s\n", k, shell->env[k]);
-
 }
 
 void	export_cmd(t_data *shell, char **args)

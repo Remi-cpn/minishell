@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 20:30:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:23:05 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:24:37 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	**env_cpy(char **env)
 		env_cp[i] = ft_strdup(env[i], 0);
 		if (!env_cp[i])
 		{
-			free_env(env_cp);
+			free_array(env_cp);
 			return (NULL);
 		}
 		i++;
@@ -98,5 +98,5 @@ void	export_cmd_not_arg(t_data *shell)
 	}
 	sort_env(env_cp);
 	print_env(env_cp);
-	free_env(env_cp);
+	free_array(env_cp);
 }

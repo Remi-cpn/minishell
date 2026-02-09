@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:42:33 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:17:47 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ static int	path_relatif(t_data *shell, char **cmd)
 	return (find);
 }
 
+/**
+ * This function finds the path of the command to execute. It checks
+ * if the command is an absolute path or a relative path and updates the 
+ * shell's cmd_path accordingly.
+ */
 int	find_path(t_data *shell, char **cmd)
 {
 	int		find;

@@ -6,7 +6,7 @@
 #    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/06 09:55:46 by tseche           ###   ########.fr        #
+#    Updated: 2026/02/09 05:39:58 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/free.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
-			  $(SRC_DIR)/signals/init_signals_prompt.c \
+			  $(SRC_DIR)/signals/init_signals.c \
 			  $(SRC_DIR)/builtins/cd.c \
 			  $(SRC_DIR)/builtins/echo.c \
 			  $(SRC_DIR)/builtins/env.c \
@@ -53,6 +53,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/builtins/utils.c \
 			  $(SRC_DIR)/parser/lookup.c \
 			  $(SRC_DIR)/parser/parse_utils.c \
+			  $(SRC_DIR)/parser/parse_args.c \
 			  $(SRC_DIR)/parser/parser.c \
 			  $(SRC_DIR)/lexer/lexer.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \

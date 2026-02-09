@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 14:34:01 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 07:04:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,13 @@
 #include <errno.h>
 #include <unistd.h>
 
-char	**dup_env(void)
-{
-	char	**env;
-	int		i;
-
-	i = 0;
-	while (__environ[i] && i++)
-		;
-	env = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (__environ[i])
-	{
-		env[i] = ft_strdup(__environ[i], 0);
-		if (!env[i++])
-		{
-			ft_freedb_ptr((void **)env);
-			return (NULL);
-		}
-	}
-	return (env);
-}
-
-t_ast	*addnode(t_ast *node, t_ast *tok, int i)
-{
-	t_ast	*tmp;
-
-	tmp = node;
-	node = ft_realloc(tmp, i, i + 1, sizeof(t_ast));
-	free(tmp);
-	if (!node)
-		return (NULL);
-	node[i + 1] = *tok;
-	return (node);
-}
-
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 {
 	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
 	t_ast			*tmp;
 
+	free(tok.value);
 	if (tok.kind == UNKNOWN)
 		return (NULL);
 	if (tok.kind == eof)
@@ -74,45 +40,91 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	tmp = fn(txt, lookup[tok.kind].type);
 	if (!tmp)
 		errno = 1;
+	else
+		tmp->next = NULL;
 	return (tmp);
 }
 
-t_ast	**parse(char *src, t_data *shell)
+t_src_info	*init_parse(char *src, t_lookup *lookup, t_ast **next)
 {
-	t_ast		**node;
-	t_ast		*tmp;
 	t_src_info	*txt;
-	t_lookup	lookup[13];
 
-	gen_lookup(lookup);
 	txt = ft_calloc(sizeof(t_src_info), 1);
 	if (!txt)
 		return (NULL);
 	txt->src = src;
 	txt->len = ft_strlen(src);
-	node = ft_calloc(sizeof(t_list *), 1);
+	gen_lookup(lookup);
+	*next = NULL;
+	return (txt);
+}
+
+t_ast	*next_expr(
+	t_lookup *lookup,
+	t_src_info *txt,
+	t_ast **node
+)
+{
+	static int	need_cmd = 1;
+	t_ast		*tmp;
+
+	txt->i += skip_whitespace(&txt->src[txt->i]);
 	tmp = parse_expr(lookup, txt);
-	if (tmp && node)
+	if (!tmp)
 	{
-		*node = tmp;
-		if (tmp->kind == CMD)
-			shell->nbr_cmd++;
-		while (tmp->kind != END)
-		{
-			while (ft_iswhitespace(txt->src[txt->i]))
-				txt->i++;
-			tmp = parse_expr(lookup, txt);
-			if (!tmp)
-				break ;
-			ft_lstadd_back((t_list **)node, (t_list *)tmp);
-			if (!node)
-				break ;
-			if (tmp->kind == CMD)
-				shell->nbr_cmd++;
-		}
+		free(node);
+		free(txt);
+		return (NULL);
 	}
-	if (!tmp || !node)
+	if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE) && need_cmd)
+	{
+		report_parsing_error(txt->src[txt->i - 1], NULL);
+		ft_freedb_ptr((void **)node);
+		free(txt);
+		free(tmp);
+		return (NULL);
+	}
+	need_cmd = 0;
+	return (tmp);
+}
+
+void	set_flag(
+	t_ast **node,
+	t_ast *next,
+	t_src_info *txt,
+	t_data *shell
+)
+{
+	if (!next || !node || !txt)
 		shell->exit_status = ERR_ALLOC;
 	free(txt);
+}
+
+t_ast	**parse(char *src, t_data *shell)
+{
+	t_ast		**node;
+	t_ast		*next;
+	t_src_info	*txt;
+	t_lookup	lookup[13];
+
+	txt = init_parse(src, lookup, &next);
+	node = ft_calloc(sizeof(t_list *), 1);
+	if (node && txt)
+	{
+		next = next_expr(lookup, txt, node);
+		if (!next)
+			return (NULL);
+		*node = next;
+		while (node && next && next->kind != END)
+		{
+			if (next->kind == CMD)
+				shell->nbr_cmd++;
+			next = next_expr(lookup, txt, node);
+			if (!node || !next)
+				break ;
+			ft_lstadd_back((t_list **)node, (t_list *)next);
+		}
+	}
+	set_flag(node, next, txt, shell);
 	return (node);
 }

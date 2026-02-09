@@ -6,12 +6,15 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 18:29:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/08 23:35:17 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
+/** This function frees the memory allocated for the AST.
+ * It traverses the AST and frees the memory for each node based on its type.
+ */
 void	free_ast(t_ast **ast)
 {
 	t_ast	*current;
@@ -41,17 +44,24 @@ void	free_ast(t_ast **ast)
 		free(ast);
 }
 
+/**
+ * This function frees the memory allocated for an array of strings.
+ */
 void	free_array(char **s)
 {
 	int	i;
 
 	i = 0;
-	while (s && s[i])
+	if (!s)
+		return ;
+	while (s[i])
 		ft_freenull(s[i++]);
-	if (s)
-		ft_freenull(s);
+	ft_freenull(s);
 }
 
+/** 
+ * This function frees the memory allocated for the command structures.
+ */
 void	free_cmds(t_data *shell, t_cmd *cmds)
 {
 	int	i;
@@ -59,7 +69,7 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 	i = 0;
 	if (cmds)
 	{
-		while (cmds[i].args)
+		while (i < shell->nbr_cmd)
 		{
 			free_array(cmds[i].args);
 			cmds[i].args = NULL;
@@ -69,20 +79,9 @@ void	free_cmds(t_data *shell, t_cmd *cmds)
 		cmds = NULL;
 	}
 	shell->nbr_cmd = 0;
-}
-
-void	free_env(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = 0;
-	while (env[i])
+	if (shell->cmd_path)
 	{
-		free(env[i]);
-		env[i] = NULL;
-		i++;
+		ft_freenull(shell->cmd_path);
+		shell->cmd_path = NULL;
 	}
-	free(env);
 }

@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_skip_whitespace.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/21 08:34:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 17:54:23 by tseche           ###   ########.fr       */
+/*   Created: 2026/02/09 05:32:52 by tseche            #+#    #+#             */
+/*   Updated: 2026/02/09 06:22:00 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+int	skip_whitespace(char *s)
 {
-	t_list	*lst_tmp;
+	int	i;
 
-	lst_tmp = *lst;
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		lst_tmp = ft_lstlast(*lst);
-		lst_tmp->next = new;
-	}
+	i = 0;
+	while (ft_iswhitespace(s[i]))
+		i++;
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/06 14:36:24 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 08:17:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdbool.h>
 # include <stddef.h>
+
+typedef struct s_data	t_data;
 
 //--------------------[TOKEN]----------------------------
 typedef enum e_token_type
@@ -30,6 +32,7 @@ typedef enum e_token_type
 	VERBARTYPE,// ||
 	WORDTYPE,// [.]+
 	UNKNOWN,
+	ERROR,
 	eof
 }					t_token_type;
 
@@ -51,7 +54,10 @@ typedef struct s_src_info
 t_token	lexer(t_src_info *txt);
 bool	expect(t_src_info *txt, t_token_type type);
 t_token	advance(t_src_info *txt);
-size_t len_quoted(char *src, char q);
+size_t	len_quoted(char *src, char q);
+int		is_start_word(char c);
+int		len_word(char *src);
+void	report_parsing_error(char c, char *s);
 
 //--------------------[AST]----------------------------
 
@@ -123,10 +129,13 @@ typedef struct s_ast_cmd
 
 //------------------[LOOKUP]----------------
 
-typedef t_ast *(*	t_look_handler)(t_src_info *txt, t_ast_type type);
+typedef t_ast *(*		t_look_handler)(
+	t_src_info		*txt,
+	t_ast_type		type
+);
 typedef struct s_lookup
 {
-	t_ast_type	type;
+	t_ast_type		type;
 	t_look_handler	fn;
 }				t_lookup;
 
@@ -134,12 +143,12 @@ void	gen_lookup(t_lookup *lookup);
 
 //------------------[PARSER]----------------
 
-typedef struct s_data	t_data;
-
+t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt);
 t_ast	**parse(char *src, t_data *shell);
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt);
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
+t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_input(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind);
 

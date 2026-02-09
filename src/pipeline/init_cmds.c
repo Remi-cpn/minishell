@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/05 17:36:38 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:07:31 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static void	init_or_and_end(t_cmd *cmd, int kind)
 	else if (kind == AND)
 		cmd->next_and = true;
 	cmd->last_cmd = true;
-	ft_printf("test\n");
 }
 
 static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
@@ -85,6 +84,13 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast_cmd	*ast_cmd)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 }
 
+/**
+ * This function initializes the command structures based on the AST.
+ * It iterates through the AST and sets up the command structures.
+ * It also handles the file descriptors for input and output redirection,
+ * as well as the logic for AND and OR operators between commands.
+ * Finally, it returns the array of initialized command structures.
+ */
 t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
@@ -93,10 +99,10 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 
 	i = -1;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
-	if (!cmds)
-		call_to_exit(shell, ERR_ALLOC, NULL);
 	tmp = *ast;
-	while (shell->exit_status != ERROR && tmp && (i < 0 || cmds[i].last_cmd == false))
+	if (shell->nbr_cmd == 1)
+			print_cmd(&cmds[0], i);
+	while (cmds && shell->exit_status != ERROR && tmp && i < shell->nbr_cmd)
 	{
 		if (tmp->kind == CMD)
 			init_cmd(shell, &cmds[++i], (t_ast_cmd *)tmp);
@@ -109,7 +115,8 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 		else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == END)
 			init_or_and_end(&cmds[i], tmp->kind);
 		tmp = tmp->next;
-		print_cmd(&cmds[i], i);
+		if (i < shell->nbr_cmd - 1)
+			print_cmd(&cmds[i], i);
 	}
 	ft_printf("Total cmds initialized: %d\n", i + 1);
 	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
