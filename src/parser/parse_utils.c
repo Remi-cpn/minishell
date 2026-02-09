@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 05:39:25 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 08:18:19 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 	if (!node)
 		return (NULL);
 	node->kind = kind;
+	node->overwrite = tok.kind == SUPTYPE;
 	tok = advance(txt);
 	if (tok.kind == UNKNOWN || tok.kind == eof)
 	{
@@ -70,9 +71,6 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 		return (NULL);
 	}
 	node->output = tok.value;
-	node->overwrite = true;
-	if (tok.kind == DSUPTYPE)
-		node->overwrite = false;
 	return ((t_ast *)node);
 }
 
@@ -120,6 +118,6 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 		free(node);
 		return (NULL);
 	}
-	parse_args_cmd(node, txt);
+	node = (t_ast_cmd *)parse_args_cmd(node, txt);
 	return ((t_ast *)node);
 }

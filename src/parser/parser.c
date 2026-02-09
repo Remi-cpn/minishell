@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 06:20:02 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 07:04:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	return (tmp);
 }
 
-t_src_info	*init_parse(char *src, t_lookup *lookup)
+t_src_info	*init_parse(char *src, t_lookup *lookup, t_ast **next)
 {
 	t_src_info	*txt;
 
@@ -55,6 +55,7 @@ t_src_info	*init_parse(char *src, t_lookup *lookup)
 	txt->src = src;
 	txt->len = ft_strlen(src);
 	gen_lookup(lookup);
+	*next = NULL;
 	return (txt);
 }
 
@@ -76,8 +77,6 @@ t_ast	*next_expr(
 		return (NULL);
 	}
 	if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE) && need_cmd)
-		need_cmd = 0;
-	else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
 	{
 		report_parsing_error(txt->src[txt->i - 1], NULL);
 		ft_freedb_ptr((void **)node);
@@ -85,8 +84,7 @@ t_ast	*next_expr(
 		free(tmp);
 		return (NULL);
 	}
-	else if (tmp->kind == CMD)
-		need_cmd = 0;
+	need_cmd = 0;
 	return (tmp);
 }
 
@@ -109,7 +107,7 @@ t_ast	**parse(char *src, t_data *shell)
 	t_src_info	*txt;
 	t_lookup	lookup[13];
 
-	txt = init_parse(src, lookup);
+	txt = init_parse(src, lookup, &next);
 	node = ft_calloc(sizeof(t_list *), 1);
 	if (node && txt)
 	{
@@ -127,5 +125,6 @@ t_ast	**parse(char *src, t_data *shell)
 			ft_lstadd_back((t_list **)node, (t_list *)next);
 		}
 	}
+	set_flag(node, next, txt, shell);
 	return (node);
 }

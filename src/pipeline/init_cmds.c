@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:18:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:07:31 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	i = -1;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
 	tmp = *ast;
+	if (shell->nbr_cmd == 1)
+			print_cmd(&cmds[0], i);
 	while (cmds && shell->exit_status != ERROR && tmp && i < shell->nbr_cmd)
 	{
 		if (tmp->kind == CMD)
@@ -113,7 +115,8 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 		else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == END)
 			init_or_and_end(&cmds[i], tmp->kind);
 		tmp = tmp->next;
-		print_cmd(&cmds[i], i);
+		if (i < shell->nbr_cmd - 1)
+			print_cmd(&cmds[i], i);
 	}
 	ft_printf("Total cmds initialized: %d\n", i + 1);
 	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
