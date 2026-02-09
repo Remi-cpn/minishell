@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/07 18:05:40 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 03:59:28 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	digits(char *src)
 	int	i;
 
 	i = 0;
-	while (src[i])
+	while (src[i] && ft_isdigit(src[i]))
 		i++;
 	return (i);
 }

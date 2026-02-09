@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/08 23:37:51 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 04:03:11 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(void)
 			exit_prog(&shell, 0);
 		add_history(line);
 		node = parse(line, &shell);
-		if (shell.exit_status == SUCCES)
+		if (shell.exit_status == SUCCES && node)
 		{
 			ft_printf("Parsing done\n");
 			exec(&shell, node);

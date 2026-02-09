@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 02:32:58 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/09 04:25:51 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	tmp = fn(txt, lookup[tok.kind].type);
 	if (!tmp)
 		errno = 1;
-	tmp->next = NULL;
+	else
+		tmp->next = NULL;
 	return (tmp);
 }
 
@@ -61,10 +62,20 @@ t_ast	**parse(char *src, t_data *shell)
 	need_cmd = 1;
 	node = ft_calloc(sizeof(t_list *), 1);
 	tmp = parse_expr(lookup, txt);
-	if (need_cmd && ((tmp->kind == AND || tmp->kind == OR)))
+	if (!tmp)
 	{
-		ft_printf("Syntax error near unexpected token `%c\'\n", txt->src[txt->i]);
+		free(node);
+		free(txt);
+		return (NULL);
+	}
+	if (need_cmd && ((tmp->kind == AND || tmp->kind == OR || tmp->kind == PIPE)))
+	{
+		ft_printf("Syntax error near unexpected token `%c\'\n", txt->src[txt->i - 1]);
+		free(node);
+		free(tmp);
+		free(txt);
 		errno = 1;
+		return (NULL);
 	}
 	if (tmp && node)
 	{
@@ -76,12 +87,15 @@ t_ast	**parse(char *src, t_data *shell)
 			while (ft_iswhitespace(txt->src[txt->i]))
 				txt->i++;
 			tmp = parse_expr(lookup, txt);
-			if ((tmp->kind == OR || tmp->kind == AND) && need_cmd)
+			if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE) && need_cmd)
 					need_cmd = 0;
-			else if (tmp->kind == OR || tmp->kind == AND)
+			else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
 			{
-				ft_printf("Syntax error near unexpected token `%c\'\n", txt->src[txt->i]);
+				ft_printf("Syntax error near unexpected token `%c\'\n", txt->src[txt->i - 1]);
+				ft_freedb_ptr((void **)node);
+				free(txt);
 				errno = 1;
+				return (NULL);
 			}
 			else if (tmp->kind == CMD)
 				need_cmd = 0;

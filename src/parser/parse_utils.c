@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/07 18:28:19 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/09 04:23:55 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,36 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 		return (NULL);
 	node->kind = kind;
 	if (!expect(txt, WORDTYPE))
+	{
+		free(node);
 		return (NULL);
+	}
 	node->name = advance(txt).value;
 	if (!node->name)
+	{
+		free(node);
 		return (NULL);
+	}
 	i = ft_count_word(&txt->src[txt->i], ' ') + 1;
 	node->args = ft_calloc(sizeof(t_ast *), i);
 	i = 0;
 	while (node->args)
 	{
 		tmp = lexer(txt);
-		if (tmp.kind != UNKNOWN && tmp.kind != eof)
+		if (tmp.kind == WORDTYPE)
 			node->args[i] = advance(txt).value;
-		else if (tmp.kind == eof)
+		else if (tmp.kind != WORDTYPE && tmp.kind != UNKNOWN)
+		{
+			if (tmp.kind == eof)
+				break ;
+			free(tmp.value);
 			break ;
-		else
+		}
+		else//tmp.kind == UNKNOWN
 		{
 			ft_freedb_ptr((void **)node->args);
-			free(tmp.value);
+			free(node->name);
+			free(node);
 			return (NULL);
 		}
 		while (ft_iswhitespace(txt->src[txt->i]))
