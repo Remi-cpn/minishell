@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 09:45:30 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:06:32 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ bool	is_builtins(t_ast_cmd	*cmd)
 {
 	if (!cmd || !cmd->name)
 		return (false);
-	if (ft_strncmp(cmd->name, "echo", 4) == 0)
+	if (ft_strncmp(cmd->name, "echo", 5) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "exit", 4) == 0)
+	else if (ft_strncmp(cmd->name, "exit", 5) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "env", 3) == 0)
+	else if (ft_strncmp(cmd->name, "env", 4) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "pwd", 3) == 0)
+	else if (ft_strncmp(cmd->name, "pwd", 4) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "cd", 2) == 0)
+	else if (ft_strncmp(cmd->name, "cd", 3) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "export", 6) == 0)
+	else if (ft_strncmp(cmd->name, "export", 7) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "unset", 5) == 0)
+	else if (ft_strncmp(cmd->name, "unset", 6) == 0)
 		return (true);
 	return (false);
 }
@@ -61,7 +61,6 @@ void	get_exit_status(t_data *shell, int status)
  */
 void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
-	//Une fois plus de ' ' dans les args, on peut mettre +1 pour cmp jusqu'a '\0'
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)

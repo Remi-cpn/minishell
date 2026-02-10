@@ -10,3 +10,39 @@
     ...
     fun:add_history
 }
+{
+   leak grep regex
+   Memcheck:Leak
+   match-leak-kinds: reachable,possible
+   ...
+   fun:malloc
+   fun:realloc
+   fun:regcomp
+}
+{
+   leak grep libc
+   Memcheck:Leak
+   match-leak-kinds: reachable,possible
+   ...
+   fun:malloc
+   fun:__libc_start_main
+}
+{
+   leak grep locale
+   Memcheck:Leak
+   match-leak-kinds: reachable,possible
+   ...
+   fun:malloc
+   fun:_nl_load_locale
+}
+{
+   leak grep regcomp init_dfa
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   ...
+   fun:calloc
+   fun:init_dfa
+   fun:re_compile_internal
+   fun:re_compile_pattern
+}
+

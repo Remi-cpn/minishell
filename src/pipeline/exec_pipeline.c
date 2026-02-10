@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 09:45:24 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:33:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	if (cmd->is_builtin == true)
 	{
 		dispatch_builtins(shell, cmd);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		close(STDERR_FILENO);
 		exit_prog(shell, shell->exit_status);
 	}
 	execve(shell->cmd_path, cmd->args, shell->env);

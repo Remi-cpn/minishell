@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/08 23:23:12 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:31:02 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	child_process_one_cmd(t_data *shell, t_cmd *cmd)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
 		close(cmd->fd_out);
+	fprintf(stderr, "RUN pid=%d cmd=%s\n", getpid(), cmd->args[0]);
 	execve(shell->cmd_path, cmd->args, shell->env);
-	_exit(127);
-	//exit_prog(shell, ERR_CMD_NOT_FOUND);
+	exit_prog(shell, ERR_CMD_NOT_FOUND);
 }
 
 /** This function executes a single command that is not part of a pipeline. It
@@ -52,6 +52,10 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 		pid = fork();
 		if (pid == 0)
 			child_process_one_cmd(shell, cmd);
+		if (cmd->fd_in != STDIN_FILENO)
+			close(cmd->fd_in);
+		if (cmd->fd_out != STDOUT_FILENO)
+			close(cmd->fd_out);
 		waitpid(pid, &status, 0);
 		get_exit_status(shell, status);
 		init_signals_prompt();

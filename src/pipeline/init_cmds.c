@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 09:55:15 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 15:47:49 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd, int i)
 		heredoc = (t_ast_heredoc *)ast_cmd;
 		open_fd_heredoc(shell, cmd, heredoc);
 	}
+	if (ast_cmd->next->kind == END)
+		flag = -1;
 }
 
 /**
@@ -101,6 +103,7 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 
 	i = 0;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
+	shell->cmds = cmds;
 	tmp = *ast;
 	while (cmds && shell->exit_status != ERROR && tmp)
 	{
@@ -123,9 +126,9 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 		}
 		tmp = tmp->next;
 	}
-	//print_cmd(&cmds[i], i);
+	if (shell->nbr_cmd == 0 && i != 0)
+		shell->nbr_cmd++;
 	ft_printf("Total cmds initialized: %d\n", i + 1);
 	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
-	shell->cmds = cmds;
 	return (cmds);
 }
