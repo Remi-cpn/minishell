@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 05:27:48 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 08:18:59 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/10 16:42:32 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt)
 		free(tmp.value);
 	}
 	return ((t_ast *)node);
+}
+
+t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt)
+{
+	t_ast	*last;
+
+	if (!node || !next)
+		return (NULL);
+	last = (t_ast *)ft_lstlast((t_list *)*node);
+	if (next->kind == END && (last->kind == PIPE
+		|| last->kind == AND || last->kind == OR))
+	{
+		report_parsing_error(txt->src[txt->i - 1], NULL);
+		free_ast(node);
+		//free(next->);
+		//free(txt);
+		return (NULL);
+	}
+	return (node);
 }

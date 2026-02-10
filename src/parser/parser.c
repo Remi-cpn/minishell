@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 11:38:36 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/10 16:40:19 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	return (tmp);
 }
 
-t_src_info	*init_parse(char *src, t_lookup *lookup, t_ast **next)
+t_src_info	*init_parse(char *src, t_lookup *lookup,
+	t_ast **next, t_ast ***node)
 {
 	t_src_info	*txt;
 
@@ -56,6 +57,7 @@ t_src_info	*init_parse(char *src, t_lookup *lookup, t_ast **next)
 	txt->len = ft_strlen(src);
 	gen_lookup(lookup);
 	*next = NULL;
+	*node = ft_calloc(sizeof(t_list *), 1);
 	return (txt);
 }
 
@@ -109,8 +111,7 @@ t_ast	**parse(char *src, t_data *shell)
 	t_src_info	*txt;
 	t_lookup	lookup[13];
 
-	txt = init_parse(src, lookup, &next);
-	node = ft_calloc(sizeof(t_list *), 1);
+	txt = init_parse(src, lookup, &next, &node);
 	if (node && txt)
 	{
 		next = next_expr(lookup, txt, node, shell);
@@ -122,6 +123,7 @@ t_ast	**parse(char *src, t_data *shell)
 			if (next->kind == CMD)
 				shell->nbr_cmd++;
 			next = next_expr(lookup, txt, node, shell);
+			node = check_last(node, next, txt);
 			if (!node || !next)
 				break ;
 			ft_lstadd_back((t_list **)node, (t_list *)next);

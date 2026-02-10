@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 06:23:23 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/10 16:49:00 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	len_word(char *src)
 	{
 		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-'))
 			return (-1);
-		if (src[i] == '\"' || src[i] == '\'')
+		if (src[i] == '\"' || src[i] == '\'' && i++)
 		{
 			len_quote = len_quoted(&src[i], src[i]);
 			if (len_quote == -1)

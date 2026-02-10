@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 08:17:47 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/10 16:29:34 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,6 @@ t_ast	*parse_ord(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_input(t_src_info *txt, t_ast_type kind);
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind);
+t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt);
 
 #endif
