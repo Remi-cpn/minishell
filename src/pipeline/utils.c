@@ -6,13 +6,19 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 00:31:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 09:45:30 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <fcntl.h>
 #include <unistd.h>
+
+void	error_pipeline(t_data *shell, char *msg, int error_status)
+{
+	print_error(msg, NULL, 0, NULL);
+	shell->exit_status = error_status;
+}
 
 bool	is_builtins(t_ast_cmd	*cmd)
 {
