@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: rcompain <rcompain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
 /*   Updated: 2026/02/09 16:32:43 by rcompain         ###   ########.fr       */
+=======
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
+/*   Updated: 2026/02/10 11:05:11 by rcompain         ###   ########.fr       */
+>>>>>>> remi
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +51,7 @@ typedef struct s_data
 	char	**env;
 	int		need_cmd;
 	int		*pid_adr;
+	t_ast	**ast; // Poiteur pour free dans heredoc_child
 }	t_data;
 
 /** Functions */

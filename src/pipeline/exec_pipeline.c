@@ -6,18 +6,12 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 14:31:02 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 09:45:24 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <unistd.h>
-
-static void	error_pipeline(t_data *shell, char *msg, int error_status)
-{
-	print_error(msg, NULL, 0, NULL);
-	shell->exit_status = error_status;
-}
 
 static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2])
 {

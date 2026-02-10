@@ -6,19 +6,18 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 00:06:53 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:09:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static int	heredoc_to_pipe(t_ast_heredoc *h)
+static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2])
 {
-	int		fd[2];
 	char	*line;
 
-	if (pipe(fd) == -1)
-		return (-1);
+	init_signals_heredoc();
+	close(fd[0]);
 	while (true)
 	{
 		line = readline("> ");
@@ -31,6 +30,37 @@ static int	heredoc_to_pipe(t_ast_heredoc *h)
 		free(line);
 	}
 	close(fd[1]);
+	free_ast(shell->ast);
+	free_cmds(shell);
+	exit_prog(shell, SUCCES);
+}
+
+static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h)
+{
+	int		fd[2];
+	int		pid;
+	int		status;
+
+	if (pipe(fd) == -1)
+	{
+		error_pipeline(shell, "pipe error", ERR_PIPE);
+		return (-1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		error_pipeline(shell, "fork", ERR_FORK);
+		close(fd[0]);
+		close(fd[1]);
+		return (-1);
+	}
+	init_signals_parent();
+	if (pid == 0)
+		heredoc_child_process(shell, h, fd);
+	close(fd[1]);
+	waitpid(pid, &status, 0);
+	get_exit_status(shell, status);
+	init_signals_prompt();
 	return (fd[0]);
 }
 
@@ -38,7 +68,7 @@ void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
 {
 	int	fd;
 
-	fd = heredoc_to_pipe(heredoc);
+	fd = heredoc_pipeline(shell, heredoc);
 	if (fd == -1)
 	{
 		shell->exit_status = ERROR;
@@ -52,7 +82,7 @@ void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
 /**
  * This function opens the file descriptor for output redirection.
  */
-void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out, int i)
+void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
 {
 	int	fd;
 
@@ -66,11 +96,8 @@ void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out, int i)
 		print_error("fd", out->output, 0, "invalid");
 		return ;
 	}
-	if (i >= 0)
-	{
-		cmd[i].fd_out = fd;
-		cmd[i].redir_out = true;
-	}
+	cmd->fd_out = fd;
+	cmd->redir_out = true;
 }
 
 

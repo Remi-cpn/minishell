@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 12:11:36 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:05:29 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	exec(t_data *shell, t_ast **ast)
 	bool	and_ok;
 	bool	or_ok;
 
+	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
 	free_ast(ast);
 	if (!cmds)
