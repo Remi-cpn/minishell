@@ -6,19 +6,14 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:09:48 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/04 14:52:19 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:51:34 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static void	exec_echo(bool n, char **args)
+static void	exec_echo(bool n, char **args, int i)
 {
-	int	i;
-
-	i = 1;
-	if (n == true)
-		i++;
 	while (args[i])
 	{
 		ft_printf("%s", args[i]);
@@ -79,7 +74,7 @@ void	echo_cmd(t_data *shell, char **args)
 			n = true;
 		else
 		{
-			exec_echo(n, args);
+			exec_echo(n, args, i);
 			break ;
 		}
 		i++;

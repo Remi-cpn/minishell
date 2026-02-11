@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 18:06:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:29:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
+	ft_printf("Dispatching built-in command: %s\n", cmd->args[0]);
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		echo_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)

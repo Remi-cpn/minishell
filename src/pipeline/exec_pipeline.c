@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 16:33:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/11 16:45:19 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 {
 	int	find;
 
+	find = FAILURE;
 	init_signals_child();
-	find = find_path(shell, cmd->args);
-	if (find == FAILURE)
-		exit_prog(shell, shell->exit_status);
 	if (cmd->redir_in == true)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	else if (prev_read != -1)
@@ -47,12 +45,14 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 		dup2(pipefd[1], STDOUT_FILENO);
 	closed_fds(cmd, prev_read, pipefd);
 	if (cmd->is_builtin == true)
-	{
 		dispatch_builtins(shell, cmd);
-		exit_prog(shell, shell->exit_status);
-	}
-	execve(shell->cmd_path, cmd->args, shell->env);
-	exit_prog(shell, ERROR);
+	else
+		find = find_path(shell, cmd->args);
+	if (find == SUCCES)
+		execve(shell->cmd_path, cmd->args, shell->env);
+	close(cmd->fd_out);
+	close(cmd->fd_in);
+	exit_prog(shell, shell->exit_status);
 }
 
 static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
