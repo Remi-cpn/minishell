@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 10:05:08 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/11 14:17:41 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 /** Signals */
 # include <signal.h>
+# include <stdio.h>
 
 /** Readline */
 # include <readline/history.h>
