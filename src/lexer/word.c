@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
 /*   Updated: 2026/02/11 14:18:50 by von              ###   ########.fr       */
+/*   Updated: 2026/02/11 15:37:42 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	len_word(char *src)
 			return (-1);
 		if ((src[i] == '\"' || src[i] == '\'') && i++)
 		{
+			i++;
 			len_quote = len_quoted(&src[i], src[i]);
 			if (len_quote == -1)
 				report_parsing_error(src[i], NULL);

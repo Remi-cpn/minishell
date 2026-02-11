@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:27:31 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:52:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ void	cd_cmd(t_data *shell, char **args)
 	}
 	cd_cmd_next(shell, path);
 	if (shell->exit_status == ERR_ALLOC)
-		print_error("cd", NULL, 0, NULL);
+		print_error("cd", args[1], 0, NULL);
 }

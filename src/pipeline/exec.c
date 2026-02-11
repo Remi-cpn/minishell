@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:17:23 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:38:58 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 			call_to_exit(shell, ERR_ALLOC, NULL);
 			return (NULL);
 		}
-		exec_pipeline(shell, cmds, pid);
+		cmds = exec_pipeline(shell, cmds, pid);
+		free(pid);
 	}
 	if (cmds->next_and == true && shell->exit_status == SUCCES)
 		*and_ok = true;
@@ -68,7 +69,9 @@ void	exec(t_data *shell, t_ast **ast)
 	bool	and_ok;
 	bool	or_ok;
 
+	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
+	free_ast(ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 	while (cmds && cmds->args && shell->exit == false)

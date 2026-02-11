@@ -6,17 +6,12 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:19:13 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:33:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
-
-static void	error_pipeline(t_data *shell, char *msg, int error_status)
-{
-	print_error(msg, NULL, 0, NULL);
-	shell->exit_status = error_status;
-}
+#include <unistd.h>
 
 static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2])
 {
@@ -76,7 +71,10 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 	if (pid == -1)
 		error_pipeline(shell, "fork", ERR_FORK);
 	else if (pid == CHILD)
+	{
+		free(shell->pid_adr);
 		child_process(shell, cmd, prev_read, pipefd);
+	}
 	if (prev_read != -1)
 		close(prev_read);
 	if (cmd->last_cmd == false && pid != -1)
@@ -103,6 +101,7 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 
 	i = 0;
 	prev_read = -1;
+	shell->pid_adr = pid;
 	init_signals_parent();
 	while (prev_read != -1 || i == 0)
 	{

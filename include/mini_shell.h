@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/11 14:17:41 by von              ###   ########.fr       */
+/*   Updated: 2026/02/11 15:38:09 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ typedef struct s_data
 	int		exit_status;
 	char	**env;
 	int		need_cmd;
+	int		*pid_adr;
+	t_ast	**ast; // Poiteur pour free dans heredoc_child
 }	t_data;
 
 /** Functions */
 void	init_data(t_data *shell);
+void	reset_line(t_data *shell);
 
 //* TESTING */
 void	print_cmd(t_cmd *cmd, int index);
