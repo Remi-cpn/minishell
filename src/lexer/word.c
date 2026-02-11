@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Updated: 2026/02/11 14:18:50 by von              ###   ########.fr       */
-/*   Updated: 2026/02/11 15:37:42 by von              ###   ########.fr       */
+/*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
+/*   Updated: 2026/02/11 17:11:44 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ size_t	len_quoted(char *src, char q)
 {
 	char	*s;
 
-	s = src;
+	s = src++;
 	while (*src && *src != q && src++)
 		;
-	if (!*src)
-		return (-1);
-	return (src - s);
+	if (*src == q)
+		return (src - s + 1);
+	return (-1);
 }
 
 int	is_start_word(char c)
@@ -53,9 +53,9 @@ int	len_word(char *src)
 		return (digits(src));
 	while (src[i])
 	{
-		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-'))
+		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-' && src[i] != '\"' && src[i] != '\''))
 			return (-1);
-		if ((src[i] == '\"' || src[i] == '\'') && i++)
+		if ((src[i] == '\"' || src[i] == '\''))
 		{
 			i++;
 			len_quote = len_quoted(&src[i], src[i]);
