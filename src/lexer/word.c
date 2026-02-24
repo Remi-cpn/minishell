@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/24 17:10:10 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:39:19 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	is_start_word(char c)
 {
 	return ((ft_isalnum(c)
 			|| c == '$' || c == '\''
-			|| c == '\"' || c == '-'));
+			|| c == '\"' || c == '-'
+			|| c == '\\' || c == '/'
+			|| c == '.'));
 }
 
 int	digits(char *src)
@@ -53,8 +55,6 @@ int	len_word(char *src)
 		return (digits(src));
 	while (src[i])
 	{
-		if (i == 0 && (!ft_isalpha(src[i]) && src[i] != '_' && src[i] != '-' && src[i] != '\"' && src[i] != '\''))
-			return (-1);
 		if ((src[i] == '\"' || src[i] == '\''))
 		{
 			i++;
