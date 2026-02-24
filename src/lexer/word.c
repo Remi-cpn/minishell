@@ -61,12 +61,8 @@ int	len_word(char *src)
 			return (-1);
 		if ((src[i] == '\"' || src[i] == '\''))
 		{
-<<<<<<< Updated upstream
-			len_quote = len_quoted(&src[i], src[i]);
-=======
 			i++;
 			len_quote = len_quoted(&src[i], src[i - 1]);
->>>>>>> Stashed changes
 			if (len_quote == -1)
 				report_parsing_error(src[i], NULL);
 			if (len_quote == -1)
