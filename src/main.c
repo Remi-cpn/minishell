@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/24 17:10:25 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:30:17 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	main(void)
 		if (shell.exit_status == SUCCES && node)
 		{
 			ft_printf("Parsing done\n");
-			dispatch_expand(node, shell.env);
 			exec(&shell, node);
 		}
 		reset_line(&shell);
