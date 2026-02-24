@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 07:04:47 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/11 14:51:02 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	return (tmp);
 }
 
-t_src_info	*init_parse(char *src, t_lookup *lookup, t_ast **next)
+t_src_info	*init_parse(char *src, t_lookup *lookup,
+	t_ast **next, t_ast ***node)
 {
 	t_src_info	*txt;
 
@@ -56,16 +57,17 @@ t_src_info	*init_parse(char *src, t_lookup *lookup, t_ast **next)
 	txt->len = ft_strlen(src);
 	gen_lookup(lookup);
 	*next = NULL;
+	*node = ft_calloc(sizeof(t_list *), 1);
 	return (txt);
 }
 
 t_ast	*next_expr(
 	t_lookup *lookup,
 	t_src_info *txt,
-	t_ast **node
+	t_ast **node,
+	t_data	*shell
 )
 {
-	static int	need_cmd = 1;
 	t_ast		*tmp;
 
 	txt->i += skip_whitespace(&txt->src[txt->i]);
@@ -76,15 +78,17 @@ t_ast	*next_expr(
 		free(txt);
 		return (NULL);
 	}
-	if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE) && need_cmd)
+	if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
+		&& shell->need_cmd)
 	{
 		report_parsing_error(txt->src[txt->i - 1], NULL);
-		ft_freedb_ptr((void **)node);
-		free(txt);
 		free(tmp);
 		return (NULL);
 	}
-	need_cmd = 0;
+	else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
+		shell->need_cmd = 1;
+	else
+		shell->need_cmd = 0;
 	return (tmp);
 }
 
@@ -107,11 +111,10 @@ t_ast	**parse(char *src, t_data *shell)
 	t_src_info	*txt;
 	t_lookup	lookup[13];
 
-	txt = init_parse(src, lookup, &next);
-	node = ft_calloc(sizeof(t_list *), 1);
+	txt = init_parse(src, lookup, &next, &node);
 	if (node && txt)
 	{
-		next = next_expr(lookup, txt, node);
+		next = next_expr(lookup, txt, node, shell);
 		if (!next)
 			return (NULL);
 		*node = next;
@@ -119,7 +122,8 @@ t_ast	**parse(char *src, t_data *shell)
 		{
 			if (next->kind == CMD)
 				shell->nbr_cmd++;
-			next = next_expr(lookup, txt, node);
+			next = next_expr(lookup, txt, node, shell);
+			node = check_last(node, next, txt);
 			if (!node || !next)
 				break ;
 			ft_lstadd_back((t_list **)node, (t_list *)next);
