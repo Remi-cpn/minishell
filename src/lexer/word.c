@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/11 17:11:44 by von              ###   ########.fr       */
+/*   Updated: 2026/02/24 17:10:10 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ size_t	len_quoted(char *src, char q)
 	char	*s;
 
 	s = src++;
-	while (*src && *src != q && src++)
-		;
+	while (*src && *src != q)
+		src++;
 	if (*src == q)
 		return (src - s + 1);
 	return (-1);
@@ -58,7 +58,7 @@ int	len_word(char *src)
 		if ((src[i] == '\"' || src[i] == '\''))
 		{
 			i++;
-			len_quote = len_quoted(&src[i], src[i]);
+			len_quote = len_quoted(&src[i], src[i - 1]);
 			if (len_quote == -1)
 				report_parsing_error(src[i], NULL);
 			if (len_quote == -1)

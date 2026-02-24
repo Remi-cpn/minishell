@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:51:16 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 16:05:25 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/24 17:10:37 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
 bool		ft_iswhitespace(char c);
+int			ft_isoneof(int c, char *set);
 int			skip_whitespace(char *s);
 char		*ft_itoa(int n);
 int			ft_tolower(int c);
