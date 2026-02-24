@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 11:15:05 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/18 14:11:33 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(void)
 		if (shell.exit_status == SUCCES && node)
 		{
 			ft_printf("Parsing done\n");
+			dispatch_expand(node, shell.env);
 			exec(&shell, node);
 		}
 		ft_printf("%p\n", shell.cmds);
