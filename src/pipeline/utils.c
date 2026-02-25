@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/24 16:29:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:47:04 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	get_exit_status(t_data *shell, int status)
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
+		write(1, "\n", 1);
 		shell->exit_status = 128 + WTERMSIG(status);
+	}
 	else
 		shell->exit_status = ERROR;
 }
