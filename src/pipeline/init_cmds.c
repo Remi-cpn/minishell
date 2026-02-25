@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 15:47:49 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/25 11:16:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,30 @@ static void	init_or_and_end(t_cmd *cmd, int kind)
 	cmd->last_cmd = true;
 }
 
-static void	set_cmd_defaults(t_cmd *cmd)
+static void	set_cmd_defaults(t_data *shell, t_cmd *cmds)
 {
-	cmd->fd_in = STDIN_FILENO;
-	cmd->fd_out = STDOUT_FILENO;
-	cmd->redir_in = false;
-	cmd->redir_out = false;
-	cmd->last_cmd = false;
-	cmd->next_and = false;
-	cmd->next_or = false;
-	cmd->is_builtin = false;
+	int	i;
+
+	i = 0;
+	while (i < shell->nbr_cmd + 1)
+	{
+		cmds[i].fd_in = STDIN_FILENO;
+		cmds[i].fd_out = STDOUT_FILENO;
+		cmds[i].redir_in = false;
+		cmds[i].redir_out = false;
+		cmds[i].last_cmd = false;
+		cmds[i].next_and = false;
+		cmds[i].next_or = false;
+		cmds[i].is_builtin = false;
+		i++;
+	}
 }
 
-static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd, int i)
+static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd)
 {
 	t_ast_cmd		*cmd_ast;
 	t_ast_heredoc	*heredoc;
-	static int		flag = -1;
 
-	if (flag != i)
-	{
-		set_cmd_defaults(cmd);
-		flag = i;
-	}
 	if (ast_cmd->kind == CMD)
 	{
 		cmd_ast = (t_ast_cmd *)ast_cmd;
@@ -84,8 +85,6 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd, int i)
 		heredoc = (t_ast_heredoc *)ast_cmd;
 		open_fd_heredoc(shell, cmd, heredoc);
 	}
-	if (ast_cmd->next->kind == END)
-		flag = -1;
 }
 
 /**
@@ -104,11 +103,12 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	i = 0;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
 	shell->cmds = cmds;
+	set_cmd_defaults(shell, cmds);
 	tmp = *ast;
 	while (cmds && shell->exit_status != ERROR && tmp)
 	{
 		if (tmp->kind == CMD || tmp->kind == HEREDOC)
-			init_cmd(shell, &cmds[i], tmp, i);
+			init_cmd(shell, &cmds[i], tmp);
 		else if (tmp->kind == IN)
 			open_fd_in(shell, &cmds[i], (t_ast_in *)tmp);
 		else if (tmp->kind == OUT)
