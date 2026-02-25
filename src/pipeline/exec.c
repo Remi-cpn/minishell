@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 16:38:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:58:49 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 
 	if (!cmds)
 		return (NULL);
-	if (shell->exit_status != ERROR && cmds->last_cmd == true)
+	if (cmds->last_cmd == true)
 		cmds = exec_one_cmd(shell, &cmds[0]);
-	else if (shell->exit_status != ERROR)
+	else
 	{
 		pid = ft_calloc(shell->nbr_cmd, sizeof(pid_t));
 		if (!pid)
