@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 14:57:16 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:52:52 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ void	exit_cmd(t_data *shell, char **args)
 	else if (exit.many_args == true && exit.not_num == false)
 		select_error(shell, false, EXIT_TO_MANY_ARGS);
 	else
-		select_error(shell, true, (unsigned char)ft_atol(args[0]));
+		select_error(shell, true, (unsigned char)ft_atol(args[1]));
 }
