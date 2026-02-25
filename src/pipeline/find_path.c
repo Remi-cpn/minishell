@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/09 16:08:16 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/11 16:31:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	test_path(t_data *shell, char *path, char **cmd)
 	if (find == FAILURE)
 	{
 		tmp = ft_freenull(tmp);
-		return (FAILURE);
+		return (ERR_CMD_NOT_FOUND);
 	}
 	shell->cmd_path = ft_freenull(shell->cmd_path);
 	shell->cmd_path = ft_strdup(tmp, 0);
@@ -70,7 +70,7 @@ static int	path_relatif(t_data *shell, char **cmd)
 	if (!paths)
 		return (ERR_ALLOC);
 	i = 0;
-	while (paths && paths[i] && find == FAILURE)
+	while (paths && paths[i] && find != SUCCES)
 	{
 		find = test_path(shell, paths[i], cmd);
 		i++;
@@ -94,7 +94,10 @@ int	find_path(t_data *shell, char **cmd)
 	else
 		find = path_absolu(shell, cmd);
 	if (find == ERR_CMD_NOT_FOUND)
+	{
 		shell->exit_status = ERR_CMD_NOT_FOUND;
+		print_error("cmd", cmd[0], 0, "command not found");
+	}
 	if (find == ERR_CMD_NOT_EXEC)
 		shell->exit_status = ERR_CMD_NOT_EXEC;
 	if (find == ERR_ALLOC)

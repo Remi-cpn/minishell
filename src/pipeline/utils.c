@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 18:06:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:47:04 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	get_exit_status(t_data *shell, int status)
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
+		write(1, "\n", 1);
 		shell->exit_status = 128 + WTERMSIG(status);
+	}
 	else
 		shell->exit_status = ERROR;
 }
@@ -63,6 +66,7 @@ void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
+	//ft_printf("Dispatching built-in command: %s\n", cmd->args[0]);
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		echo_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
