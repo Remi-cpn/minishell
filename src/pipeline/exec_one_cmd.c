@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/28 10:34:47 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/28 10:54:07 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	child_process_one_cmd(t_data *shell, t_cmd *cmd)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
 		close(cmd->fd_out);
-	fprintf(stderr, "RUN pid=%d cmd=%s\n", getpid(), cmd->args[0]);
 	execve(shell->cmd_path, cmd->args, shell->env);
 	exit_prog(shell, ERR_CMD_NOT_FOUND);
 }
@@ -34,21 +33,26 @@ static void	builtins_process_one_cmd(t_data *shell, t_cmd *cmd)
 	int	saved_in;
 	int	saved_out;
 
-	saved_in = dup(STDIN_FILENO);
-	saved_out = dup(STDOUT_FILENO);
-	if (cmd->fd_in != STDIN_FILENO)
-		dup2(cmd->fd_in, STDIN_FILENO);
-	if (cmd->fd_out != STDOUT_FILENO)
-		dup2(cmd->fd_out, STDOUT_FILENO);
-	dispatch_builtins(shell, cmd);
-	dup2(saved_in, STDIN_FILENO);
-	dup2(saved_out, STDOUT_FILENO);
-	close(saved_in);
-	close(saved_out);
-	if (cmd->fd_in != STDIN_FILENO)
-		close(cmd->fd_in);
-	if (cmd->fd_out != STDOUT_FILENO)
-		close(cmd->fd_out);
+	if (cmd->redir_in || cmd->redir_out)
+	{
+		saved_in = dup(STDIN_FILENO);
+		saved_out = dup(STDOUT_FILENO);
+		if (cmd->fd_in != STDIN_FILENO)
+			dup2(cmd->fd_in, STDIN_FILENO);
+		if (cmd->fd_out != STDOUT_FILENO)
+			dup2(cmd->fd_out, STDOUT_FILENO);
+		dispatch_builtins(shell, cmd);
+		dup2(saved_in, STDIN_FILENO);
+		dup2(saved_out, STDOUT_FILENO);
+		close(saved_in);
+		close(saved_out);
+		if (cmd->fd_in != STDIN_FILENO)
+			close(cmd->fd_in);
+		if (cmd->fd_out != STDOUT_FILENO)
+			close(cmd->fd_out);
+	}
+	else
+		dispatch_builtins(shell, cmd);
 }
 
 /** This function executes a single command that is not part of a pipeline. It
