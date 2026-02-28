@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
+#    By: von <von@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/24 17:10:44 by tseche           ###   ########.fr        #
+#    Updated: 2026/02/28 04:11:17 by von              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/exit/free.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/expand/expand.c \
+			  $(SRC_DIR)/expand/expand_logic.c \
+			  $(SRC_DIR)/expand/expand_utils.c \
 			  $(SRC_DIR)/signals/init_signals.c \
 			  $(SRC_DIR)/builtins/cd.c \
 			  $(SRC_DIR)/builtins/echo.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 18:20:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/28 09:09:59 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,12 @@ void	free_array(char **s)
 	i = 0;
 	if (!s)
 		return ;
-	while (s[i])
+	if (!*s)
+	{
+		free(s);
+		return ;
+	}
+	while (s[i] && *s[i])
 	{
 		s[i] = ft_freenull(s[i]);
 		i++;

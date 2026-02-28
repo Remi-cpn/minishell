@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/24 17:30:17 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/28 08:52:39 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(void)
 			exit_prog(&shell, 0);
 		add_history(line);
 		node = parse(line, &shell);
+		node = dispatch_expand(node, &shell);
 		free(line);
 		if (shell.exit_status == SUCCES && node)
 		{
