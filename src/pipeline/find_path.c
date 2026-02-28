@@ -96,7 +96,8 @@ int	find_path(t_data *shell, char **cmd)
 	if (find == ERR_CMD_NOT_FOUND)
 	{
 		shell->exit_status = ERR_CMD_NOT_FOUND;
-		print_error("cmd", cmd[0], 0, "command not found");
+		if (!ft_strchr(cmd[0], '/'))
+			print_error("cmd", cmd[0], 0, "command not found");
 	}
 	if (find == ERR_CMD_NOT_EXEC)
 		shell->exit_status = ERR_CMD_NOT_EXEC;
