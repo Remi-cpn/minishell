@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 18:20:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:47:23 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ void	free_cmds(t_data *shell)
 void	reset_line(t_data *shell)
 {
 	free_cmds(shell);
+	shell->last_exit_status = shell->exit_status;
 	shell->exit_status = SUCCES;
 }

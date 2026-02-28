@@ -74,6 +74,8 @@ void	exec(t_data *shell, t_ast **ast)
 	free_ast(ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
+	if (shell->exit_status == ERROR)
+		return ;
 	while (cmds && cmds->args && shell->exit == false)
 	{
 		and_ok = false;
