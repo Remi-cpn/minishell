@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/28 08:51:22 by von              ###   ########.fr       */
+/*   Updated: 2026/03/02 23:57:34 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 }
 
 t_src_info	*init_parse(char *src, t_lookup *lookup,
-	t_ast **next, t_ast ***node)
+	t_ast **next, t_ast ***node, t_data *shell)
 {
 	t_src_info	*txt;
 
 	txt = ft_calloc(sizeof(t_src_info), 1);
+	shell->need_cmd = 1;
 	if (!txt)
 		return (NULL);
 	txt->src = src;
@@ -111,7 +112,7 @@ t_ast	**parse(char *src, t_data *shell)
 	t_src_info	*txt;
 	t_lookup	lookup[13];
 
-	txt = init_parse(src, lookup, &next, &node);
+	txt = init_parse(src, lookup, &next, &node, shell);
 	if (node && txt)
 	{
 		next = next_expr(lookup, txt, node, shell);
