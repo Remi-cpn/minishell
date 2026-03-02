@@ -33,13 +33,13 @@ int	main(void)
 		add_history(line);
 		node = parse(line, &shell);
 		free(line);
-		if (shell.exit_status == SUCCES && node)
+		if (shell.error_status == SUCCES && node)
 		{
 			ft_printf("Parsing done\n");
 			exec(&shell, node);
 		}
 		reset_line(&shell);
 	}
-	exit_prog(&shell, 0);
+	exit_prog(&shell, shell.last_error_status);
 	return (0);
 }

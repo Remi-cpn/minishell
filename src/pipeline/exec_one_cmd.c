@@ -83,7 +83,7 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 		if (cmd->fd_out != STDOUT_FILENO)
 			close(cmd->fd_out);
 		waitpid(pid, &status, 0);
-		get_exit_status(shell, status);
+		get_error_status(shell, status);
 		init_signals_prompt();
 	}
 	return (cmd);

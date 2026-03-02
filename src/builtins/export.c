@@ -99,7 +99,7 @@ static void	export_cmd_with_args(t_data *shell, char **args)
 		with_value = true;
 		if (arg_is_valid(&with_value, args[i]) == false)
 		{
-			shell->exit_status = ERROR;
+			shell->error_status = ERROR;
 			print_error("export", args[i], 0, "invalid arguments");
 		}
 		else if (with_value == true)
@@ -107,18 +107,21 @@ static void	export_cmd_with_args(t_data *shell, char **args)
 		else
 			flag = export_without_value(shell, args[i]);
 		if (flag != 0)
-			shell->exit_status = flag;
+			shell->error_status = flag;
 		i++;
 	}
 }
 
 void	export_cmd(t_data *shell, char **args)
 {
-	shell->exit_status = SUCCES;
+	shell->error_status = SUCCES;
 	if (!args[1])
 		export_cmd_not_arg(shell);
 	else
 		export_cmd_with_args(shell, args);
-	if (shell->exit_status == ERR_ALLOC)
+	if (shell->error_status == ERR_ALLOC)
+	{
 		print_error("export", NULL, 0, NULL);
+		shell->error_status = ERROR;
+	}
 }

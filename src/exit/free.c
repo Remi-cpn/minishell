@@ -86,6 +86,6 @@ void	free_cmds(t_data *shell)
 void	reset_line(t_data *shell)
 {
 	free_cmds(shell);
-	shell->last_exit_status = shell->exit_status;
-	shell->exit_status = SUCCES;
+	shell->last_error_status = shell->error_status;
+	shell->error_status = SUCCES;
 }

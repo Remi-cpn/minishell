@@ -42,8 +42,8 @@ typedef struct s_data
 	t_cmd	*cmds; // Pointeur pour free entre chaque readline
 	char	*cmd_path;
 	bool	exit;
-	int		exit_status;
-	int		last_exit_status;
+	int		error_status;
+	int		last_error_status;
 	char	**env;
 	int		need_cmd;
 	int		*pid_adr;

@@ -17,7 +17,7 @@
 void	error_pipeline(t_data *shell, char *msg, int error_status)
 {
 	print_error(msg, NULL, 0, NULL);
-	shell->exit_status = error_status;
+	shell->error_status = error_status;
 }
 
 bool	is_builtins(t_ast_cmd	*cmd)
@@ -45,17 +45,17 @@ bool	is_builtins(t_ast_cmd	*cmd)
  * This function retrieves the exit status of a child process and updates
  * the shell's exit status accordingly.
  */
-void	get_exit_status(t_data *shell, int status)
+void	get_error_status(t_data *shell, int status)
 {
 	if (WIFEXITED(status))
-		shell->exit_status = WEXITSTATUS(status);
+		shell->error_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
 		write(1, "\n", 1);
-		shell->exit_status = 128 + WTERMSIG(status);
+		shell->error_status = 128 + WTERMSIG(status);
 	}
 	else
-		shell->exit_status = ERROR;
+		shell->error_status = ERROR;
 }
 
 

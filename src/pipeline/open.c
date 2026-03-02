@@ -59,7 +59,7 @@ static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h)
 		heredoc_child_process(shell, h, fd);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
-	get_exit_status(shell, status);
+	get_error_status(shell, status);
 	init_signals_prompt();
 	return (fd[0]);
 }
@@ -71,7 +71,7 @@ void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
 	fd = heredoc_pipeline(shell, heredoc);
 	if (fd == -1)
 	{
-		shell->exit_status = ERROR;
+		shell->error_status = ERROR;
 		print_error("fd", heredoc->del, 0, "invalid");
 		return ;
 	}
@@ -92,7 +92,7 @@ void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
 		fd = open(out->output, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		shell->exit_status = ERROR;
+		shell->error_status = ERROR;
 		print_error("fd", out->output, 0, "invalid");
 		return ;
 	}
@@ -111,7 +111,7 @@ void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in)
 	fd = open(in->input, O_RDONLY);
 	if (fd == -1)
 	{
-		shell->exit_status = ERROR;
+		shell->error_status = ERROR;
 		print_error("fd", in->input, 0, "invalid");
 		return ;
 	}
