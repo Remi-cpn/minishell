@@ -19,7 +19,7 @@ void	env_cmd(t_data *shell, char **args)
 	i = 0;
 	if (args && args[0] && args[1])
 	{
-		shell->exit_status = ERR_CMD_NOT_FOUND;
+		shell->error_status = ERR_CMD_NOT_FOUND;
 		print_error("env", NULL, 0, "too many arguments");
 		return ;
 	}
@@ -28,5 +28,5 @@ void	env_cmd(t_data *shell, char **args)
 		ft_printf("%s\n", shell->env[i]);
 		i++;
 	}
-	shell->exit_status = 0;
+	shell->error_status = SUCCES;
 }

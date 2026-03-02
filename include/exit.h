@@ -14,21 +14,17 @@
 # define EXIT_H
 
 /**----------> Error Code <----------**/
-//(code free 10 -> 125)
 # define SUCCES 0
 # define ERROR 1
-# define ERR_ALLOC 12
+# define ERR_ALLOC -4
 
 /** Commands */
 # define ERR_CMD_NOT_EXEC 126
 # define ERR_CMD_NOT_FOUND 127
-# define ERR_PATH 125
 
 /** Builtins */
 # define EXIT_TO_MANY_ARGS 1
-# define EXIT_NOT_NUMERIC 255
-# define ERR_BUILTINS 20
-# define ERR_PWD 21
+# define EXIT_NOT_NUMERIC 2
 
 /** Signals (128 -> 159)*/
 # define SIGINT_EXIT 130

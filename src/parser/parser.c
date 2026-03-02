@@ -100,7 +100,7 @@ void	set_flag(
 )
 {
 	if (!next || !node || !txt)
-		shell->exit_status = ERR_ALLOC;
+		shell->error_status = ERR_ALLOC;
 	free(txt);
 }
 

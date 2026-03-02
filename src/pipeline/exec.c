@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 16:38:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:58:49 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 
 	if (!cmds)
 		return (NULL);
-	if (shell->exit_status != ERROR && cmds->last_cmd == true)
+	if (cmds->last_cmd == true)
 		cmds = exec_one_cmd(shell, &cmds[0]);
-	else if (shell->exit_status != ERROR)
+	else
 	{
 		pid = ft_calloc(shell->nbr_cmd, sizeof(pid_t));
 		if (!pid)
@@ -51,11 +51,32 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 		cmds = exec_pipeline(shell, cmds, pid);
 		free(pid);
 	}
-	if (cmds->next_and == true && shell->exit_status == SUCCES)
+	if (cmds->next_and == true && shell->error_status == SUCCES)
 		*and_ok = true;
-	if (cmds->next_or == true && shell->exit_status == SUCCES)
+	if (cmds->next_or == true && shell->error_status == SUCCES)
 		*or_ok = false;
 	return (cmds);
+}
+
+static void	exec_loop(t_data *shell, t_cmd *cmds)
+{
+	bool	and_ok;
+	bool	or_ok;
+
+	while (cmds && cmds->args && shell->exit == false)
+	{
+		and_ok = false;
+		or_ok = true;
+		cmds = dispatch_exec(shell, cmds, &and_ok, &or_ok);
+		if (shell->error_status == ERR_FORK || shell->error_status == ERR_PIPE)
+			return ;
+		if (cmds->next_or == true && or_ok == false)
+			cmds = skip(cmds, OR);
+		else if (cmds->next_and == true && and_ok == false)
+			cmds = skip(cmds, AND);
+		else
+			cmds++;
+	}
 }
 
 /** This function executes the series of command structures.
@@ -66,26 +87,14 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 void	exec(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
-	bool	and_ok;
-	bool	or_ok;
 
 	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
 	free_ast(ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
-	while (cmds && cmds->args && shell->exit == false)
-	{
-		and_ok = false;
-		or_ok = true;
-		cmds = dispatch_exec(shell, cmds, &and_ok, &or_ok);
-		if (shell->exit_status == ERR_FORK || shell->exit_status == ERR_PIPE)
-			return ;
-		if (cmds->next_or == true && or_ok == false)
-			cmds = skip(cmds, OR);
-		else if (cmds->next_and == true && and_ok == false)
-			cmds = skip(cmds, AND);
-		else
-			cmds++;
-	}
+	if (shell->error_status == ERROR)
+		return ;
+	shell->error_status = shell->last_error_status;
+	exec_loop(shell, cmds);
 }

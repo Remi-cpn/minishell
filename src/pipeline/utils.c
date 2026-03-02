@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 18:06:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:47:04 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	error_pipeline(t_data *shell, char *msg, int error_status)
 {
 	print_error(msg, NULL, 0, NULL);
-	shell->exit_status = error_status;
+	shell->error_status = error_status;
 }
 
 bool	is_builtins(t_ast_cmd	*cmd)
@@ -45,14 +45,17 @@ bool	is_builtins(t_ast_cmd	*cmd)
  * This function retrieves the exit status of a child process and updates
  * the shell's exit status accordingly.
  */
-void	get_exit_status(t_data *shell, int status)
+void	get_error_status(t_data *shell, int status)
 {
 	if (WIFEXITED(status))
-		shell->exit_status = WEXITSTATUS(status);
+		shell->error_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		shell->exit_status = 128 + WTERMSIG(status);
+	{
+		write(1, "\n", 1);
+		shell->error_status = 128 + WTERMSIG(status);
+	}
 	else
-		shell->exit_status = ERROR;
+		shell->error_status = ERROR;
 }
 
 
@@ -63,6 +66,7 @@ void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
+	//ft_printf("Dispatching built-in command: %s\n", cmd->args[0]);
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		echo_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)

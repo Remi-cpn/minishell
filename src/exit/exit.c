@@ -11,17 +11,15 @@
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
-#include <errno.h>
 
 /**
  * This function manages the program's output properly.
  */
 void	exit_prog(t_data *shell, int status_error)
 {
-	if (status_error > 0)
-		shell->exit_status = status_error;
 	if (status_error < 0)
-		errno = 1;
+		status_error = 1;
+	shell->error_status = status_error;
 	if (shell->cmds)
 		free_cmds(shell);
 	free_array(shell->env);

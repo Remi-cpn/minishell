@@ -16,9 +16,10 @@ void	pwd_cmd(t_data *shell, char **args)
 {
 	int		i;
 
+	shell->error_status = SUCCES;
 	if (args && args[0] && args[1])
 	{
-		shell->exit_status = ERR_CMD_NOT_FOUND;
+		shell->error_status = ERR_CMD_NOT_FOUND;
 		print_error("pwd", NULL, 0, "too many arguments");
 		return ;
 	}
@@ -28,11 +29,11 @@ void	pwd_cmd(t_data *shell, char **args)
 		if (ft_strncmp(shell->env[i], "PWD=", 4) == 0)
 		{
 			ft_printf("%s\n", shell->env[i] + 4);
-			shell->exit_status = SUCCES;
+			shell->error_status = SUCCES;
 			return ;
 		}
 		i++;
 	}
-	shell->exit_status = ERR_PWD;
+	shell->error_status = ERROR;
 	print_error("pwd", NULL, 0, "error retrieving current directory");
 }

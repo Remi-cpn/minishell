@@ -93,7 +93,7 @@ void	export_cmd_not_arg(t_data *shell)
 	env_cp = env_cpy(shell->env);
 	if (!env_cp)
 	{
-		shell->exit_status = ERR_ALLOC;
+		shell->error_status = ERR_ALLOC;
 		return ;
 	}
 	sort_env(env_cp);
