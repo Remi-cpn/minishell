@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:52:35 by von               #+#    #+#             */
-/*   Updated: 2026/02/28 09:05:05 by von              ###   ########.fr       */
+/*   Updated: 2026/03/02 18:39:24 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_expand(char **s, int len, t_data *shell)
 	int	i;
 
 	i = 0;
-	shell->exit_status = ERR_ALLOC;
+	shell->error_status = ERR_ALLOC;
 	while (i < len)
 		free(s[i++]);
 }
@@ -49,10 +49,17 @@ int	cp_raw(char ***new, char *string, char find, int *thing)
 	char	*tmp;
     int     len;
 
-	next = ft_strchr(string, find);
+	if (find == '\'')
+		next = ft_strchr(&string[1], find);
+	else
+		next = ft_strchr(string, find);
 	if (!next)
 	{
-		tmp = ft_substr(string, 0, ft_strlen(string), 0);
+
+		if (find == '\'')
+			tmp = ft_substr(string, 0, 1, 0);
+		else
+			tmp = ft_substr(string, 0, ft_strlen(string), 0);
         len = ft_strlen(tmp);
 		(*new)[thing[0]] = ft_strjoin((*new)[thing[0]], tmp, 0, 1);
         return (len);

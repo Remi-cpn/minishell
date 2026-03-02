@@ -3,29 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/02/28 09:21:48 by von              ###   ########.fr       */
+/*   Updated: 2026/03/02 18:39:07 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-char	**expand(char *string, int quoted, char **env, int *start)
+char	**expand(char *string, char **env, int *start, char last_quote, int in)
 {
 	char	**new;
+	char	**ret_exp;
 	int		index;
 	char	c;
 	char	*temp;
 	int		lenght;
+	int		cpy;
 
 	index = 0;
 	*start = 0;
-	lenght = ft_occurence(string, '"') + 1;
+	//div par 2 car bind les " sont present pour ouvrir et ferme
+	lenght = (ft_occurence(string, '"') / 2) + ft_occurence(string, '$') + 1;
 	new = malloc(sizeof(char *) * (lenght + 1));
 	for (int i = 0; i < lenght + 1; i++)
-		new[i] = "";
+	{
+		new[i] = ft_calloc(sizeof(char), 1);
+	}
+	new[lenght] = NULL;
 	if (!new)
 		return (NULL);
 	while (1)
@@ -41,25 +47,35 @@ char	**expand(char *string, int quoted, char **env, int *start)
 		}
 		else if (c == '"')
 		{
-			if (quoted)
+			if (last_quote == '"' && in)
+			{
+				free(string);
 				return (new);
+			}
+			last_quote = '"';
 			temp = ft_substr(string, index + 1, ft_strchr(&string[index + 1], '"') - &string[index], 0);
 			if (!temp)
 				return (NULL);
-			new = join_dbchar(new, expand(temp, 1, env, start), &start, &lenght);
+			cpy = *start;
+			ret_exp = expand(temp, env, start, last_quote, 1);
+			*start = cpy;
+			new = join_dbchar(new, ret_exp, &start, &lenght);
 			index += ft_strlen(temp);
 		}
 		else
 		{
 			if (c == '\'')
-				index += cp_raw(&new, string, '"', (int [2]){[0] = *start, [1] = index});
+			{
+				last_quote = '\'';
+				index += cp_raw(&new, string, last_quote, (int [2]){[0] = *start, [1] = index});
+			}
 			else
-				index += cp_raw(&new, string, '"', (int [2]){[0] = *start, [1] = index});
+				index += cp_raw(&new, string, last_quote, (int [2]){[0] = *start, [1] = index});
 			*start += 1;
+			last_quote = '"';
 		}
 	}
 	new[*start] = NULL;
-	free(string);
 	return (new);
 }
 
@@ -72,7 +88,7 @@ char	**list_split(char **list, t_data *shell, int *len)
 
 	res = malloc(sizeof(char *) * (*len + 1));
 	if (!list || !res)
-		shell->exit_status = ERR_ALLOC;
+		shell->error_status = ERR_ALLOC;
 	if (!list || !res)
 		return (NULL);
 	j = 0;
@@ -90,6 +106,11 @@ char	**list_split(char **list, t_data *shell, int *len)
 		i = 0;
 		while (tmp[i] && *tmp[i])
 			res[j++] = tmp[i++];
+		if (!tmp[i])
+		{
+			res[j] = list[j];
+			j++;
+		}	
 	}
 	res[j] = NULL;
 	return (res);
@@ -106,7 +127,7 @@ char *dequote_string(char *s)
 	i = 0;
     while (*s)
     {
-        if (*s == '"' || *s == '\'')
+        if ((*s == '"' || *s == '\'') && (*(s+1)))
         {
             s++;
             if (!*s)
@@ -132,14 +153,14 @@ char *dequote(char **list, t_data *shell)
         sdequote = dequote_string(list[i]);
         if (!sdequote)
         {
-            shell->exit_status = ERR_ALLOC;
+            shell->error_status = ERR_ALLOC;
             free(res);
             return (NULL);
         }
         res = ft_strjoin(res, sdequote, 0, 1);
 		if (!res)
 		{
-			shell->exit_status = ERR_ALLOC;
+			shell->error_status = ERR_ALLOC;
 			return (NULL);
 		}
 		i++;
@@ -154,8 +175,10 @@ char	*expand_all(char *string, t_data *shell)
 	char	*res;
 	int		len;
 
-	len = 0;
-	expres = expand(string, 1, shell->env, &len);
+	if (!string || !*string)
+		return (NULL);
+	expres = expand(string, shell->env, &len, '"', 0);
+	free(string);
 	split = list_split(expres, shell, &len);
 	free_array(expres);
 	res = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/28 07:08:00 by von              ###   ########.fr       */
+/*   Updated: 2026/03/02 17:40:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ char	**join_dbchar(char **string, char **add, int **start, int *lenght)
 				return (NULL);
 			*lenght *= 2;
 		}
-		string[**start++] = add[i++];
+		string[**start] = add[i++];
+		**start += 1;
 	}
 	return (string);
 }
