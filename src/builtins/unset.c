@@ -62,5 +62,5 @@ void	unset_cmd(t_data *shell, char **args)
 			remove_var(shell, args[i]);
 		i++;
 	}
-	shell->exit_status = status;
+	shell->error_status = status;
 }

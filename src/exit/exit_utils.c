@@ -44,7 +44,7 @@ void	call_to_exit(t_data *shell, int status, char *msg)
 	if (msg)
 		write(2, msg, ft_strlen(msg));
 	shell->exit = true;
-	shell->exit_status = status;
+	shell->error_status = status;
 }
 
 void	check_exit_flag(t_data *shell)
@@ -52,5 +52,5 @@ void	check_exit_flag(t_data *shell)
 	if (g_exit_flag != 1)
 		return ;
 	shell->exit = true;
-	shell->exit_status = SIGTERM_EXIT;
+	shell->error_status = SIGTERM_EXIT;
 }

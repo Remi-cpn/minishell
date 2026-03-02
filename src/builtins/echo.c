@@ -60,7 +60,7 @@ void	echo_cmd(t_data *shell, char **args)
 	int		i;
 	bool	n;
 
-	shell->exit_status = 0;
+	shell->error_status = SUCCES;
 	if (!args[1])
 	{
 		ft_printf("\n");

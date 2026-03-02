@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/25 11:16:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/02 10:51:07 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	shell->cmds = cmds;
 	set_cmd_defaults(shell, cmds);
 	tmp = *ast;
-	while (cmds && shell->exit_status != ERROR && tmp)
+	while (cmds && shell->error_status != ERROR && tmp)
 	{
 		if (tmp->kind == CMD || tmp->kind == HEREDOC)
 			init_cmd(shell, &cmds[i], tmp);
@@ -128,7 +128,6 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	}
 	if (shell->nbr_cmd == 0 && i != 0)
 		shell->nbr_cmd++;
-	ft_printf("Total cmds initialized: %d\n", i + 1);
 	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
 	return (cmds);
 }

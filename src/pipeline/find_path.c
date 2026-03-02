@@ -95,11 +95,12 @@ int	find_path(t_data *shell, char **cmd)
 		find = path_absolu(shell, cmd);
 	if (find == ERR_CMD_NOT_FOUND)
 	{
-		shell->exit_status = ERR_CMD_NOT_FOUND;
-		print_error("cmd", cmd[0], 0, "command not found");
+		shell->error_status = ERR_CMD_NOT_FOUND;
+		if (!ft_strchr(cmd[0], '/'))
+			print_error("cmd", cmd[0], 0, "command not found");
 	}
 	if (find == ERR_CMD_NOT_EXEC)
-		shell->exit_status = ERR_CMD_NOT_EXEC;
+		shell->error_status = ERR_CMD_NOT_EXEC;
 	if (find == ERR_ALLOC)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 	if (find != SUCCES)

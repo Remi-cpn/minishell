@@ -46,7 +46,7 @@ void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in);
 
 int		find_path(t_data *shell, char **cmd);
 void	dispatch_builtins(t_data *shell, t_cmd *cmd);
-void	get_exit_status(t_data *shell, int status);
+void	get_error_status(t_data *shell, int status);
 bool	is_builtins(t_ast_cmd	*cmd);
 void	error_pipeline(t_data *shell, char *msg, int error_status);
 

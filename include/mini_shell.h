@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/24 17:10:20 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/28 10:13:02 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct s_data
 	t_cmd	*cmds; // Pointeur pour free entre chaque readline
 	char	*cmd_path;
 	bool	exit;
-	int		exit_status;
+	int		error_status;
+	int		last_error_status;
 	char	**env;
 	int		need_cmd;
 	int		*pid_adr;

@@ -52,7 +52,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 		execve(shell->cmd_path, cmd->args, shell->env);
 	close(cmd->fd_out);
 	close(cmd->fd_in);
-	exit_prog(shell, shell->exit_status);
+	exit_prog(shell, shell->error_status);
 }
 
 static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
@@ -111,7 +111,7 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	j = 0;
 	while (j < i)
 		waitpid(pid[j++], &status, 0);
-	get_exit_status(shell, status);
+	get_error_status(shell, status);
 	init_signals_prompt();
 	return (cmds + i - 1);
 }

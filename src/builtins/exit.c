@@ -19,7 +19,7 @@ static void	select_error(t_data *shell, bool b, int status)
 		print_error("exit", NULL, 0, "numeric argument required");
 	else if (status == EXIT_TO_MANY_ARGS)
 		print_error("exit", NULL, 0, "too many arguments");
-	shell->exit_status = status;
+	shell->error_status = status;
 }
 
 static void	check_num(t_exit *exit, char *arg)
