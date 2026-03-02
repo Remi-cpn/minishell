@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 08:18:19 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/28 09:05:15 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,11 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
 	node->kind = kind;
 	node->name = advance(txt).value;
 	if (!node->name)
-	{
 		free(node);
+	if (!node->name)
 		return (NULL);
-	}
-	i = ft_count_word(&txt->src[txt->i], ' ') + 1;
-	node->args = ft_calloc(sizeof(t_ast *), i);
+	i = ft_count_word(&txt->src[txt->i], ' ');
+	node->args = ft_calloc(sizeof(t_ast *), (i + 1));
 	if (!node->args)
 	{
 		free(node->name);

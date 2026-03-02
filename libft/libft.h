@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:51:16 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/24 17:10:37 by tseche           ###   ########.fr       */
+/*   Updated: 2026/02/27 17:11:32 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char		*ft_itoa(int n);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
 size_t		ft_count_word(char const *s, char c);
+int 		ft_occurence(char *s, char c);
 
 /* ---------------------------- FONCTIONS STR ------------------------------ */
 
