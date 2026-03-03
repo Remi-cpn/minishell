@@ -6,7 +6,7 @@
 #    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/03/03 14:05:16 by rcompain         ###   ########.fr        #
+#    Updated: 2026/03/03 19:35:06 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 # **************************************************************************** #
 
 SRC			= $(SRC_DIR)/main.c \
-			  $(SRC_DIR)/init.c \
+			  $(SRC_DIR)/init/init.c \
+			  $(SRC_DIR)/init/init_minimal_env.c \
 			  $(SRC_DIR)/test.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/free.c \
