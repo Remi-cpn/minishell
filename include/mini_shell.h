@@ -6,7 +6,11 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2026/03/03 14:04:12 by rcompain         ###   ########.fr       */
+=======
 /*   Updated: 2026/03/02 23:54:12 by von              ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +33,11 @@
 
 /** Mini_shell */
 # include "ast.h"
-# include "./expand.h"
 # include "builtins.h"
 # include "exit.h"
 # include "ms_signals.h"
 # include "pipeline.h"
+# include "expand.h"
 
 /** Structs */
 typedef struct s_data
