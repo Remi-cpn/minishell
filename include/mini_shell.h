@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/28 10:13:02 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:04:12 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@
 
 /** Mini_shell */
 # include "ast.h"
-# include "./expand.h"
 # include "builtins.h"
 # include "exit.h"
 # include "ms_signals.h"
 # include "pipeline.h"
+# include "expand.h"
 
 /** Structs */
 typedef struct s_data
