@@ -6,7 +6,11 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/03 14:05:51 by rcompain         ###   ########.fr       */
+=======
+/*   Updated: 2026/03/03 00:58:17 by von              ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +21,13 @@
 # include "./ast.h"
 
 //--------------------[EXPAND.c]-------------
+<<<<<<< HEAD
 t_ast	**dispatch_expand(t_ast **node, t_data *shell);
 char	**join_dbchar(char **string, char **add, int **start, int *lenght);
+=======
+t_ast    **dispatch_expand(t_ast **node, t_data *shell);
+char	**join_dbchar(char **string, char **add, int *start, int *lenght);
+>>>>>>> dev
 char	*get_env_key(char *str, char **env);
 
 //--------------------[LOGIC]----------------

@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
 /*   Updated: 2026/03/03 14:00:32 by rcompain         ###   ########.fr       */
+=======
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
+/*   Updated: 2026/03/02 23:57:41 by von              ###   ########.fr       */
+>>>>>>> dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +33,6 @@ int	main(void)
 	init_data(&shell);
 	while (shell.exit == false)
 	{
-		shell.need_cmd = 1;
 		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
 		if (!line || g_exit_flag == 1)
 			exit_prog(&shell, 0);
