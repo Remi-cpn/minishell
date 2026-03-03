@@ -6,13 +6,11 @@
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:46:25 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/03 16:45:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:32:14 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mini_shell.h"
-
-
+#include "../../include/mini_shell.h"
 
 void	init_env(t_data *shell)
 {
@@ -37,8 +35,5 @@ void	init_env(t_data *shell)
 void	init_data(t_data *shell)
 {
 	ft_memset(shell, 0, sizeof(t_data));
-	if (__environ)
-		init_env(shell);
-	else
-		init_minimal_env(shell);
+	init_env(shell);
 }

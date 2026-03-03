@@ -6,11 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/03/03 14:04:12 by rcompain         ###   ########.fr       */
-=======
-/*   Updated: 2026/03/02 23:54:12 by von              ###   ########.fr       */
->>>>>>> dev
+/*   Updated: 2026/03/03 19:34:30 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +52,7 @@ typedef struct s_data
 
 /** Functions */
 void	init_data(t_data *shell);
+void	init_minimal_env(t_data *shell);
 void	reset_line(t_data *shell);
 
 //* TESTING */

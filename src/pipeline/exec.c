@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/25 10:58:49 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/03 15:19:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	exec_loop(t_data *shell, t_cmd *cmds)
 	{
 		and_ok = false;
 		or_ok = true;
+		wildcard(cmds);
 		cmds = dispatch_exec(shell, cmds, &and_ok, &or_ok);
 		if (shell->error_status == ERR_FORK || shell->error_status == ERR_PIPE)
 			return ;
