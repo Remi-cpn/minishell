@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:52:35 by von               #+#    #+#             */
-/*   Updated: 2026/03/02 18:39:24 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/03 19:29:45 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,38 @@ int	cp_raw(char ***new, char *string, char find, int *thing)
 	char	*next;
 	char	*tmp;
     int     len;
+	int		quote;
 
-	if (find == '\'')
+	quote = find == '\'';
+	if (quote)
 		next = ft_strchr(&string[1], find);
 	else
 		next = ft_strchr(string, find);
 	if (!next)
 	{
 
-		if (find == '\'')
+		if (quote)
 			tmp = ft_substr(string, 0, 1, 0);
 		else
 			tmp = ft_substr(string, 0, ft_strlen(string), 0);
         len = ft_strlen(tmp);
-		(*new)[thing[0]] = ft_strjoin((*new)[thing[0]], tmp, 0, 1);
+		if (!(*new)[thing[0]])
+			(*new)[thing[0]] = tmp;
+		else
+			(*new)[thing[0]] = ft_strjoin((*new)[thing[0]], tmp, 0, 1);
         return (len);
 	}
 	else
 	{
-		tmp = ft_substr(string, 0, next - string, 0);
+		if (quote)
+			tmp = ft_substr(string, 0, next - string + 1, 0);
+		else
+			tmp = ft_substr(string, 0, next - string, 0);
         if (!(*new)[thing[0]])
             (*new)[thing[0]] = tmp;
         else
-		    (*new)[thing[0]] = ft_strjoin((*new)[thing[0]], tmp, 1, 1);
-		return (next - string);
+		    (*new)[thing[0]] = ft_strjoin((*new)[thing[0]], tmp, 1, 1); 
+		return (next - string + quote);
 	}
 }
 

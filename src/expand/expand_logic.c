@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/03 01:04:29 by von              ###   ########.fr       */
+/*   Updated: 2026/03/03 20:17:07 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-char	**expand(char *string, char **env, char last_quote, int in)
+char	**expand(char *string, char **env, char last_quote, int in, int *start)
 {
 	char	**new;
 	char	**ret_exp;
@@ -20,19 +20,17 @@ char	**expand(char *string, char **env, char last_quote, int in)
 	char	c;
 	char	*temp;
 	int		lenght;
-	int		start;
+	int		cpy;
 
 	index = 0;
-	start = 0;
+	//pour le prmier appel
+	if (*start == -1)
+		*start = 0;
 	//div par 2 car bind les " sont present pour ouvrir et ferme
 	lenght = (ft_occurence(string, '"') / 2) + ft_occurence(string, '$') + 1;
 	new = malloc(sizeof(char *) * (lenght + 1));
-	for (int i = 0; i < lenght; i++)
-	{
-		new[i] = malloc(sizeof(char));
-		new[i] = "";
-	}
-	new[lenght] = NULL;
+	for (int i = 0; i <= lenght; i++)
+		new[i] = NULL;
 	if (!new)
 		return (NULL);
 	while (1)
@@ -43,34 +41,34 @@ char	**expand(char *string, char **env, char last_quote, int in)
 		else if (c == '$')
 		{
 			index++;
-			index += dollar(&string[index], &new, (int[2]){start, index}, env);
-			start += 1;
+			index += dollar(&string[index], &new, (int[2]){*start, index}, env);
+			*start += 1;
 		}
 		else if (c == '"')
 		{
 			if (last_quote == '"' && in)
-			{
-				free(string);
 				return (new);
-			}
 			last_quote = '"';
 			temp = ft_substr(string, index + 1, ft_strchr(&string[index + 1], '"') - &string[index], 0);
 			if (!temp)
 				return (NULL);
-			ret_exp = expand(temp, env, last_quote, 1);
-			new = join_dbchar(new, ret_exp, &start, &lenght);
-			index += ft_strlen(temp);
+			cpy = *start;
+			ret_exp = expand(temp, env, last_quote, 1, start);
+			*start = cpy;
+			new = join_dbchar(new, ret_exp, start, &lenght);
+			index += ft_strlen(temp) + 1;
+			free(temp);
 		}
 		else
 		{
 			if (c == '\'')
 			{
 				last_quote = '\'';
-				index += cp_raw(&new, string, last_quote, (int [2]){[0] = start, [1] = index});
+				index += cp_raw(&new, &string[index], last_quote, (int [2]){[0] = *start, [1] = index});
 			}
 			else
-				index += cp_raw(&new, string, last_quote, (int [2]){[0] = start, [1] = index});
-			start += 1;
+				index += cp_raw(&new, &string[index], last_quote, (int [2]){[0] = *start, [1] = index});
+			*start += 1;
 			last_quote = '"';
 		}
 	}
@@ -107,7 +105,7 @@ char	**list_split(char **list, t_data *shell)
 		if (!tmp)
 			return (NULL);
 		i = 0;
-		while (tmp[i] && *tmp[i])
+		while (tmp[i])
 			res[j++] = tmp[i++];
 	}
 	res[j] = NULL;
@@ -171,10 +169,12 @@ char	*expand_all(char *string, t_data *shell)
 	char	**expres;
 	char	**split;
 	char	*res;
+	int		index;
 
 	if (!string || !*string)
 		return (NULL);
-	expres = expand(string, shell->env, '"', 0);
+	index = -1;
+	expres = expand(string, shell->env, '"', 0, &index);
 	free(string);
 	split = list_split(expres, shell);
 	free_array(expres);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:46:25 by rcompain          #+#    #+#             */
-/*   Updated: 2026/01/27 16:40:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:04:06 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	init_env(t_data *shell)
 	int	i;
 
 	i = 0;
+	//if (!__environ || !__environ[0])
+	//	return (build_min_env());
 	while (__environ[i])
 		i++;
 	shell->env = ft_calloc(i + 1, sizeof(char *));
