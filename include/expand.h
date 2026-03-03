@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/02/28 06:46:42 by von              ###   ########.fr       */
+/*   Updated: 2026/03/03 00:58:17 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 //--------------------[EXPAND.c]-------------
 t_ast    **dispatch_expand(t_ast **node, t_data *shell);
-char	**join_dbchar(char **string, char **add, int **start, int *lenght);
+char	**join_dbchar(char **string, char **add, int *start, int *lenght);
 char	*get_env_key(char *str, char **env);
 
 //--------------------[LOGIC]----------------
