@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/02 17:40:54 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/03 00:58:10 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	skip_pattern(char *str, char *p)
 	return (str - src);
 }
 
-char	**join_dbchar(char **string, char **add, int **start, int *lenght)
+char	**join_dbchar(char **string, char **add, int *start, int *lenght)
 {
 	int		i;
 	char	**tmp;
@@ -41,8 +41,8 @@ char	**join_dbchar(char **string, char **add, int **start, int *lenght)
 	i = 0;
 	while (add[i])
 	{
-		if (string[**start])
-			free(string[**start]);
+		if (string[*start])
+			free(string[*start]);
 		else if (i > *lenght)
 		{
 			tmp = string;
@@ -52,8 +52,8 @@ char	**join_dbchar(char **string, char **add, int **start, int *lenght)
 				return (NULL);
 			*lenght *= 2;
 		}
-		string[**start] = add[i++];
-		**start += 1;
+		string[*start] = add[i++];
+		*start += 1;
 	}
 	return (string);
 }
