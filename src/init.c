@@ -6,11 +6,13 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:46:25 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/03 16:04:06 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/04 11:44:59 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mini_shell.h"
+
+
 
 void	init_env(t_data *shell)
 {
@@ -37,5 +39,8 @@ void	init_env(t_data *shell)
 void	init_data(t_data *shell)
 {
 	ft_memset(shell, 0, sizeof(t_data));
-	init_env(shell);
+	if (__environ)
+		init_env(shell);
+	else
+		init_minimal_env(shell);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: von <von@student.42.fr>                    +#+  +:+       +#+         #
+#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/02/28 04:11:17 by von              ###   ########.fr        #
+#    Updated: 2026/03/03 19:35:06 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 # **************************************************************************** #
 
 SRC			= $(SRC_DIR)/main.c \
-			  $(SRC_DIR)/init.c \
+			  $(SRC_DIR)/init/init.c \
+			  $(SRC_DIR)/init/init_minimal_env.c \
 			  $(SRC_DIR)/test.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/free.c \
@@ -45,6 +46,9 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/expand/expand_logic.c \
 			  $(SRC_DIR)/expand/expand_utils.c \
 			  $(SRC_DIR)/signals/init_signals.c \
+			  $(SRC_DIR)/expand/?.c \
+			  $(SRC_DIR)/expand/wildcard.c \
+			  $(SRC_DIR)/expand/wildcard_utils.c \
 			  $(SRC_DIR)/builtins/cd.c \
 			  $(SRC_DIR)/builtins/echo.c \
 			  $(SRC_DIR)/builtins/env.c \
