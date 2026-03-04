@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/03 00:58:10 by von              ###   ########.fr       */
+/*   Updated: 2026/03/04 11:32:15 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,83 +22,68 @@ char	*get_env_key(char *str, char **env)
 	}
 	return (NULL);
 }
-
-int	skip_pattern(char *str, char *p)
+//it don't actually rm the char but overwrite by his following and so on
+char	*rm_char(char *str, int pos)
 {
-	char	*src;
+	char	cpy;
 
-	src = str;
-	while (*str && ft_isoneof(*str, p) && str++)
-		;
-	return (str - src);
+	cpy = str;
+	str += pos + 1;
+	while (*str)
+		*str = *str + 1;
+	return (cpy); 
 }
 
-char	**join_dbchar(char **string, char **add, int *start, int *lenght)
+char	*rm(int *flag, char  *str, int *i)
 {
-	int		i;
-	char	**tmp;
+	int	squote;
+	int	dquote;
+	int	addquote;
 
-	i = 0;
-	while (add[i])
+	squote = (str[*i] == '\'');
+	dquote = (str[*i] == '"');
+	addquote = (2 * dquote) + squote;
+	if (!flag && (squote || dquote))
 	{
-		if (string[*start])
-			free(string[*start]);
-		else if (i > *lenght)
-		{
-			tmp = string;
-			string = ft_realloc(string, *lenght, *lenght * 2, sizeof(char *));
-			free_array(tmp);
-			if (!string)
-				return (NULL);
-			*lenght *= 2;
-		}
-		string[*start] = add[i++];
-		*start += 1;
+		*flag += addquote;
+		str = rm_char(str, *i);
 	}
-	return (string);
-}
-
-void	expandcmd(t_ast_cmd **ast, t_data *shell)
-{
-	char **args;
-	int		i;
-
-	(*ast)->name = expand_all((*ast)->name, shell);
-	args = (*ast)->args;
-	i = 0;
-    while (args && args[i])
-    {
-        args[i] = expand_all(args[i], shell);
-		i++;
-    }
-}
-
-t_ast    **dispatch_expand(t_ast **node, t_data *shell)
-{
-	t_ast	*ast;
-
-	if (!node)
-		return (NULL);
-	ast = *node;
-	while (ast->kind != END)
+	else if ((flag == 1 && squote) || flag == 2 && dquote)
 	{
-		if (ast->kind == CMD)
-			expandcmd((t_ast_cmd **)&ast, shell);
-		//enlever les quote plutot que expand;
-		else if (ast->kind == HEREDOC)
-			((t_ast_heredoc *)ast)->del = expand_all(((t_ast_heredoc *)ast)->del, shell);
-		else if (ast->kind == OUT)
-			((t_ast_out *)ast)->output = expand_all(((t_ast_out *)ast)->output, shell);
-		else if (ast->kind == IN)
-			((t_ast_in *)ast)->input = expand_all(((t_ast_in *)ast)->input, shell);
-		if (node_string_is_none(ast))
-		{
-			free_ast(node);
-			return (NULL);
-		}
-		ast = ast->next;
-    }
-	return (node);
+		flag -= addquote;
+		str = rm_char(str, *i);
+	}
+	else
+		*i++;
+	return (str);
 }
 
+char	*dequote(char **list)
+{
+	int		flag;
+	char	*cpy;
 
+	while (*list)
+	{
+		flag = 0;
+		cpy = *list;
+		while (**list)
+		{
+			*list = rm(&flag, *list, &**list - cpy);
+			if (*list)
+				break ;
+		}
+		list++;
+	}
+}
+
+//dswmoslewaufIFSr:
+// Does some weird modification on string
+// like expand, wildcards, and unquoting following IFS rules
+char	*dswmoslewaufIFSr(char *str, t_data *shell)
+{
+	char	**res;
+
+	res = expand_all(str, shell);
+	res = dequote(res);
+}
