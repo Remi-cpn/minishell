@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 13:37:39 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:49:07 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	cmp_with_key(char *s, char **key)
 			j++;
 		i++;
 	}
-	if (key[j] && key[j][0] != '\0')
+	if ((key[j] && key[j][0] != '\0') || s[i] != '\0')
 		return (0);
 	return (1);
 }
@@ -103,18 +103,19 @@ void	wildcard(t_cmd *cmd)
 	key = NULL;
 	flag = 0;
 	idx = find_arg_wc(cmd->args, &key);
-	if (idx == -1)
+	if (idx == FAILURE)
 		return ;
-	nbr_files = len_files();
+	nbr_files = len_files(key);
 	if (nbr_files == 0)
 		return ;
 	add_args = ft_calloc(nbr_files + 1, sizeof(char *));
-	if (!add_args)
-		return ;
-	list_files(add_args, key, cmd->args[idx], &flag);
+	if (add_args)
+	{
+		list_files(add_args, key, cmd->args[idx], &flag);
+		if (flag == SUCCES)
+			replace_args(cmd, add_args, idx, &flag);
+		else
+			free_array(add_args);
+	}
 	free_array(key);
-	if (flag == SUCCES)
-		replace_args(cmd, add_args, idx, &flag);
-	else
-		free_array(add_args);
 }
