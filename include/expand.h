@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/03 15:14:24 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:48:00 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "./ast.h"
 
 //--------------------[EXPAND.c]-------------
-t_ast    **dispatch_expand(t_ast **node, t_data *shell);
+t_ast	**dispatch_expand(t_ast **node, t_data *shell);
 char	**join_dbchar(char **string, char **add, int *start, int *lenght);
 char	*get_env_key(char *str, char **env);
 
@@ -35,8 +35,9 @@ char	*question_mark(t_data *shell, char *arg);
 
 //--------------------[WILDCARD]----------------
 void	wildcard(t_cmd *cmd);
+int		find_arg_wc(char **args, char ***key);
+void	add_tab_element(char **new_arg, char *cmd_arg, int *flag);
 int		ft_tablen(char **tab);
-int		len_files(void);
-char	*strnstr_wich(char *big, char *little, size_t len);
+int		len_files(char **key);
 
 #endif
