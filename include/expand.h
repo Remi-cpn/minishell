@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/05 18:22:08 by von              ###   ########.fr       */
+/*   Updated: 2026/03/05 18:45:41 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	**wildcard(char **args);
 int		find_arg_wc(char **args, char ***key);
 void	add_tab_element(char **new_arg, char *cmd_arg, int *flag);
 int		ft_tablen(char **tab);
-int		len_files(void);
-char	*strnstr_wich(char *big, char *little, size_t len);
+int		len_files(char **key);
 
 #endif

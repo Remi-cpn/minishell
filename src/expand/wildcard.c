@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 18:00:35 by von              ###   ########.fr       */
+/*   Updated: 2026/03/05 18:47:50 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	cmp_with_key(char *s, char **key)
 			j++;
 		i++;
 	}
-	if (key[j] && key[j][0] != '\0')
+	if ((key[j] && key[j][0] != '\0') || s[i] != '\0')
 		return (0);
 	return (1);
 }
@@ -103,21 +103,21 @@ char	**wildcard(char	**args)
 	char	**res;
 
 	flag = 0;
-	res = NULL;
 	idx = find_arg_wc(args, &key);
-	if (idx == -1)
+	if (idx == FAILURE)
 		return (args);
-	nbr_files = len_files();
+	nbr_files = len_files(key);
 	if (nbr_files == 0)
 		return (args);
 	add_args = ft_calloc(nbr_files + 1, sizeof(char *));
-	if (!add_args)
-		return (res);
-	list_files(add_args, key, args[idx], &flag);
+	if (add_args)
+	{
+		list_files(add_args, key, args[idx], &flag);
+		if (flag == SUCCES)
+			replace_args(args, add_args, idx, &flag);
+		else
+			free_array(add_args);
+	}
 	free_array(key);
-	if (flag == SUCCES)
-		res =replace_args(args, add_args, idx, &flag);
-	else
-		free_array(add_args);
 	return (res);
 }

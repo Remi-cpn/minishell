@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 10:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 13:38:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:53:59 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static void	add_to_key(char **key, char *arg)
+static int	add_to_key(char **key, char *arg)
 {
 	int	start;
 	int	i;
@@ -27,7 +27,7 @@ static void	add_to_key(char **key, char *arg)
 		{
 			key[j] = ft_strndup(arg, start, i - 1);
 			if (!key[j])
-				return ;
+				return (ERROR);
 			j++;
 			start = i + 1;
 		}
@@ -35,7 +35,8 @@ static void	add_to_key(char **key, char *arg)
 	}
 	key[j] = ft_strndup(arg, start, i);
 	if (!key[j])
-		return ;
+		return (ERROR);
+	return (SUCCES);
 }
 
 static int	count_stars(char *s)
@@ -59,6 +60,7 @@ int	find_arg_wc(char **args, char ***key)
 	int		i;
 	int		c_stars;
 	char	*tmp;
+	int		flag;
 
 	i = 0;
 	while (args[i])
@@ -69,11 +71,14 @@ int	find_arg_wc(char **args, char ***key)
 			c_stars = count_stars(args[i]);
 			*key = ft_calloc(c_stars + 2, sizeof(char *));
 			if (!*key)
-				return (-1);
-			add_to_key(*key, args[i]);
+				return (FAILURE);
+			flag = add_to_key(*key, args[i]);
+			if (flag != SUCCES)
+				break ;
 			return (i);
 		}
 		i++;
 	}
-	return (-1);
+	free_array(*key);
+	return (FAILURE);
 }
