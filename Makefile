@@ -6,7 +6,7 @@
 #    By: von <von@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/03/05 16:44:27 by von              ###   ########.fr        #
+#    Updated: 2026/03/05 19:26:41 by von              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/signals/init_signals.c \
 			  $(SRC_DIR)/expand/expand.c \
 			  $(SRC_DIR)/expand/expand_logic.c \
-			  $(SRC_DIR)/expand/expand_utils.c \
 			  $(SRC_DIR)/expand/split.c \
 			  $(SRC_DIR)/expand/?.c \
 			  $(SRC_DIR)/expand/wildcard.c \

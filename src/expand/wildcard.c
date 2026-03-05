@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 18:47:50 by von              ###   ########.fr       */
+/*   Updated: 2026/03/05 19:27:28 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	**wildcard(char	**args)
 	char	**res;
 
 	flag = 0;
+	res = NULL;
 	idx = find_arg_wc(args, &key);
 	if (idx == FAILURE)
 		return (args);
