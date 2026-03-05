@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 19:27:28 by von              ###   ########.fr       */
+/*   Updated: 2026/03/05 21:13:59 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ char	**wildcard(char	**args)
 	char	**res;
 
 	flag = 0;
-	res = NULL;
+	res = args;
+	key = NULL;
 	idx = find_arg_wc(args, &key);
 	if (idx == FAILURE)
 		return (args);
@@ -115,7 +116,7 @@ char	**wildcard(char	**args)
 	{
 		list_files(add_args, key, args[idx], &flag);
 		if (flag == SUCCES)
-			replace_args(args, add_args, idx, &flag);
+			res = replace_args(args, add_args, idx, &flag);
 		else
 			free_array(add_args);
 	}

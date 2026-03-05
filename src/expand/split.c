@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 10:14:36 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/05 17:00:45 by von              ###   ########.fr       */
+/*   Updated: 2026/03/05 20:34:26 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,29 +68,31 @@ int	countwsep(char *string)
 	return (count);
 }
 
+
 char	**split_expand(char *str)
 {
 	char	**res;
 	int		j;
 	int		len;
+	int		nbsep;
 
-	res = ft_calloc(sizeof(char), (countwsep(str) + 1));
+	nbsep = countwsep(str);
+	res = ft_calloc(sizeof(char *), (nbsep + 1));
 	if (!res)
 		return (NULL);
 	j = 0;
+	len = 0;
 	while (*str)
 	{
 		str += skip_pattern(str, IFS);
 		len = lenword(str);
-		if (len)
-		{
-			res[j] = ft_strndup(str, 0, len);
-			if (!res[j++])
-			{
-				free_array(res);
-				return (NULL);
-			}
-		}
+		if (len == 0)
+			continue ;
+		res[j] = ft_strndup(str, 0, len);
+		if (!res[j])
+			free_array(res);
+		if (!res[j++])
+			return (NULL);
 		str += len;
 	}
 	return (res);	
