@@ -6,36 +6,11 @@
 /*   By: rcompain <rcompain@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 10:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 13:27:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:38:32 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
-
-/*
-static char	*ft_strndup(char *s, int start, int n, int free_s)
-{
-	char	*dup;
-	char	*string;
-
-	if (start < n)
-	{
-		string = s + start;
-		dup = (char *)malloc(sizeof(char) * (n - start + 1));
-		if (dup)
-			dup = ft_memcpy(dup, string, n - start);
-	}
-	else
-	{
-		dup = malloc(sizeof(char));
-		if (dup)
-			dup[0] = '\0';
-	}
-	if (free_s == 1)
-		ft_freenull((void *)s);
-	return (dup);
-}
-*/
 
 static void	add_to_key(char **key, char *arg)
 {

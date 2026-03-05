@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 13:34:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:37:39 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ void	wildcard(t_cmd *cmd)
 	idx = find_arg_wc(cmd->args, &key);
 	if (idx == -1)
 		return ;
-	printf("DEBUG key[0] = %s | %p\n", key[0], key[0]);
-	printf("DEBUG key[0] = %s | %p\n", key[1], key[1]);
-	printf("DEBUG key[0] | %p\n", key[2]);
 	nbr_files = len_files();
 	if (nbr_files == 0)
 		return ;
