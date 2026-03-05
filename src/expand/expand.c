@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/05 21:12:20 by von              ###   ########.fr       */
+/*   Updated: 2026/03/05 22:28:20 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ char **expansion(char **args, t_data *shell)
 		if (!tmp)
 			return (NULL);
 		wild = wildcard(tmp);
-		free_array(tmp);
+		if (wild != tmp)
+			free_array(tmp);
 		if (!wild)
 			free_array(new);
 		if (!wild)
