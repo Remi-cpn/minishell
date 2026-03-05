@@ -6,12 +6,13 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 12:21:46 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:34:32 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <dirent.h>
+#include <string.h>
 
 static void	replace_args(t_cmd *cmd, char **add_args, int idx, int *flag)
 {
@@ -59,17 +60,21 @@ static int	cmp_with_key(char *s, char **key)
 			j++;
 		i++;
 	}
-	if (key[j])
+	if (key[j] && key[j][0] != '\0')
 		return (0);
 	return (1);
 }
 
-static void	list_files(char **new_args, char **key, int *flag)
+static void	list_files(char **new_args, char **key, char *arg, int *flag)
 {
 	DIR				*dir;
 	struct dirent	*dirent;
 	int				i;
+	bool			all;
 
+	all = false;
+	if (strncmp(arg, ".*", 3) == 0)
+		all = true;
 	dir = opendir(".");
 	if (!dir)
 		return ;
@@ -79,7 +84,8 @@ static void	list_files(char **new_args, char **key, int *flag)
 	i = 0;
 	while (*flag == SUCCES && dirent)
 	{
-		if (dirent->d_name[0] != '.' && cmp_with_key(dirent->d_name, key) == 1)
+		if ((dirent->d_name[0] != '.' || all == true)
+			&& cmp_with_key(dirent->d_name, key) == 1)
 			add_tab_element(&new_args[i++], dirent->d_name, flag);
 		dirent = readdir(dir);
 	}
@@ -108,7 +114,7 @@ void	wildcard(t_cmd *cmd)
 	add_args = ft_calloc(nbr_files + 1, sizeof(char *));
 	if (!add_args)
 		return ;
-	list_files(add_args, key, &flag);
+	list_files(add_args, key, cmd->args[idx], &flag);
 	free_array(key);
 	if (flag == SUCCES)
 		replace_args(cmd, add_args, idx, &flag);
