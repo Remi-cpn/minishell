@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 10:14:36 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/04 11:18:16 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/05 17:00:45 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	lenword(char *str)
 		addquote = (2 * dquote) + squote;
 		if (!flag && (squote || dquote))
 			flag += addquote;
-		else if (ft_isoneof(*str, IFS) || (flag && ft_isoneof(*str, IFS)))
+		else if (!ft_isoneof(*str, IFS) || (flag && ft_isoneof(*str, IFS)))
 			len++;
 		else
 			break ;
 		if ((flag == 2 && dquote) || (flag == 1 && squote))
 			flag -= addquote;
+		str++;
 	}
 	return (len);
 }
@@ -67,7 +68,7 @@ int	countwsep(char *string)
 	return (count);
 }
 
-char	**split(char *str)
+char	**split_expand(char *str)
 {
 	char	**res;
 	int		j;

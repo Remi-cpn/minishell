@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/04 11:30:26 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/05 16:43:20 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	isword(char *str, int i, int *flags)
 		&& (str[i] == '?' || ft_isalpha(str[i + 1]
 		|| str[i + 1] == '_')))
 		return (1);
-	else if ((flags == 1 && squote) || (flags == 2 && dquote))
+	else if ((*flags == 1 && squote) || (*flags == 2 && dquote))
 	{
-		flags -= addquote;
+		*flags -= addquote;
 		return (0);
 	}
 	return (0);
@@ -84,12 +84,11 @@ char	*resolve_key(char *str, int i, char **env)
 
 char	*expand(char *str, int flag, char **env)
 {
-	char	*key;
 	char	*cpy;
 	int		len;
 	int		i;
 	
-
+	i = 0;
 	while (str[i])
 	{
 		if ((!flag && str[i] == '$' && str[i + 1]
@@ -115,7 +114,6 @@ char	**expand_all(char *string, t_data *shell)
 {
 	char	*expres;
 	char	**split;
-	char	**cpy;
 
 	expres = expand(string, 0, shell->env);
 	if (!expres)
@@ -124,16 +122,5 @@ char	**expand_all(char *string, t_data *shell)
 	free(expres);
 	if (!split)
 		return (NULL);
-	cpy = split;
-	while (*split)
-	{
-		//ajouter la fonction de wildcard
-		*split = wildcard(*split);
-		if (!split)
-			free_array(cpy);
-		if (!split++)
-			return (NULL);
-		split++;
-	}
-	return (cpy);
+	return (split);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/04 11:32:15 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/05 18:38:51 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+#include <stdlib.h>
 
 char	*get_env_key(char *str, char **env)
 {
@@ -25,7 +26,7 @@ char	*get_env_key(char *str, char **env)
 //it don't actually rm the char but overwrite by his following and so on
 char	*rm_char(char *str, int pos)
 {
-	char	cpy;
+	char	*cpy;
 
 	cpy = str;
 	str += pos + 1;
@@ -48,42 +49,68 @@ char	*rm(int *flag, char  *str, int *i)
 		*flag += addquote;
 		str = rm_char(str, *i);
 	}
-	else if ((flag == 1 && squote) || flag == 2 && dquote)
+	else if ((*flag == 1 && squote) || (*flag == 2 && dquote))
 	{
-		flag -= addquote;
+		*flag -= addquote;
 		str = rm_char(str, *i);
 	}
 	else
-		*i++;
+		*i += 1;
 	return (str);
 }
 
 char	*dequote(char **list)
 {
 	int		flag;
-	char	*cpy;
+	char	*res;
+	int		i;
 
+	res = malloc(sizeof(char));
+	res[0] = '\0';
 	while (*list)
 	{
 		flag = 0;
-		cpy = *list;
-		while (**list)
+		i = 0;
+		while ((*list)[i])
 		{
-			*list = rm(&flag, *list, &**list - cpy);
-			if (*list)
-				break ;
+			*list = rm(&flag, *list, &i);
+			//if (*list)
+			//	break ;
 		}
+		res = ft_strjoin(res, *list, 1, 1);
 		list++;
 	}
+	return (res);
 }
 
 //dswmoslewaufIFSr:
 // Does some weird modification on string
 // like expand, wildcards, and unquoting following IFS rules
-char	*dswmoslewaufIFSr(char *str, t_data *shell)
+char **expansion(char **args, t_data *shell)
 {
-	char	**res;
-
-	res = expand_all(str, shell);
-	res = dequote(res);
+	char	**tmp;
+	char	**wild;
+	char	**new;
+	int		i;
+	
+	
+	new = ft_calloc(sizeof(char *), (ft_tablen(args) + 1));
+	i = 0;
+	while (new && args[i])
+	{
+		tmp = expand_all(args[i], shell);
+		if (!tmp)
+			free_array(new);
+		if (!tmp)
+			return (NULL);
+		wild = wildcard(tmp);
+		if (!wild)
+			free_array(new);
+		if (!wild)
+			return (NULL);
+		new[i] = dequote(wild);
+		i++;
+	}
+	free(args);
+	return (new);
 }
