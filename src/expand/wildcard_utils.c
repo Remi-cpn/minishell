@@ -6,12 +6,19 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 11:12:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/03 13:55:53 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:38:38 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <dirent.h>
+
+void	add_tab_element(char **new_arg, char *cmd_arg, int *flag)
+{
+	*new_arg = ft_strdup(cmd_arg, 0);
+	if (!*new_arg)
+		*flag = ERR_ALLOC;
+}
 
 char	*strnstr_wich(char *big, char *little, size_t len)
 {

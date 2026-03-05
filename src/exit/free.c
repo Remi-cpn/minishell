@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/02 18:38:08 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/05 13:07:06 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	free_array(char **s)
 		free(s);
 		return ;
 	}
-	while (s[i] && *s[i])
+	while (s[i])
 	{
 		s[i] = ft_freenull(s[i]);
 		i++;
