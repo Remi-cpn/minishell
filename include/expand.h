@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/05 17:48:00 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 18:45:41 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,23 @@
 # include "mini_shell.h"
 # include "./ast.h"
 
+#define IFS " \t\n"
+
 //--------------------[EXPAND.c]-------------
-t_ast	**dispatch_expand(t_ast **node, t_data *shell);
-char	**join_dbchar(char **string, char **add, int *start, int *lenght);
 char	*get_env_key(char *str, char **env);
+char    **expansion(char **args, t_data *shell);
 
 //--------------------[LOGIC]----------------
-char	*expand_all(char *string, t_data *shell);
+char	**expand_all(char *string, t_data *shell);
 
-//--------------------[UTILS]----------------
-int		node_string_is_none(t_ast *ast);
-void	free_expand(char **s, int len, t_data *shell);
-int		dollar(char *string, char ***nv, int *thing, char **env);
-int		cp_raw(char ***nv, char *string, char find, int *thing);
+//--------------------[SPLIT.c]----------------
+char	**split_expand(char *str);
 
-//--------------------[?]----------------
+//--------------------[?.C]----------------
 char	*question_mark(t_data *shell, char *arg);
 
 //--------------------[WILDCARD]----------------
-void	wildcard(t_cmd *cmd);
+char	**wildcard(char **args);
 int		find_arg_wc(char **args, char ***key);
 void	add_tab_element(char **new_arg, char *cmd_arg, int *flag);
 int		ft_tablen(char **tab);

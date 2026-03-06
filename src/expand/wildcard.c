@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 17:49:07 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/05 21:13:59 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <dirent.h>
 #include <string.h>
 
-static void	replace_args(t_cmd *cmd, char **add_args, int idx, int *flag)
+static char	**replace_args(char **args, char **add_args, int idx, int *flag)
 {
-	const int		len_cmd_args = ft_tablen(cmd->args);
+	const int		len_cmd_args = ft_tablen(args);
 	const int		len_add_args = ft_tablen(add_args);
 	char			**tmp;
 	char			**new_args;
@@ -24,23 +24,24 @@ static void	replace_args(t_cmd *cmd, char **add_args, int idx, int *flag)
 
 	new_args = ft_calloc(len_cmd_args + len_add_args + 1, sizeof(char *));
 	if (!new_args)
-		return ;
-	tmp = cmd->args;
+		return (NULL);
+	tmp = args;
 	i = -1;
-	while (*flag == SUCCES && ++i < idx)
-		add_tab_element(&new_args[i], cmd->args[i], flag);
+	while (*flag == SUCCES && ++i <= idx)
+		add_tab_element(&new_args[i], args[i], flag);
 	ft_memcpy(new_args + idx, add_args, len_add_args * sizeof(char *));
 	i += len_add_args;
-	while (*flag == SUCCES && cmd->args[++idx])
-		add_tab_element(&new_args[i++], cmd->args[idx], flag);
+	while (*flag == SUCCES && args[++idx])
+		add_tab_element(&new_args[i++], args[idx], flag);
 	if (*flag == SUCCES)
 	{
-		cmd->args = new_args;
+		args = new_args;
 		free_array(tmp);
 		free(add_args);
-		return ;
+		return (args);
 	}
 	free_array(new_args);
+	return (NULL);
 }
 
 static int	cmp_with_key(char *s, char **key)
@@ -92,30 +93,33 @@ static void	list_files(char **new_args, char **key, char *arg, int *flag)
 	closedir(dir);
 }
 
-void	wildcard(t_cmd *cmd)
+char	**wildcard(char	**args)
 {
 	char	**key;
 	int		idx;
 	char	**add_args;
 	int		nbr_files;
 	int		flag;
+	char	**res;
 
-	key = NULL;
 	flag = 0;
-	idx = find_arg_wc(cmd->args, &key);
+	res = args;
+	key = NULL;
+	idx = find_arg_wc(args, &key);
 	if (idx == FAILURE)
-		return ;
+		return (args);
 	nbr_files = len_files(key);
 	if (nbr_files == 0)
-		return ;
+		return (args);
 	add_args = ft_calloc(nbr_files + 1, sizeof(char *));
 	if (add_args)
 	{
-		list_files(add_args, key, cmd->args[idx], &flag);
+		list_files(add_args, key, args[idx], &flag);
 		if (flag == SUCCES)
-			replace_args(cmd, add_args, idx, &flag);
+			res = replace_args(args, add_args, idx, &flag);
 		else
 			free_array(add_args);
 	}
 	free_array(key);
+	return (res);
 }
