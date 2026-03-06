@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/25 10:47:04 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:23:45 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	get_error_status(t_data *shell, int status)
 		shell->error_status = ERROR;
 }
 
-
 /**
  * This function dispatches the built-in commands.
  */
@@ -66,7 +65,6 @@ void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
-	//ft_printf("Dispatching built-in command: %s\n", cmd->args[0]);
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		echo_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)

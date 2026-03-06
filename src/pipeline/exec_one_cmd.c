@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/28 10:54:07 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:16:21 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static void	builtins_process_one_cmd(t_data *shell, t_cmd *cmd)
 	int	saved_in;
 	int	saved_out;
 
+	cmd->args = expansion(cmd->args, shell);
+	//if (!cmd->args)
+		//do somthing
 	if (cmd->redir_in || cmd->redir_out)
 	{
 		saved_in = dup(STDIN_FILENO);

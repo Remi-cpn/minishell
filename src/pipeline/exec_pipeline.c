@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/11 16:45:19 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:34:40 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 		error_pipeline(shell, "fork", ERR_FORK);
 	else if (pid == CHILD)
 	{
+		cmd->args = expansion(cmd->args, shell);
+		//if (!cmd->args)
+		//		do somthing;
 		free(shell->pid_adr);
 		child_process(shell, cmd, prev_read, pipefd);
 	}

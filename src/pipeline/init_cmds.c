@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/02 10:51:07 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:29:28 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	init_or_and_end(t_cmd *cmd, int kind)
 	cmd->last_cmd = true;
 }
 
-static void	set_cmd_defaults(t_data *shell, t_cmd *cmds)
+static void	set_cmd_defaults(t_data *shell, t_cmd *cmds, int *j)
 {
 	int	i;
 
@@ -64,6 +64,7 @@ static void	set_cmd_defaults(t_data *shell, t_cmd *cmds)
 		cmds[i].is_builtin = false;
 		i++;
 	}
+	*j = 0;
 }
 
 static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd)
@@ -100,10 +101,9 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	int		i;
 	t_ast	*tmp;
 
-	i = 0;
 	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
 	shell->cmds = cmds;
-	set_cmd_defaults(shell, cmds);
+	set_cmd_defaults(shell, cmds, &i);
 	tmp = *ast;
 	while (cmds && shell->error_status != ERROR && tmp)
 	{
@@ -114,12 +114,9 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 		else if (tmp->kind == OUT)
 			open_fd_out(shell, &cmds[i], (t_ast_out *)tmp);
 		else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == END)
-		{
 			init_or_and_end(&cmds[i], tmp->kind);
-			print_cmd(&cmds[i], i);
-			i++;
-		}
-		else
+		if (tmp->kind != CMD && tmp->kind != HEREDOC
+			&& tmp->kind != IN && tmp->kind != OUT)
 		{
 			print_cmd(&cmds[i], i);
 			i++;

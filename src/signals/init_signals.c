@@ -3,35 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 09:37:02 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:30:18 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
 volatile sig_atomic_t	g_exit_flag = 0;
-
-static void	handler_heredoc(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	close(STDIN_FILENO);
-}
-
-void	init_signals_heredoc(void)
-{
-	struct sigaction	sa;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = handler_heredoc;
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa, NULL);
-}
 
 /**
  * This function ignores all signals during the execution of a child process.

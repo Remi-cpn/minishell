@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/10 17:52:10 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:28:30 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ void	cd_cmd(t_data *shell, char **args)
 	}
 	cd_cmd_next(shell, path);
 	if (shell->error_status == ERR_ALLOC)
-	{
 		print_error("cd", args[1], 0, NULL);
+	if (shell->error_status == ERR_ALLOC)
 		shell->error_status = ERROR;
-	}
 }

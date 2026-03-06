@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 05:27:48 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/11 15:43:41 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 18:47:48 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt)
 		return (NULL);
 	last = (t_ast *)ft_lstlast((t_list *)*node);
 	if (next->kind == END && (last->kind == PIPE
-		|| last->kind == AND || last->kind == OR))
+			|| last->kind == AND || last->kind == OR))
 	{
 		free(next);
 		report_parsing_error(txt->src[txt->i - 1], NULL);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: von <von@student.42.fr>                    +#+  +:+       +#+         #
+#    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/03/05 19:26:41 by von              ###   ########.fr        #
+#    Updated: 2026/03/06 19:28:58 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,15 +36,16 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 # **************************************************************************** #
 
 SRC			= $(SRC_DIR)/main.c \
+			  $(SRC_DIR)/test.c \
 			  $(SRC_DIR)/init/init.c \
 			  $(SRC_DIR)/init/init_minimal_env.c \
-			  $(SRC_DIR)/test.c \
 			  $(SRC_DIR)/exit/exit.c \
 			  $(SRC_DIR)/exit/free.c \
 			  $(SRC_DIR)/exit/exit_utils.c \
 			  $(SRC_DIR)/signals/init_signals.c \
 			  $(SRC_DIR)/expand/expand.c \
 			  $(SRC_DIR)/expand/expand_logic.c \
+			  $(SRC_DIR)/expand/expand_dispatch.c \
 			  $(SRC_DIR)/expand/split.c \
 			  $(SRC_DIR)/expand/?.c \
 			  $(SRC_DIR)/expand/wildcard.c \
@@ -67,6 +68,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/lexer/lexer_utils.c \
 			  $(SRC_DIR)/lexer/word.c \
 			  $(SRC_DIR)/pipeline/open.c \
+			  $(SRC_DIR)/pipeline/heredoc.c \
 			  $(SRC_DIR)/pipeline/exec_one_cmd.c \
 			  $(SRC_DIR)/pipeline/exec_pipeline.c \
 			  $(SRC_DIR)/pipeline/exec.c \
