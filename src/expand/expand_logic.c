@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/06 11:22:28 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:58:31 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 int	isword(char *str, int i, int *flags)
 {
-	int	addquote;
 	int	squote;
 	int	dquote;
 
 	dquote = str[i] == '"';
 	squote = str[i] == '\'';
-	addquote = (2 * dquote) + (squote);
 	if (!*flags && (squote || dquote))
 	{
-		*flags += addquote;
+		*flags += (2 * dquote) + (squote);
 		return (0);
 	}
 	else if (*flags != 1 && str[i] == '$' && str[i + 1]
@@ -32,7 +30,7 @@ int	isword(char *str, int i, int *flags)
 		return (1);
 	else if ((*flags == 1 && squote) || (*flags == 2 && dquote))
 	{
-		*flags -= addquote;
+		*flags -= (2 * dquote) + (squote);
 		return (0);
 	}
 	return (0);
@@ -65,20 +63,17 @@ char	*resolve_key(char *str, int i, char **env)
 	mkey = get_env_key(key, env);
 	free(key);
 	if (!mkey)
-		mkey = ft_strdup("", 0);
-	res = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(mkey) + 1));
-	if (!res)
-		free(mkey);
+		mkey = "";
+	res = ft_calloc((ft_strlen(str) + ft_strlen(mkey) + 1), sizeof(char));
 	if (!res)
 		return (NULL);
 	ft_strlcat(res, str, i);
-	ft_strlcat(res, mkey, ft_strlen(mkey));
-	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]));
-	free(mkey);
+	ft_strlcat(res, mkey, ft_strlen(mkey) + i);
+	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]) + i + ft_strlen(mkey));
 	return (res);
 }
 
-char	*expand(char *str, int flag, char **env)
+char	*expand(char *str, int flag, t_data *shell)
 {
 	char	*cpy;
 	int		len;
@@ -88,18 +83,26 @@ char	*expand(char *str, int flag, char **env)
 	while (str[i])
 	{
 		if ((!flag && str[i] == '$' && str[i + 1]
-				&& (str[i + 1] == '?' || ft_isalpha(str[i + 1])
+				&& (ft_isalpha(str[i + 1])
 					|| str[i + 1] == '_')) || isword(str, i, &flag))
 		{
 			cpy = str;
-			str = resolve_key(str, i + 1, env);
+			str = resolve_key(str, i + 1, shell->env);
 			flag = 0;
+			if (!str)
+			{
+				str = cpy;
+				i += lenkey(&str[i]);
+				continue ;
+			}
 			len = ft_strlen(str) - ft_strlen(cpy);
 			free(cpy);
 			if (len < 0)
 				len *= -1;
 			i += len;
 		}
+		else if (!flag && str[i] == '$' && str[i + 1] == '?')
+			str = question_mark(shell, str, &i);
 		else
 			i++;
 	}
@@ -111,7 +114,7 @@ char	**expand_all(char *string, t_data *shell)
 	char	*expres;
 	char	**split;
 
-	expres = expand(string, 0, shell->env);
+	expres = expand(string, 0, shell);
 	if (!expres)
 		return (NULL);
 	split = split_expand(expres);

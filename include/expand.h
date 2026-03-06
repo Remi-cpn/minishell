@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/06 13:40:27 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:13:55 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**expand_all(char *string, t_data *shell);
 char	**split_expand(char *str);
 
 //--------------------[?.C]----------------
-char	*question_mark(t_data *shell, char *arg);
+char	*question_mark(t_data *shell, char *arg, int *i);
 
 //--------------------[WILDCARD]----------------
 int		wildcard(char **new, int k, char **tmp, int nbr_files);

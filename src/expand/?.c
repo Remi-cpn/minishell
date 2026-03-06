@@ -6,22 +6,36 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:06:28 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/03 00:16:40 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:06:35 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-char	*question_mark(t_data *shell, char *arg)
+char	*question_mark(t_data *shell, char *arg, int *i)
 {
 	char	*s;
+	int		len_s;
+	int		len_arg;
+	char	*res;
 
 	s = ft_itoa(shell->error_status);
-	if (!s)
+	len_s = 0;
+	if (s)
+		len_s = ft_strlen(s);
+	len_arg = ft_strlen(arg);
+	res = strndup(arg, *i);
+	if (!s || !res)
 	{
 		shell->error_status = ERR_ALLOC;
 		return (arg);
 	}
+	res = ft_strjoin(res, s, 1, 1);
+	if (!res)
+		return (NULL);
+	s = &arg[*i + 2];
+	*i += len_s;
+	res = ft_strjoin(res, s, 1, 0);
 	free(arg);
-	return (s);
+	return (res);
 }
