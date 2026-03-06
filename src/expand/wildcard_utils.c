@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 11:12:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 17:53:19 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:37:36 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	len_files(char **key)
 		}
 		closedir(dir);
 	}
-	if (len == 0)
+	if (len == 0 && key)
 		free_array(key);
 	return (len);
 }

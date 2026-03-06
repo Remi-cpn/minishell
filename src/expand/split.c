@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 10:14:36 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/05 20:34:26 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 15:00:40 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	lenword(char *str)
 {
 	int	flag;
 	int	len;
-	int	addquote;
 	int	squote;
 	int	dquote;
 
@@ -36,15 +35,16 @@ int	lenword(char *str)
 	{
 		squote = (*str == '\'');
 		dquote = (*str == '"');
-		addquote = (2 * dquote) + squote;
-		if (!flag && (squote || dquote))
-			flag += addquote;
-		else if (!ft_isoneof(*str, IFS) || (flag && ft_isoneof(*str, IFS)))
-			len++;
-		else
-			break ;
+		len++;
 		if ((flag == 2 && dquote) || (flag == 1 && squote))
-			flag -= addquote;
+			flag -= (2 * dquote) + squote;
+		else if (!flag && (squote || dquote))
+			flag += (2 * dquote) + squote;
+		else if (ft_isoneof(*str, IFS) && !flag)
+		{
+			len--;
+			break ;
+		}
 		str++;
 	}
 	return (len);
@@ -59,9 +59,12 @@ int	countwsep(char *string)
 	count = 0;
 	while (*string)
 	{
-		if (!flag && !ft_isoneof(*string, IFS) && count++)
-			flag++;
-		else if (ft_isoneof(*string, IFS) && !flag)
+		if (flag && !ft_isoneof(*string, IFS))
+		{
+			count++;
+			flag = 0;
+		}
+		else if (!flag && ft_isoneof(*string, IFS))
 			flag = 1;
 		string++;
 	}
@@ -88,12 +91,12 @@ char	**split_expand(char *str)
 		len = lenword(str);
 		if (len == 0)
 			continue ;
-		res[j] = ft_strndup(str, 0, len);
+		res[j] = ft_strndup(str, 0, len - 1);
 		if (!res[j])
 			free_array(res);
 		if (!res[j++])
 			return (NULL);
 		str += len;
 	}
-	return (res);	
+	return (res);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/05 22:28:20 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 14:06:39 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_env_key(char *str, char **env)
 	return (NULL);
 }
 
-char	*rm(int *flag, char  *str, int *i)
+char	*rm(int *flag, char *str, int *i)
 {
 	int	squote;
 	int	dquote;
@@ -33,15 +33,15 @@ char	*rm(int *flag, char  *str, int *i)
 	squote = (str[*i] == '\'');
 	dquote = (str[*i] == '"');
 	addquote = (2 * dquote) + squote;
-	if (!flag && (squote || dquote))
+	if (!*flag && (squote || dquote))
 	{
 		*flag += addquote;
-		str = ft_strjoin(str, &str[*i + 1], 1, 0);
+		ft_memmove(&str[*i], &str[*i + 1], ft_strlen(&str[*i]));
 	}
 	else if ((*flag == 1 && squote) || (*flag == 2 && dquote))
 	{
 		*flag -= addquote;
-		str = ft_strjoin(str, &str[*i + 1], 1, 0);
+		ft_memmove(&str[*i], &str[*i + 1], ft_strlen(&str[*i]));
 	}
 	else
 		*i += 1;
@@ -78,36 +78,44 @@ char	*dequote(char **list)
 	return (res);
 }
 
-//dswmoslewaufIFSr:
-// Does some weird modification on string
-// like expand, wildcards, and unquoting following IFS rules
-char **expansion(char **args, t_data *shell)
+static void	dequote_range(char **new, int start, int end)
 {
-	char	**tmp;
-	char	**wild;
-	char	**new;
-	int		i;
-	
-	
-	new = ft_calloc(sizeof(char *), (ft_tablen(args) + 1));
-	i = 0;
-	while (new && args[i])
+	char	*pair[2];
+
+	pair[1] = NULL;
+	while (start < end)
 	{
-		tmp = expand_all(args[i], shell);
+		pair[0] = new[start];
+		new[start] = dequote(pair);
+		start++;
+	}
+}
+
+char	**expansion(char **args, t_data *shell)
+{
+	char	**new;
+	char	**tmp;
+	int		nbr_files;
+	int		i;
+	int		k;
+	int		added;
+
+	nbr_files = len_files(NULL);
+	new = ft_calloc(ft_tablen(args) + nbr_files + 1, sizeof(char *));
+	if (!new)
+		return (args);
+	i = 0;
+	k = 0;
+	while (args[i])
+	{
+		tmp = expand_all(args[i++], shell);
 		if (!tmp)
-			free_array(new);
-		if (!tmp)
-			return (NULL);
-		wild = wildcard(tmp);
-		if (wild != tmp)
-			free_array(tmp);
-		if (!wild)
-			free_array(new);
-		if (!wild)
-			return (NULL);
-		new[i] = dequote(wild);
-			
-		i++;
+			return (free_array(new), free(args), NULL);
+		added = wildcard(new, k, tmp, nbr_files);
+		if (added < 0)
+			return (free_array(new), free(args), NULL);
+		dequote_range(new, k, k + added);
+		k += added;
 	}
 	free(args);
 	return (new);

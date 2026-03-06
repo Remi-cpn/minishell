@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/05 16:43:20 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 11:22:28 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	isword(char *str, int i, int *flags)
 	dquote = str[i] == '"';
 	squote = str[i] == '\'';
 	addquote = (2 * dquote) + (squote);
-	if (!flags && (squote || dquote))
+	if (!*flags && (squote || dquote))
 	{
 		*flags += addquote;
 		return (0);
 	}
 	else if (*flags != 1 && str[i] == '$' && str[i + 1]
 		&& (str[i] == '?' || ft_isalpha(str[i + 1]
-		|| str[i + 1] == '_')))
+				|| str[i + 1] == '_')))
 		return (1);
 	else if ((*flags == 1 && squote) || (*flags == 2 && dquote))
 	{
@@ -45,11 +45,8 @@ int	lenkey(char *str)
 	cpy = str;
 	if (*str == '?')
 		return (1);
-	while (*str)
-	{
-		if (*str == '_' || ft_isalnum(*str))
-			str++;
-	}
+	while (*str && (*str == '_' || ft_isalnum(*str)))
+		str++;
 	return (str - cpy);
 }
 
@@ -59,8 +56,7 @@ char	*resolve_key(char *str, int i, char **env)
 	char	*res;
 	char	*key;
 	int		len;
-	
-	
+
 	len = lenkey(&str[i]);
 	if (!len)
 		return (NULL);
@@ -79,7 +75,7 @@ char	*resolve_key(char *str, int i, char **env)
 	ft_strlcat(res, mkey, ft_strlen(mkey));
 	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]));
 	free(mkey);
-	return(res);
+	return (res);
 }
 
 char	*expand(char *str, int flag, char **env)
@@ -87,13 +83,13 @@ char	*expand(char *str, int flag, char **env)
 	char	*cpy;
 	int		len;
 	int		i;
-	
+
 	i = 0;
 	while (str[i])
 	{
 		if ((!flag && str[i] == '$' && str[i + 1]
-			&& (str[i + 1] == '"' || str[i + 1] == '\''))
-			|| isword(str, i, &flag))
+				&& (str[i + 1] == '?' || ft_isalpha(str[i + 1])
+					|| str[i + 1] == '_')) || isword(str, i, &flag))
 		{
 			cpy = str;
 			str = resolve_key(str, i + 1, env);
@@ -101,7 +97,7 @@ char	*expand(char *str, int flag, char **env)
 			len = ft_strlen(str) - ft_strlen(cpy);
 			free(cpy);
 			if (len < 0)
-				len *= 1;
+				len *= -1;
 			i += len;
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/05 18:45:41 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 13:40:27 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**split_expand(char *str);
 char	*question_mark(t_data *shell, char *arg);
 
 //--------------------[WILDCARD]----------------
-char	**wildcard(char **args);
+int		wildcard(char **new, int k, char **tmp, int nbr_files);
 int		find_arg_wc(char **args, char ***key);
 void	add_tab_element(char **new_arg, char *cmd_arg, int *flag);
 int		ft_tablen(char **tab);

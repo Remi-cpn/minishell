@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 21:13:59 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 14:47:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**replace_args(char **args, char **add_args, int idx, int *flag)
 		return (NULL);
 	tmp = args;
 	i = -1;
-	while (*flag == SUCCES && ++i <= idx)
+	while (*flag == SUCCES && ++i < idx)
 		add_tab_element(&new_args[i], args[i], flag);
 	ft_memcpy(new_args + idx, add_args, len_add_args * sizeof(char *));
 	i += len_add_args;
@@ -58,10 +58,15 @@ static int	cmp_with_key(char *s, char **key)
 	while (s[i] && key[j])
 	{
 		if (ft_strncmp(&s[i], key[j], ft_strlen(key[j])) == 0)
+		{
+			i += ft_strlen(key[j]);
 			j++;
-		i++;
+		}
+		else
+			i++;
 	}
-	if ((key[j] && key[j][0] != '\0') || s[i] != '\0')
+	if ((key[j] && key[j][0] != '\0')
+		|| (s[i] != '\0' && key[j - 1][0] != '\0'))
 		return (0);
 	return (1);
 }
@@ -93,12 +98,11 @@ static void	list_files(char **new_args, char **key, char *arg, int *flag)
 	closedir(dir);
 }
 
-char	**wildcard(char	**args)
+static char	**wildcard_expand(char **args, int nbr_files)
 {
 	char	**key;
 	int		idx;
 	char	**add_args;
-	int		nbr_files;
 	int		flag;
 	char	**res;
 
@@ -108,9 +112,11 @@ char	**wildcard(char	**args)
 	idx = find_arg_wc(args, &key);
 	if (idx == FAILURE)
 		return (args);
-	nbr_files = len_files(key);
 	if (nbr_files == 0)
+	{
+		free_array(key);
 		return (args);
+	}
 	add_args = ft_calloc(nbr_files + 1, sizeof(char *));
 	if (add_args)
 	{
@@ -122,4 +128,21 @@ char	**wildcard(char	**args)
 	}
 	free_array(key);
 	return (res);
+}
+
+int	wildcard(char **new, int k, char **tmp, int nbr_files)
+{
+	char	**wild;
+	int		count;
+	int		j;
+
+	wild = wildcard_expand(tmp, nbr_files);
+	if (!wild)
+		return (free_array(tmp), -1);
+	count = ft_tablen(wild);
+	j = 0;
+	while (wild[j])
+		new[k++] = wild[j++];
+	free(wild);
+	return (count);
 }
