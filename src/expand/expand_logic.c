@@ -41,7 +41,7 @@ int	lenkey(char *str)
 	char	*cpy;
 
 	cpy = str;
-	if (*str == '?')
+	if (*str == '?' || *str == '*')
 		return (1);
 	while (*str && (*str == '_' || ft_isalnum(*str)))
 		str++;
@@ -86,7 +86,8 @@ char	*expand(char *str, int flag, t_data *shell)
 	while (str[i])
 	{
 		if ((!flag && str[i] == '$' && str[i + 1]
-				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'
+					|| str[i + 1] == '*'))
 				|| isword(str, i, &flag))
 		{
 			cpy = str;
