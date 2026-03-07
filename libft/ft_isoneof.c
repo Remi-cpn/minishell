@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isoneof.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 13:49:20 by von               #+#    #+#             */
-/*   Updated: 2026/02/18 13:50:20 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 18:08:38 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isoneof(int c, char *set)
+int	ft_isoneof(int c, char *set)
 {
 	while (*set)
 	{

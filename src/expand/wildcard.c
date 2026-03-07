@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 14:47:43 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:00:25 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ static char	**replace_args(char **args, char **add_args, int idx, int *flag)
 {
 	const int		len_cmd_args = ft_tablen(args);
 	const int		len_add_args = ft_tablen(add_args);
-	char			**tmp;
+	const char		**tmp = (const char **)args;
 	char			**new_args;
 	int				i;
 
 	new_args = ft_calloc(len_cmd_args + len_add_args + 1, sizeof(char *));
 	if (!new_args)
 		return (NULL);
-	tmp = args;
 	i = -1;
 	while (*flag == SUCCES && ++i < idx)
 		add_tab_element(&new_args[i], args[i], flag);
@@ -36,7 +35,7 @@ static char	**replace_args(char **args, char **add_args, int idx, int *flag)
 	if (*flag == SUCCES)
 	{
 		args = new_args;
-		free_array(tmp);
+		free_array((char **)tmp);
 		free(add_args);
 		return (args);
 	}
@@ -110,13 +109,10 @@ static char	**wildcard_expand(char **args, int nbr_files)
 	res = args;
 	key = NULL;
 	idx = find_arg_wc(args, &key);
-	if (idx == FAILURE)
-		return (args);
 	if (nbr_files == 0)
-	{
-		free_array(key);
+		free(key);
+	if (idx == FAILURE || nbr_files == 0)
 		return (args);
-	}
 	add_args = ft_calloc(nbr_files + 1, sizeof(char *));
 	if (add_args)
 	{

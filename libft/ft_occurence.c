@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_occurence.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 17:09:11 by von               #+#    #+#             */
-/*   Updated: 2026/02/27 17:10:21 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 18:11:22 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_occurence(char *s, char c)
+int	ft_occurence(char *s, char c)
 {
-    int occ;
+	int	occ;
 
-    occ = 0;
-    while (*s)
-    {
-        if (*s == c)
-            occ++;
-        s++;
-    }
-    return (occ);
+	occ = 0;
+	while (*s)
+	{
+		if (*s == c)
+			occ++;
+		s++;
+	}
+	return (occ);
 }

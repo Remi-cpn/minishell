@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/02 23:57:34 by von              ###   ########.fr       */
+/*   Updated: 2026/03/06 19:06:45 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 }
 
 t_src_info	*init_parse(char *src, t_lookup *lookup,
-	t_ast **next, t_ast ***node, t_data *shell)
+	t_ast **next, t_ast ***node)
 {
 	t_src_info	*txt;
 
 	txt = ft_calloc(sizeof(t_src_info), 1);
-	shell->need_cmd = 1;
 	if (!txt)
 		return (NULL);
 	txt->src = src;
@@ -59,6 +58,8 @@ t_src_info	*init_parse(char *src, t_lookup *lookup,
 	gen_lookup(lookup);
 	*next = NULL;
 	*node = ft_calloc(sizeof(t_list *), 1);
+	if (!*node)
+		*node = NULL;
 	return (txt);
 }
 
@@ -93,7 +94,7 @@ t_ast	*next_expr(
 	return (tmp);
 }
 
-void	set_flag(
+t_ast	**set_flag(
 	t_ast **node,
 	t_ast *next,
 	t_src_info *txt,
@@ -101,8 +102,14 @@ void	set_flag(
 )
 {
 	if (!next || !node || !txt)
+	{
 		shell->error_status = ERR_ALLOC;
+		if (node)
+			free_ast(node);
+		node = ft_freenull(node);
+	}
 	free(txt);
+	return (node);
 }
 
 t_ast	**parse(char *src, t_data *shell)
@@ -112,13 +119,13 @@ t_ast	**parse(char *src, t_data *shell)
 	t_src_info	*txt;
 	t_lookup	lookup[13];
 
-	txt = init_parse(src, lookup, &next, &node, shell);
+	txt = init_parse(src, lookup, &next, &node);
+	shell->need_cmd = 1;
 	if (node && txt)
 	{
 		next = next_expr(lookup, txt, node, shell);
-		if (!next)
-			return (NULL);
-		*node = next;
+		if (next)
+			*node = next;
 		while (node && next && next->kind != END)
 		{
 			if (next->kind == CMD)
@@ -130,6 +137,6 @@ t_ast	**parse(char *src, t_data *shell)
 			ft_lstadd_back((t_list **)node, (t_list *)next);
 		}
 	}
-	set_flag(node, next, txt, shell);
+	node = set_flag(node, next, txt, shell);
 	return (node);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/06 17:10:56 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 19:02:02 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,99 +24,16 @@ char	*get_env_key(char *str, char **env)
 	return (NULL);
 }
 
-char	*rm(int *flag, char *str, int *i)
-{
-	int	squote;
-	int	dquote;
-	int	addquote;
-
-	squote = (str[*i] == '\'');
-	dquote = (str[*i] == '"');
-	addquote = (2 * dquote) + squote;
-	if (!*flag && (squote || dquote))
-	{
-		*flag += addquote;
-		ft_memmove(&str[*i], &str[*i + 1], ft_strlen(&str[*i]));
-	}
-	else if ((*flag == 1 && squote) || (*flag == 2 && dquote))
-	{
-		*flag -= addquote;
-		ft_memmove(&str[*i], &str[*i + 1], ft_strlen(&str[*i]));
-	}
-	else
-		*i += 1;
-	if (!str)
-		return (NULL);
-	return (str);
-}
-
-char	*dequote(char **list)
-{
-	int		flag;
-	char	*res;
-	int		i;
-	char	*str;
-
-	res = malloc(sizeof(char));
-	res[0] = '\0';
-	while (*list)
-	{
-		flag = 0;
-		i = 0;
-		str = *list;
-		while (str[i])
-		{
-			str = rm(&flag, str, &i);
-			if (!str || !str[i])
-				break ;
-		}
-		res = ft_strjoin(res, str, 1, 1);
-		if (!res)
-			return (NULL);
-		list++;
-	}
-	return (res);
-}
-
-static void	dequote_range(char **new, int start, int end)
-{
-	char	*pair[2];
-
-	pair[1] = NULL;
-	while (start < end)
-	{
-		pair[0] = new[start];
-		new[start] = dequote(pair);
-		start++;
-	}
-}
-
 char	**expansion(char **args, t_data *shell)
 {
 	char	**new;
-	char	**tmp;
 	int		nbr_files;
-	int		i;
-	int		k;
-	int		added;
 
 	nbr_files = len_files(NULL);
 	new = ft_calloc(ft_tablen(args) + nbr_files + 1, sizeof(char *));
 	if (!new)
 		return (args);
-	i = 0;
-	k = 0;
-	while (args[i])
-	{
-		tmp = expand_all(args[i++], shell);
-		if (!tmp)
-			return (free_array(new), free(args), NULL);
-		added = wildcard(new, k, tmp, nbr_files);
-		if (added < 0)
-			return (free_array(new), free(args), NULL);
-		dequote_range(new, k, k + added);
-		k += added;
-	}
+	new = dispatch_expand(args, shell, new, nbr_files);
 	free(args);
 	return (new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/06 17:58:31 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:37:35 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*resolve_key(char *str, int i, char **env)
 	char	*res;
 	char	*key;
 	int		len;
+	int		len_mkey;
 
 	len = lenkey(&str[i]);
 	if (!len)
@@ -64,12 +65,14 @@ char	*resolve_key(char *str, int i, char **env)
 	free(key);
 	if (!mkey)
 		mkey = "";
-	res = ft_calloc((ft_strlen(str) + ft_strlen(mkey) + 1), sizeof(char));
+	len_mkey = ft_strlen(mkey);
+	res = ft_calloc((ft_strlen(str) + len_mkey + 1), sizeof(char));
 	if (!res)
 		return (NULL);
 	ft_strlcat(res, str, i);
-	ft_strlcat(res, mkey, ft_strlen(mkey) + i);
-	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]) + i + ft_strlen(mkey));
+	ft_strlcat(res, mkey, len_mkey + i);
+	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]) + i
+		+ len_mkey);
 	return (res);
 }
 
@@ -83,8 +86,8 @@ char	*expand(char *str, int flag, t_data *shell)
 	while (str[i])
 	{
 		if ((!flag && str[i] == '$' && str[i + 1]
-				&& (ft_isalpha(str[i + 1])
-					|| str[i + 1] == '_')) || isword(str, i, &flag))
+				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+				|| isword(str, i, &flag))
 		{
 			cpy = str;
 			str = resolve_key(str, i + 1, shell->env);
@@ -101,7 +104,8 @@ char	*expand(char *str, int flag, t_data *shell)
 				len *= -1;
 			i += len;
 		}
-		else if (!flag && str[i] == '$' && str[i + 1] == '?')
+		else if (!flag && str[i] == '$' && str[i +1]
+			&& str[i + 1] == '?')
 			str = question_mark(shell, str, &i);
 		else
 			i++;

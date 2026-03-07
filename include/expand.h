@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/06 17:13:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/06 18:26:53 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 //--------------------[EXPAND.c]-------------
 char	*get_env_key(char *str, char **env);
 char    **expansion(char **args, t_data *shell);
+
+//--------------------[EXPAND_DISPATCH.c]-------------
+char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files);
 
 //--------------------[LOGIC]----------------
 char	**expand_all(char *string, t_data *shell);
