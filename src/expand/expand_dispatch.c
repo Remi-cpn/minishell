@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dispatch.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/06 19:02:31 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/07 08:05:22 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static char	*rm(int *flag, char *str, int *i)
 	}
 	else
 		*i += 1;
-	if (!str)
-		return (NULL);
 	return (str);
 }
 
