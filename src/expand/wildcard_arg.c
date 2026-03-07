@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 10:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 19:39:12 by von              ###   ########.fr       */
+/*   Updated: 2026/03/07 08:45:05 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,36 @@ static int	count_stars(char *s)
 	return (count);
 }
 
+static int	find_star(char *str)
+{
+	int	flag;
+	int	i;
+
+	flag = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (!flag && (str[i] == '"' || str[i] == '\''))
+			flag += (2 * (str[i] == '"')) + (str[i] == '\'');
+		else if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
+			flag = 0;
+		else if (str[i] == '*' && !flag)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	find_arg_wc(char **args, char ***key)
 {
 	int		i;
 	int		c_stars;
-	char	*tmp;
 	int		flag;
 
 	i = 0;
 	while (args[i])
 	{
-		tmp = ft_strchr(args[i], '*');
-		if (tmp)
+		if (find_star(args[i]))
 		{
 			c_stars = count_stars(args[i]);
 			*key = ft_calloc(c_stars + 2, sizeof(char *));
