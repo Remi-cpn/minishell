@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ?.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:06:28 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 17:06:35 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/08 15:18:02 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ char	*question_mark(t_data *shell, char *arg, int *i)
 {
 	char	*s;
 	int		len_s;
-	int		len_arg;
 	char	*res;
 
 	s = ft_itoa(shell->error_status);
 	len_s = 0;
 	if (s)
 		len_s = ft_strlen(s);
-	len_arg = ft_strlen(arg);
 	res = strndup(arg, *i);
 	if (!s || !res)
 	{

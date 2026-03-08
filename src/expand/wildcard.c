@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 19:00:25 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/08 15:49:38 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,10 @@ int	wildcard(char **new, int k, char **tmp, int nbr_files)
 
 	wild = wildcard_expand(tmp, nbr_files);
 	if (!wild)
-		return (free_array(tmp), -1);
+	{
+		free_array(tmp);
+		return (-1);
+	}
 	count = ft_tablen(wild);
 	j = 0;
 	while (wild[j])

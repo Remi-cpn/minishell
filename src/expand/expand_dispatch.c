@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dispatch.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/06 19:02:31 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/08 15:38:09 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*rm(int *flag, char *str, int *i)
 	return (str);
 }
 
-static char	*dequote(char **list)
+char	*dequote(char **list)
 {
 	int		flag;
 	char	*res;
@@ -66,7 +66,7 @@ static char	*dequote(char **list)
 	return (res);
 }
 
-static void	dequote_range(char **new, int start, int end)
+void	dequote_range(char **new, int start, int end)
 {
 	char	*pair[2];
 

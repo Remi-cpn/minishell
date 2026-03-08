@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 16:05:19 by von              ###   ########.fr       */
+/*   Updated: 2026/03/08 16:14:41 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(void)
 	init_data(&shell);
 	while (shell.exit == false)
 	{
-		line = readline("\001" CYAN BOLD "mini\002shell 🐚: \001" RESET "\002");
+		line = readline("\001" CYAN BOLD "mini\002shell: \001" RESET "\002");
 		if (!line || g_exit_flag == 1)
 			exit_prog(&shell, 0);
 		add_history(line);

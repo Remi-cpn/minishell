@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/06 18:26:53 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/08 15:40:46 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@ char	*get_env_key(char *str, char **env);
 char    **expansion(char **args, t_data *shell);
 
 //--------------------[EXPAND_DISPATCH.c]-------------
-char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files);
+char	**dispatch_expand(char **args, t_data *shell, char **, int nbr_files);
+void	dequote_range(char **, int start, int end);
+char	*dequote(char **list);
 
 //--------------------[LOGIC]----------------
 char	**expand_all(char *string, t_data *shell);
+int	    lenkey(char *str);
+char	*resolve_key(char *str, int i, char **env);
 
 //--------------------[SPLIT.c]----------------
 char	**split_expand(char *str);
@@ -34,8 +38,11 @@ char	**split_expand(char *str);
 //--------------------[?.C]----------------
 char	*question_mark(t_data *shell, char *arg, int *i);
 
+//--------------------[EXPAND_HEREDOC.C]
+char	*expand_all_heredoc(char *string, t_data *shell);
+
 //--------------------[WILDCARD]----------------
-int		wildcard(char **new, int k, char **tmp, int nbr_files);
+int		wildcard(char **, int k, char **tmp, int nbr_files);
 int		find_arg_wc(char **args, char ***key);
 void	add_tab_element(char **new_arg, char *cmd_arg, int *flag);
 int		ft_tablen(char **tab);
