@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 19:23:45 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/09 19:40:45 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@ void	error_pipeline(t_data *shell, char *msg, int error_status)
 	shell->error_status = error_status;
 }
 
-bool	is_builtins(t_ast_cmd	*cmd)
+bool	is_builtins(char *name)
 {
-	if (!cmd || !cmd->name)
+	if (!name)
 		return (false);
-	if (ft_strncmp(cmd->name, "echo", 5) == 0)
+	if (ft_strncmp(name, "echo", 5) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "exit", 5) == 0)
+	else if (ft_strncmp(name, "exit", 5) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "env", 4) == 0)
+	else if (ft_strncmp(name, "env", 4) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "pwd", 4) == 0)
+	else if (ft_strncmp(name, "pwd", 4) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "cd", 3) == 0)
+	else if (ft_strncmp(name, "cd", 3) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "export", 7) == 0)
+	else if (ft_strncmp(name, "export", 7) == 0)
 		return (true);
-	else if (ft_strncmp(cmd->name, "unset", 6) == 0)
+	else if (ft_strncmp(name, "unset", 6) == 0)
 		return (true);
 	return (false);
 }

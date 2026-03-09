@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 19:16:21 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/09 19:41:55 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	builtins_process_one_cmd(t_data *shell, t_cmd *cmd)
 	int	saved_in;
 	int	saved_out;
 
-	cmd->args = expansion(cmd->args, shell);
 	//if (!cmd->args)
 		//do somthing
 	if (cmd->redir_in || cmd->redir_out)
@@ -70,7 +69,8 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 	int	find;
 	int	status;
 
-	if (cmd->is_builtin == true)
+	cmd->args = expansion(cmd->args, shell);
+	if (cmd->is_builtin == true || is_builtins(cmd->args[0]))
 		builtins_process_one_cmd(shell, cmd);
 	else
 	{

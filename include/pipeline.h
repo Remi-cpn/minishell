@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 12:46:42 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:41:06 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in);
 int		find_path(t_data *shell, char **cmd);
 void	dispatch_builtins(t_data *shell, t_cmd *cmd);
 void	get_error_status(t_data *shell, int status);
-bool	is_builtins(t_ast_cmd	*cmd);
+bool	is_builtins(char *name);
 void	error_pipeline(t_data *shell, char *msg, int error_status);
 
 #endif

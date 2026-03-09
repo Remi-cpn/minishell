@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 15:31:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:42:41 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd)
 	if (ast_cmd->kind == CMD)
 	{
 		cmd_ast = (t_ast_cmd *)ast_cmd;
-		cmd->is_builtin = is_builtins(cmd_ast);
+		cmd->is_builtin = is_builtins(cmd_ast->name);
 		if (cmd_ast->name)
 			cmd->args = init_args(cmd_ast);
 		if (!cmd->args)
