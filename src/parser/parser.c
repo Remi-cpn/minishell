@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/06 19:06:45 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:31:57 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
 {
 	const t_token	tok = lexer(txt);
 	t_look_handler	fn;
@@ -37,7 +37,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt)
 	fn = lookup[tok.kind].fn;
 	if (!fn)
 		return (NULL);
-	tmp = fn(txt, lookup[tok.kind].type);
+	tmp = fn(txt, lookup[tok.kind].type, shell);
 	if (!tmp)
 		errno = 1;
 	else
@@ -73,7 +73,7 @@ t_ast	*next_expr(
 	t_ast		*tmp;
 
 	txt->i += skip_whitespace(&txt->src[txt->i]);
-	tmp = parse_expr(lookup, txt);
+	tmp = parse_expr(lookup, txt, shell);
 	if (!tmp)
 	{
 		free(node);
@@ -128,7 +128,7 @@ t_ast	**parse(char *src, t_data *shell)
 			*node = next;
 		while (node && next && next->kind != END)
 		{
-			if (next->kind == CMD)
+			if (next->kind == CMD || next->kind == SUBSHELL)
 				shell->nbr_cmd++;
 			next = next_expr(lookup, txt, node, shell);
 			node = check_last(node, next, txt);

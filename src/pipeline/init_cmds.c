@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 19:29:28 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:35:53 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd)
 		heredoc = (t_ast_heredoc *)ast_cmd;
 		open_fd_heredoc(shell, cmd, heredoc);
 	}
+	else if (ast_cmd->kind == SUBSHELL)
+		cmd->subshell = ((t_ast_subshell *)ast_cmd)->inter;
 }
 
 /**
@@ -107,7 +109,7 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	tmp = *ast;
 	while (cmds && shell->error_status != ERROR && tmp)
 	{
-		if (tmp->kind == CMD || tmp->kind == HEREDOC)
+		if (tmp->kind == CMD || tmp->kind == HEREDOC || tmp->kind == SUBSHELL)
 			init_cmd(shell, &cmds[i], tmp);
 		else if (tmp->kind == IN)
 			open_fd_in(shell, &cmds[i], (t_ast_in *)tmp);
@@ -116,7 +118,7 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 		else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == END)
 			init_or_and_end(&cmds[i], tmp->kind);
 		if (tmp->kind != CMD && tmp->kind != HEREDOC
-			&& tmp->kind != IN && tmp->kind != OUT)
+			&& tmp->kind != IN && tmp->kind != OUT && tmp->kind != SUBSHELL)
 		{
 			print_cmd(&cmds[i], i);
 			i++;
