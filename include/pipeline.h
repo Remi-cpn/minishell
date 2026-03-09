@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 11:55:04 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:46:42 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_cmd
 	bool	next_or;
 	bool	next_and;
 	t_ast	**subshell;
+	int		nbr_cmd_subshell;
 }	t_cmd;
 
 /** Functions */

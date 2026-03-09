@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:59:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 11:12:40 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:45:59 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_subshell	*node;
 	int				len;
-	int				s_nbr_cmd;
 	char			*inter;
+	t_token			token;
+	int				s_nbr_cmd;
 
 	(void)kind;
-	advance(txt);
+	token = advance(txt);
+	free(token.value);
 	len = find_rpar(txt);
 	inter = ft_strndup(&txt->src[txt->i], 0, len - 1);
 	if (!inter)
@@ -48,10 +50,10 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 	node = ft_calloc(1, sizeof(t_ast_subshell));
 	if (node)
 	{
-		node->kind = SUBSHELL;
 		s_nbr_cmd = shell->nbr_cmd;
 		shell->nbr_cmd = 0;
 		node->inter = parse(inter, shell);
+		node->nbr_cmd = shell->nbr_cmd;
 		shell->nbr_cmd = s_nbr_cmd;
 	}
 	free(inter);

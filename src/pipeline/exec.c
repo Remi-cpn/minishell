@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 11:53:40 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:17:58 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ void	exec(t_data *shell, t_ast **ast)
 
 	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
-	free_ast(ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 	if (shell->error_status == ERROR)
 		return ;
 	shell->error_status = shell->last_error_status;
 	exec_loop(shell, cmds);
+	free_ast(ast);
 }

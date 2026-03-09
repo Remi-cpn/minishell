@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/09 10:28:31 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:39:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_ast_subshell
 	t_ast_type		kind; // SUBSHELL | '( )'
 	struct s_ast	*next;
 	t_ast			**inter;
+	int				nbr_cmd;
 }					t_ast_subshell;
 
 typedef struct s_ast_pipe
