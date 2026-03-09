@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/07 09:20:06 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 09:14:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*rm(int *flag, char *str, int *i)
 	return (str);
 }
 
-static char	*dequote(char **list)
+char	*dequote(char **list)
 {
 	int		flag;
 	char	*res;
@@ -64,7 +64,7 @@ static char	*dequote(char **list)
 	return (res);
 }
 
-static void	dequote_range(char **new, int start, int end)
+void	dequote_range(char **new, int start, int end)
 {
 	char	*pair[2];
 
