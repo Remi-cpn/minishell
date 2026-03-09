@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:43:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 13:30:45 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:32:56 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 	exec(shell, cmd->subshell);
 	free_ast(save_ast);
 	free(save_cmd);
-	write(1, "EXIT CHILD\n", 11);
 	exit_prog(shell, shell->error_status);
 }
 

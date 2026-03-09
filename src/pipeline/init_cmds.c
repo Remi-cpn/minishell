@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 12:48:12 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:31:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	set_cmd_defaults(t_data *shell, t_cmd *cmds, int *j)
 		cmds[i].next_and = false;
 		cmds[i].next_or = false;
 		cmds[i].is_builtin = false;
+		cmds[i].subshell = NULL;
 		i++;
 	}
 	*j = 0;

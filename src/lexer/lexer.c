@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/09 09:44:15 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:31:07 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ void	report_parsing_error(char c, char *s)
 	errno = 1;
 }
 
-static int	lexer_bonus(t_src_info *txt, int *back)
-{
-	if (ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
-		back[0] = AMPERTYPE;
-	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
-		back[0] = VERBARTYPE;
-	if (back[0] != 0)
-		back[1] = 2;
-	else if (txt->src[txt->i] == '(')
-		back[0] = LPARENTYPE;
-	else if (txt->src[txt->i] == ')')
-		back[0] = RPARENTYPE;
-	if (back[1] == 0)
-		back[1] = 1;
-	return (back[0]);
-}
-
 t_token	lexer(t_src_info *txt)
 {
 	t_token	tok;
@@ -68,8 +51,14 @@ t_token	lexer(t_src_info *txt)
 		tok = token(&txt->src[txt->i], DINFTYPE, 2);
 	else if (ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
 		tok = token(&txt->src[txt->i], DSUPTYPE, 2);
-	else if (lexer_bonus(txt, back) != 0)
-		tok = token(&txt->src[txt->i], back[0], back[1]);
+	else if (ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
+		tok = token(&txt->src[txt->i], AMPERTYPE, 2);
+	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
+		tok = token(&txt->src[txt->i], VERBARTYPE, 2);
+	else if (txt->src[txt->i] == '(')
+		tok = token(&txt->src[txt->i], LPARENTYPE, 1);
+	else if (txt->src[txt->i] == ')')
+		tok = token(&txt->src[txt->i], RPARENTYPE, 1);
 	else if (txt->src[txt->i] == '>')
 		tok = token(&txt->src[txt->i], SUPTYPE, 1);
 	else if (txt->src[txt->i] == '<')
