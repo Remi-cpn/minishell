@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/07 08:15:00 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 21:16:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ char	*expand(char *str, int flag, t_data *shell)
 	i = 0;
 	while (str[i])
 	{
-		if ((!flag && str[i] == '$' && str[i + 1]
+
+		if (!flag && str[i] == '$' && str[i +1]
+			&& str[i + 1] == '?')
+			str = question_mark(shell, str, &i);
+		else if ((!flag && str[i] == '$' && str[i + 1]
 				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'
 					|| str[i + 1] == '*'))
 				|| isword(str, i, &flag))
@@ -105,9 +109,6 @@ char	*expand(char *str, int flag, t_data *shell)
 				len *= -1;
 			i += len;
 		}
-		else if (!flag && str[i] == '$' && str[i +1]
-			&& str[i + 1] == '?')
-			str = question_mark(shell, str, &i);
 		else
 			i++;
 	}

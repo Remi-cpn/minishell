@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/24 15:52:52 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 21:44:35 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void	check_num(t_exit *exit, char *arg)
 		}
 		i++;
 	}
+	if (arg && arg[0] == 0)
+		exit->not_num = true;
 }
 
 void	exit_cmd(t_data *shell, char **args)
