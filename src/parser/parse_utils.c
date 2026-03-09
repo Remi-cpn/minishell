@@ -15,11 +15,12 @@
 #include "../../include/mini_shell.h"
 #include "../../libft/libft.h"
 
-t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_ord(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_pipe	*node;
 	t_token		tok;
 
+	(void)shell;
 	tok = advance(txt);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_pipe));
@@ -29,11 +30,12 @@ t_ast	*parse_ord(t_src_info *txt, t_ast_type kind)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_heredoc	*node;
 	t_token			tok;
 
+	(void)shell;
 	tok = advance(txt);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_heredoc));
@@ -51,11 +53,12 @@ t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_out	*node;
 	t_token		tok;
 
+	(void)shell;
 	tok = advance(txt);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_out));
@@ -74,11 +77,12 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_in	*node;
 	t_token		tok;
 
+	(void)shell;
 	advance(txt);
 	node = malloc(sizeof(t_ast_in));
 	if (!node)
@@ -95,11 +99,12 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind)
 	return ((t_ast *)node);
 }
 
-t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind)
+t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_cmd	*node;
 	int			i;
 
+	(void)shell;
 	node = ft_calloc(1, sizeof(t_ast_cmd));
 	if (!node)
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dispatch.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/08 15:38:09 by von              ###   ########.fr       */
+/*   Updated: 2026/03/09 18:45:12 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static char	*rm(int *flag, char *str, int *i)
 	}
 	else
 		*i += 1;
-	if (!str)
-		return (NULL);
 	return (str);
 }
 
@@ -91,11 +89,13 @@ char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files)
 	while (args[i])
 	{
 		tmp = expand_all(args[i++], shell);
-		if (!tmp)
-			return (free_array(new), free(args), NULL);
-		added = wildcard(new, k, tmp, nbr_files);
-		if (added < 0)
-			return (free_array(new), free(args), NULL);
+		if (tmp)
+			added = wildcard(new, k, tmp, nbr_files);
+		if (!tmp || added < 0)
+		{
+			free_array(new);
+			return (NULL);
+		}
 		dequote_range(new, k, k + added);
 		k += added;
 	}

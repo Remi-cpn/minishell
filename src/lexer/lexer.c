@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/09 06:22:31 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/09 15:31:07 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	report_parsing_error(char c, char *s)
 t_token	lexer(t_src_info *txt)
 {
 	t_token	tok;
+	int		back[2];
 
+	back[0] = 0;
+	back[1] = 0;
 	txt->i += skip_whitespace(&txt->src[txt->i]);
 	if (txt->i >= txt->len)
 		tok = (t_token){.kind = eof, .value = NULL};
@@ -52,6 +55,10 @@ t_token	lexer(t_src_info *txt)
 		tok = token(&txt->src[txt->i], AMPERTYPE, 2);
 	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
 		tok = token(&txt->src[txt->i], VERBARTYPE, 2);
+	else if (txt->src[txt->i] == '(')
+		tok = token(&txt->src[txt->i], LPARENTYPE, 1);
+	else if (txt->src[txt->i] == ')')
+		tok = token(&txt->src[txt->i], RPARENTYPE, 1);
 	else if (txt->src[txt->i] == '>')
 		tok = token(&txt->src[txt->i], SUPTYPE, 1);
 	else if (txt->src[txt->i] == '<')

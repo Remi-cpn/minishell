@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 18:32:18 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/09 12:17:58 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 
 	if (!cmds)
 		return (NULL);
-	if (cmds->last_cmd == true)
+	if (cmds->subshell)
+		cmds = exec_subshell(shell, &cmds[0]);
+	else if (cmds->last_cmd == true)
 		cmds = exec_one_cmd(shell, &cmds[0]);
 	else
 	{
@@ -63,7 +65,7 @@ static void	exec_loop(t_data *shell, t_cmd *cmds)
 	bool	and_ok;
 	bool	or_ok;
 
-	while (cmds && cmds->args && shell->exit == false)
+	while (cmds && (cmds->args || cmds->subshell) && shell->exit == false)
 	{
 		and_ok = false;
 		or_ok = true;
@@ -90,11 +92,11 @@ void	exec(t_data *shell, t_ast **ast)
 
 	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
-	free_ast(ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
 	if (shell->error_status == ERROR)
 		return ;
 	shell->error_status = shell->last_error_status;
 	exec_loop(shell, cmds);
+	free_ast(ast);
 }

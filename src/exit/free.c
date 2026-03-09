@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/05 13:07:06 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:17:33 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	free_ast(t_ast **ast)
 			free(((t_ast_out *)current)->output);
 		else if (current->kind == HEREDOC)
 			free(((t_ast_heredoc *)current)->del);
+		else if (current->kind == SUBSHELL)
+			free_ast(((t_ast_subshell *)current)->inter);
 		free(current);
 		current = next;
 	}

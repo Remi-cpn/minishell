@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: von <von@student.42.fr>                    +#+  +:+       +#+         #
+#    By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/03/08 15:17:12 by von              ###   ########.fr        #
+#    Updated: 2026/03/09 11:55:29 by rcompain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/builtins/utils.c \
 			  $(SRC_DIR)/parser/lookup.c \
 			  $(SRC_DIR)/parser/parse_utils.c \
+			  $(SRC_DIR)/parser/parse_utils_sub.c \
 			  $(SRC_DIR)/parser/parse_args.c \
 			  $(SRC_DIR)/parser/parser.c \
 			  $(SRC_DIR)/lexer/lexer.c \
@@ -72,6 +73,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/pipeline/heredoc.c \
 			  $(SRC_DIR)/pipeline/exec_one_cmd.c \
 			  $(SRC_DIR)/pipeline/exec_pipeline.c \
+			  $(SRC_DIR)/pipeline/exec_subshell.c \
 			  $(SRC_DIR)/pipeline/exec.c \
 			  $(SRC_DIR)/pipeline/init_cmds.c \
 			  $(SRC_DIR)/pipeline/find_path.c \

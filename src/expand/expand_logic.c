@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_logic.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/06 18:37:35 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/07 08:15:00 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	isword(char *str, int i, int *flags)
 		return (0);
 	}
 	else if (*flags != 1 && str[i] == '$' && str[i + 1]
-		&& (str[i] == '?' || ft_isalpha(str[i + 1]
-				|| str[i + 1] == '_')))
+		&& (str[i + 1] == '?' || ft_isalpha(str[i + 1])
+			|| str[i + 1] == '_'))
 		return (1);
 	else if ((*flags == 1 && squote) || (*flags == 2 && dquote))
 	{
@@ -41,7 +41,7 @@ int	lenkey(char *str)
 	char	*cpy;
 
 	cpy = str;
-	if (*str == '?')
+	if (*str == '?' || *str == '*')
 		return (1);
 	while (*str && (*str == '_' || ft_isalnum(*str)))
 		str++;
@@ -86,7 +86,8 @@ char	*expand(char *str, int flag, t_data *shell)
 	while (str[i])
 	{
 		if ((!flag && str[i] == '$' && str[i + 1]
-				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'
+					|| str[i + 1] == '*'))
 				|| isword(str, i, &flag))
 		{
 			cpy = str;

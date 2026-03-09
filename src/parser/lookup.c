@@ -31,4 +31,5 @@ void	gen_lookup(t_lookup *lookup)
 	bind(lookup, DSUPTYPE, &parse_output, OUT);
 	bind(lookup, INFTYPE, &parse_input, IN);
 	bind(lookup, WORDTYPE, &parse_cmd, CMD);
+	bind(lookup, LPARENTYPE, &parse_subshell, SUBSHELL);
 }
