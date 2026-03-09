@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/08 15:49:38 by von              ###   ########.fr       */
+/*   Updated: 2026/03/09 19:07:10 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static char	**replace_args(char **args, char **add_args, int idx, int *flag)
 {
 	const int		len_cmd_args = ft_tablen(args);
 	const int		len_add_args = ft_tablen(add_args);
-	const char		**tmp = (const char **)args;
 	char			**new_args;
 	int				i;
 
@@ -28,17 +27,17 @@ static char	**replace_args(char **args, char **add_args, int idx, int *flag)
 	i = -1;
 	while (*flag == SUCCES && ++i < idx)
 		add_tab_element(&new_args[i], args[i], flag);
-	ft_memcpy(new_args + idx, add_args, len_add_args * sizeof(char *));
-	i += len_add_args;
+	i = -1;
+	while (*flag == SUCCES && add_args[++i])
+		add_tab_element(&new_args[idx + i], add_args[i], flag);
+	i = idx + i;
 	while (*flag == SUCCES && args[++idx])
-		add_tab_element(&new_args[i++], args[idx], flag);
-	if (*flag == SUCCES)
 	{
-		args = new_args;
-		free_array((char **)tmp);
-		free(add_args);
-		return (args);
+		add_tab_element(&new_args[i], args[idx], flag);
+		i++;
 	}
+	if (*flag == SUCCES)
+		return (new_args);
 	free_array(new_args);
 	return (NULL);
 }
@@ -106,8 +105,8 @@ static char	**wildcard_expand(char **args, int nbr_files)
 	char	**res;
 
 	flag = 0;
-	res = args;
 	key = NULL;
+	res = NULL;
 	idx = find_arg_wc(args, &key);
 	if (nbr_files == 0)
 		free(key);
@@ -119,9 +118,8 @@ static char	**wildcard_expand(char **args, int nbr_files)
 		list_files(add_args, key, args[idx], &flag);
 		if (flag == SUCCES)
 			res = replace_args(args, add_args, idx, &flag);
-		else
-			free_array(add_args);
 	}
+	free_array(add_args);
 	free_array(key);
 	return (res);
 }
@@ -141,7 +139,11 @@ int	wildcard(char **new, int k, char **tmp, int nbr_files)
 	count = ft_tablen(wild);
 	j = 0;
 	while (wild[j])
-		new[k++] = wild[j++];
-	free(wild);
+	{
+		add_tab_element(&new[k], wild[j], 0);
+		k++;
+		j++;
+	}
+	free_array(wild);
 	return (count);
 }
