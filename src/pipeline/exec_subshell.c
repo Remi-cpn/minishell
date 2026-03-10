@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:43:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 15:32:56 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 09:35:22 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static void	find_node_subshell(t_ast **save_ast)
 
 static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 {
-	t_cmd	*save_cmd;
 	t_ast	**save_ast;
+	int		save_nbr_cmd;
+	t_ast	**inter_ast;
 
 	init_signals_child();
 	if (cmd->fd_in != STDIN_FILENO)
@@ -37,13 +38,14 @@ static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
 		close(cmd->fd_out);
-	save_cmd = shell->cmds;
 	save_ast = shell->ast;
+	inter_ast = cmd->subshell;
+	save_nbr_cmd = cmd->nbr_cmd_subshell;
 	find_node_subshell(save_ast);
-	shell->nbr_cmd = cmd->nbr_cmd_subshell;
-	exec(shell, cmd->subshell);
+	free_cmds(shell);
 	free_ast(save_ast);
-	free(save_cmd);
+	shell->nbr_cmd = save_nbr_cmd;
+	exec(shell, inter_ast);
 	exit_prog(shell, shell->error_status);
 }
 
