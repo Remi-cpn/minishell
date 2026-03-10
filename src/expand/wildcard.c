@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 19:07:10 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:04:09 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <dirent.h>
 #include <string.h>
 
-static char	**replace_args(char **args, char **add_args, int idx, int *flag)
+char	**replace_args(char **args, char **add_args, int idx, int *flag)
 {
 	const int		len_cmd_args = ft_tablen(args);
 	const int		len_add_args = ft_tablen(add_args);

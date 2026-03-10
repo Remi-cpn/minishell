@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/09 15:31:07 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 08:07:54 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ void	report_parsing_error(char c, char *s)
 t_token	lexer(t_src_info *txt)
 {
 	t_token	tok;
-	int		back[2];
 
-	back[0] = 0;
-	back[1] = 0;
 	txt->i += skip_whitespace(&txt->src[txt->i]);
 	if (txt->i >= txt->len)
 		tok = (t_token){.kind = eof, .value = NULL};

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 19:42:41 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:32:46 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,53 @@ static void	set_cmd_defaults(t_data *shell, t_cmd *cmds, int *j)
 	*j = 0;
 }
 
+static char	**replace_cmd_args(char **args, char **add_args)
+{
+	char			**new_args;
+	int				i;
+	int				j;
+	int				flag;
+
+	flag = 0;
+	new_args = ft_calloc(ft_tablen(args) + ft_tablen(add_args) + 1,
+			sizeof(char *));
+	if (!new_args)
+		return (NULL);
+	i = -1;
+	while (flag == SUCCES && args[++i])
+		add_tab_element(&new_args[i], args[i], &flag);
+	j = -1;
+	while (flag == SUCCES && add_args[++j])
+		add_tab_element(&new_args[j + i], add_args[j], &flag);
+	if (flag != SUCCES)
+		free_array(new_args);
+	free_array(add_args);
+	free_array(args);
+	return (new_args);
+}
+
 static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd)
 {
 	t_ast_cmd		*cmd_ast;
-	t_ast_heredoc	*heredoc;
+	char			**tmp;
 
 	if (ast_cmd->kind == CMD)
 	{
 		cmd_ast = (t_ast_cmd *)ast_cmd;
 		cmd->is_builtin = is_builtins(cmd_ast->name);
-		if (cmd_ast->name)
+		if (cmd_ast->name && !cmd->args)
 			cmd->args = init_args(cmd_ast);
+		else if (cmd->args[0])
+		{
+			tmp = init_args(cmd_ast);
+			if (tmp)
+				cmd->args = replace_cmd_args(cmd->args, tmp);
+		}
 		if (!cmd->args)
 			call_to_exit(shell, ERR_ALLOC, NULL);
 	}
 	else if (ast_cmd->kind == HEREDOC)
-	{
-		heredoc = (t_ast_heredoc *)ast_cmd;
-		open_fd_heredoc(shell, cmd, heredoc);
-	}
+		open_fd_heredoc(shell, cmd, (t_ast_heredoc *)ast_cmd);
 	else if (ast_cmd->kind == SUBSHELL)
 	{
 		cmd->subshell = ((t_ast_subshell *)ast_cmd)->inter;
