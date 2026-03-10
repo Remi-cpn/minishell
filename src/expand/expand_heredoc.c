@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:00:12 by von               #+#    #+#             */
-/*   Updated: 2026/03/08 16:06:19 by von              ###   ########.fr       */
+/*   Updated: 2026/03/10 16:46:51 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static char	*expand_heredoc(char *str, int flag, t_data *shell)
 	last_quote = '\0';
 	while (str[i])
 	{
-		if (!flag && str[i] == '$' && str[i + 1]
+		if (!flag && str[i] == '$' && str[i +1]
+			&& str[i + 1] == '?')
+			str = question_mark(shell, str, &i);
+		else if (!flag && str[i] == '$' && str[i + 1]
 				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
         {
 			cpy = str;
@@ -54,9 +57,6 @@ static char	*expand_heredoc(char *str, int flag, t_data *shell)
 				len *= -1;
 			i += len;
 		}
-		else if (!flag && str[i] == '$' && str[i +1]
-			&& str[i + 1] == '?')
-			str = question_mark(shell, str, &i);
 		else
 		{
 			if (str[i] == last_quote)
