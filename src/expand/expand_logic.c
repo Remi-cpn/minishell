@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/09 21:16:54 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:52:28 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*expand(char *str, int flag, t_data *shell)
 			if (!str)
 			{
 				str = cpy;
-				i += lenkey(&str[i]);
+				i += lenkey(&str[i + 1]);
 				continue ;
 			}
 			len = ft_strlen(str) - ft_strlen(cpy);

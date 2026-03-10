@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:00:12 by von               #+#    #+#             */
-/*   Updated: 2026/03/10 16:46:51 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:52:21 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*expand_heredoc(char *str, int flag, t_data *shell)
 			if (!str)
 			{
 				str = cpy;
-				i += lenkey(&str[i]);
+				i += lenkey(&str[i + 1]);
 				continue ;
 			}
 			len = ft_strlen(str) - ft_strlen(cpy);
