@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/10 08:07:54 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:54:50 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,29 @@ void	report_parsing_error(char c, char *s)
 
 t_token	lexer(t_src_info *txt)
 {
-	t_token	tok;
-
 	txt->i += skip_whitespace(&txt->src[txt->i]);
 	if (txt->i >= txt->len)
-		tok = (t_token){.kind = eof, .value = NULL};
+		return ((t_token){.kind = eof, .value = NULL});
 	else if (ft_strncmp(&txt->src[txt->i], "<<", 2) == 0)
-		tok = token(&txt->src[txt->i], DINFTYPE, 2);
+		return (token(&txt->src[txt->i], DINFTYPE, 2));
 	else if (ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
-		tok = token(&txt->src[txt->i], DSUPTYPE, 2);
+		return (token(&txt->src[txt->i], DSUPTYPE, 2));
 	else if (ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
-		tok = token(&txt->src[txt->i], AMPERTYPE, 2);
+		return (token(&txt->src[txt->i], AMPERTYPE, 2));
 	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
-		tok = token(&txt->src[txt->i], VERBARTYPE, 2);
+		return (token(&txt->src[txt->i], VERBARTYPE, 2));
 	else if (txt->src[txt->i] == '(')
-		tok = token(&txt->src[txt->i], LPARENTYPE, 1);
+		return (token(&txt->src[txt->i], LPARENTYPE, 1));
 	else if (txt->src[txt->i] == ')')
-		tok = token(&txt->src[txt->i], RPARENTYPE, 1);
+		return (token(&txt->src[txt->i], RPARENTYPE, 1));
 	else if (txt->src[txt->i] == '>')
-		tok = token(&txt->src[txt->i], SUPTYPE, 1);
+		return (token(&txt->src[txt->i], SUPTYPE, 1));
 	else if (txt->src[txt->i] == '<')
-		tok = token(&txt->src[txt->i], INFTYPE, 1);
+		return (token(&txt->src[txt->i], INFTYPE, 1));
 	else if (txt->src[txt->i] == '|')
-		tok = token(&txt->src[txt->i], PIPETYPE, 1);
+		return (token(&txt->src[txt->i], PIPETYPE, 1));
 	else if (is_start_word(txt->src[txt->i]))
-		tok = token(&txt->src[txt->i], WORDTYPE, len_word(&txt->src[txt->i]));
-	else
-		tok = (t_token){.kind = UNKNOWN, .value = NULL};
-	return (tok);
+		return (token(&txt->src[txt->i], WORDTYPE,
+				len_word(&txt->src[txt->i])));
+	return ((t_token){.kind = UNKNOWN, .value = NULL});
 }
