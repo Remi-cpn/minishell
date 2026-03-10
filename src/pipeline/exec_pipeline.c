@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 16:57:26 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:50:01 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 	else if (pid == CHILD)
 	{
 		cmd->args = expansion(cmd->args, shell);
-		//if (!cmd->args)
-		//		do somthing;
 		free(shell->pid_adr);
 		child_process(shell, cmd, prev_read, pipefd);
 	}
