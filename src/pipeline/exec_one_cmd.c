@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 19:41:55 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:49:03 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static void	builtins_process_one_cmd(t_data *shell, t_cmd *cmd)
 	int	saved_in;
 	int	saved_out;
 
-	//if (!cmd->args)
-		//do somthing
 	if (cmd->redir_in || cmd->redir_out)
 	{
 		saved_in = dup(STDIN_FILENO);

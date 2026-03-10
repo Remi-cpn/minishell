@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/08 15:40:46 by von              ###   ########.fr       */
+/*   Updated: 2026/03/10 17:22:16 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*dequote(char **list);
 //--------------------[LOGIC]----------------
 char	**expand_all(char *string, t_data *shell);
 int	    lenkey(char *str);
-char	*resolve_key(char *str, int i, char **env);
+char	*resolve_key(char *str, int i, char **env, int *len);
 
 //--------------------[SPLIT.c]----------------
 char	**split_expand(char *str);

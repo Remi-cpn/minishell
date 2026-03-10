@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 21:00:16 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:55:44 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@
 void	free_ast(t_ast **ast)
 {
 	t_ast	*current;
-	t_ast	*next;
 
 	if (!ast || !*ast)
 		return ;
 	current = *ast;
 	while (current && current->next)
 	{
-		next = current->next;
 		if (current->kind == CMD)
 		{
 			free(((t_ast_cmd *)current)->name);
@@ -40,7 +38,7 @@ void	free_ast(t_ast **ast)
 		else if (current->kind == SUBSHELL)
 			free_ast(((t_ast_subshell *)current)->inter);
 		free(current);
-		current = next;
+		current = current->next;
 	}
 	free(ast);
 }
