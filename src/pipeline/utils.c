@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 19:40:45 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:52:46 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-void	error_pipeline(t_data *shell, char *msg, int error_status)
+int	error_pipeline(t_data *shell, char *msg, int error_status,
+	int res)
 {
 	print_error(msg, NULL, 0, NULL);
 	shell->error_status = error_status;
+	return (res);
 }
 
 bool	is_builtins(char *name)

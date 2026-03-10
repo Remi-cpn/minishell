@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 17:50:13 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 19:36:56 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_cmd	*skip(t_cmd *cmds, int kind)
 }
 
 static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
-				bool *or_ok)
+		bool *or_ok)
 {
 	pid_t	*pid;
 
@@ -83,7 +83,8 @@ static void	exec_loop(t_data *shell, t_cmd *cmds)
 
 /** This function executes the series of command structures.
  * It handles the execution flow based on the presence of AND and OR operators
- * between commands. It also manages the exit status of each command to determine
+
+	* between commands. It also manages the exit status of each command to determine
  * if the next command should be executed or skipped.
  */
 void	exec(t_data *shell, t_ast **ast)

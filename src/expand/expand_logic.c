@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/10 17:46:59 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/10 18:07:29 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*resolve_key(char *str, int i, char **env, int *add_len)
 	ft_strlcat(res, mkey, len_mkey + i);
 	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]) + i
 		+ len_mkey);
+	free(str);
 	return (res);
 }
 

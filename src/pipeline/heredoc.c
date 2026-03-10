@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:27:43 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/08 15:30:30 by von              ###   ########.fr       */
+/*   Updated: 2026/03/10 19:38:04 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,18 @@ static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2])
 
 static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h)
 {
-	int		fd[2];
-	int		pid;
-	int		status;
+	int	fd[2];
+	int	pid;
+	int	status;
 
 	if (pipe(fd) == -1)
-	{
-		error_pipeline(shell, "pipe error", ERR_PIPE);
-		return (-1);
-	}
+		return (error_pipeline(shell, "pipe error", ERR_PIPE, -1));
 	pid = fork();
 	if (pid == -1)
 	{
-		error_pipeline(shell, "fork", ERR_FORK);
 		close(fd[0]);
 		close(fd[1]);
-		return (-1);
+		return (error_pipeline(shell, "fork", ERR_FORK, -1));
 	}
 	init_signals_parent();
 	if (pid == 0)
