@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/08 15:25:39 by von              ###   ########.fr       */
+/*   Updated: 2026/03/10 16:57:26 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 		execve(shell->cmd_path, cmd->args, shell->env);
 	close(cmd->fd_out);
 	close(cmd->fd_in);
+	free_ast(shell->ast);
 	exit_prog(shell, shell->error_status);
 }
 
