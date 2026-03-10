@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/03 15:20:54 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/09 21:06:30 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	len_quoted(char *src, char q)
 {
 	char	*s;
 
-	s = src++;
+	s = src;
 	while (*src && *src != q)
 		src++;
 	if (*src == q)

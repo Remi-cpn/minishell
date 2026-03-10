@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dispatch.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/09 18:45:12 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:48:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files)
 			free_array(new);
 			return (NULL);
 		}
-		dequote_range(new, k, k + added);
+		dequote_range(new, k, k + added + (k == 0 && added == 0));
 		k += added;
 	}
 	return (new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 08:31:34 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 17:05:00 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_ast(t_ast **ast)
 	if (!ast || !*ast)
 		return ;
 	current = *ast;
-	while (current)
+	while (current && current->next)
 	{
 		next = current->next;
 		if (current->kind == CMD)
