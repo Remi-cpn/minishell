@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 18:52:46 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 14:22:30 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@ bool	is_builtins(char *name)
  */
 void	get_error_status(t_data *shell, int status)
 {
-	if (WIFEXITED(status))
+	if (status == 256)
+	{
+		g_exit_flag = 1;
+		shell->error_status = ERROR;
+	}
+	else if (WIFEXITED(status))
 		shell->error_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{

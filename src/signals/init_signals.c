@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 19:30:18 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 14:17:49 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	handler_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_exit_flag = 1;
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
