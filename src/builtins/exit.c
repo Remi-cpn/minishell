@@ -6,18 +6,18 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:28:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 23:01:17 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 
-static void	select_error(t_data *shell, bool b, int status)
+static void	select_error(t_data *shell, bool b, int status, bool print_ok)
 {
 	shell->exit = b;
-	if (status == EXIT_NOT_NUMERIC)
+	if (status == EXIT_NOT_NUMERIC && print_ok == true)
 		print_error("exit", NULL, 0, "numeric argument required");
-	else if (status == EXIT_TO_MANY_ARGS)
+	else if (status == EXIT_TO_MANY_ARGS && print_ok == true)
 		print_error("exit", NULL, 0, "too many arguments");
 	shell->error_status = status;
 }
@@ -58,9 +58,9 @@ void	exit_cmd(t_data *shell, char **args)
 		exit.many_args = true;
 	check_num(&exit, args[1]);
 	if (exit.not_num == true)
-		select_error(shell, true, EXIT_NOT_NUMERIC);
+		select_error(shell, true, EXIT_NOT_NUMERIC, true);
 	else if (exit.many_args == true && exit.not_num == false)
-		select_error(shell, false, EXIT_TO_MANY_ARGS);
+		select_error(shell, false, EXIT_TO_MANY_ARGS, true);
 	else
-		select_error(shell, true, (unsigned char)ft_atol(args[1]));
+		select_error(shell, true, (unsigned char)ft_atol(args[1]), false);
 }
