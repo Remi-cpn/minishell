@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:28:32 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 00:40:48 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	pwd_cmd(t_data *shell, char **args)
 {
-	int		i;
+	char	*cwd;
 
 	shell->error_status = SUCCES;
 	if (args && args[0] && args[1])
@@ -23,17 +23,13 @@ void	pwd_cmd(t_data *shell, char **args)
 		print_error("pwd", NULL, 0, "too many arguments");
 		return ;
 	}
-	i = 0;
-	while (shell->env[i])
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
-		if (ft_strncmp(shell->env[i], "PWD=", 4) == 0)
-		{
-			ft_printf("%s\n", shell->env[i] + 4);
-			shell->error_status = SUCCES;
-			return ;
-		}
-		i++;
+		shell->error_status = ERROR;
+		print_error("pwd", NULL, 0, "error retrieving current directory");
+		return ;
 	}
-	shell->error_status = ERROR;
-	print_error("pwd", NULL, 0, "error retrieving current directory");
+	ft_printf("%s\n", cwd);
+	free(cwd);
 }
