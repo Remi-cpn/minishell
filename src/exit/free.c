@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 12:30:29 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 15:26:03 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	free_cmds(t_data *shell)
 
 void	reset_line(t_data *shell)
 {
+	g_exit_flag = 0;
 	free_cmds(shell);
 	shell->last_error_status = shell->error_status;
 	shell->error_status = SUCCES;

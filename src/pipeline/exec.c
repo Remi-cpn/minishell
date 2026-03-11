@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 13:41:21 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 15:41:39 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,21 @@ static void	exec_loop(t_data *shell, t_cmd *cmds)
 	}
 }
 
-/** This function executes the series of command structures.
- * It handles the execution flow based on the presence of AND and OR operators
+static void	close_cmds_fds(t_data *shell)
+{
+	int	i;
 
-	* between commands. It also manages the exit status of each command to determine
- * if the next command should be executed or skipped.
- */
+	i = 0;
+	while (i < shell->nbr_cmd)
+	{
+		if (shell->cmds[i].fd_in != STDIN_FILENO)
+			close(shell->cmds[i].fd_in);
+		if (shell->cmds[i].fd_out != STDOUT_FILENO)
+			close(shell->cmds[i].fd_out);
+		i++;
+	}
+}
+
 void	exec(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
@@ -98,6 +107,8 @@ void	exec(t_data *shell, t_ast **ast)
 	if (shell->error_status == ERROR || g_exit_flag == 1)
 	{
 		g_exit_flag = 0;
+		close_cmds_fds(shell);
+		free_ast(ast);
 		return ;
 	}
 	shell->error_status = shell->last_error_status;
