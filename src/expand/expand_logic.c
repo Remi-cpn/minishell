@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/10 16:52:28 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/10 18:07:29 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	lenkey(char *str)
 	return (str - cpy);
 }
 
-char	*resolve_key(char *str, int i, char **env)
+char	*resolve_key(char *str, int i, char **env, int *add_len)
 {
 	char	*mkey;
 	char	*res;
@@ -57,10 +57,8 @@ char	*resolve_key(char *str, int i, char **env)
 	int		len_mkey;
 
 	len = lenkey(&str[i]);
-	if (!len)
-		return (NULL);
-	else
-		key = ft_substr(str, i, len, 0);
+	*add_len = len;
+	key = ft_substr(str, i, len, 0);
 	mkey = get_env_key(key, env);
 	free(key);
 	if (!mkey)
@@ -73,44 +71,32 @@ char	*resolve_key(char *str, int i, char **env)
 	ft_strlcat(res, mkey, len_mkey + i);
 	ft_strlcat(res, &str[i + len], ft_strlen(&str[i + len]) + i
 		+ len_mkey);
+	free(str);
 	return (res);
 }
 
 char	*expand(char *str, int flag, t_data *shell)
 {
-	char	*cpy;
 	int		len;
 	int		i;
 
 	i = 0;
 	while (str[i])
 	{
-
+		len = 1;
 		if (!flag && str[i] == '$' && str[i +1]
 			&& str[i + 1] == '?')
 			str = question_mark(shell, str, &i);
 		else if ((!flag && str[i] == '$' && str[i + 1]
 				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'
-					|| str[i + 1] == '*'))
-				|| isword(str, i, &flag))
+					|| str[i + 1] == '*')) || isword(str, i, &flag))
 		{
-			cpy = str;
-			str = resolve_key(str, i + 1, shell->env);
+			str = resolve_key(str, i + 1, shell->env, &len);
 			flag = 0;
-			if (!str)
-			{
-				str = cpy;
-				i += lenkey(&str[i + 1]);
-				continue ;
-			}
-			len = ft_strlen(str) - ft_strlen(cpy);
-			free(cpy);
-			if (len < 0)
-				len *= -1;
-			i += len;
 		}
-		else
-			i++;
+		if (!str)
+			return (NULL);
+		i += len;
 	}
 	return (str);
 }

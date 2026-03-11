@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 17:50:01 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:54:52 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,11 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 	if (cmd->last_cmd == false)
 	{
 		if (pipe(pipefd) == -1)
-		{
-			error_pipeline(shell, "pipe error", ERR_PIPE);
-			return (-1);
-		}
+			return (error_pipeline(shell, "pipe error", ERR_PIPE, -1));
 	}
 	pid = fork();
 	if (pid == -1)
-		error_pipeline(shell, "fork", ERR_FORK);
+		error_pipeline(shell, "fork", ERR_FORK, 0);
 	else if (pid == CHILD)
 	{
 		cmd->args = expansion(cmd->args, shell);
@@ -80,10 +77,9 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 	if (prev_read != -1)
 		close(prev_read);
 	if (cmd->last_cmd == false && pid != -1)
-	{
 		close(pipefd[1]);
+	if (cmd->last_cmd == false && pid != -1)
 		return (pipefd[0]);
-	}
 	return (-1);
 }
 

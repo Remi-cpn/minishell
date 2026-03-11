@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:00:12 by von               #+#    #+#             */
-/*   Updated: 2026/03/10 16:52:21 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/10 17:45:41 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,52 +25,44 @@
 #include "../../include/mini_shell.h"
 #include <stdlib.h>
 
+static void	check_quote(char q, int *flag, char *last_quote)
+{
+	if (q == *last_quote)
+	{
+		*last_quote = '\0';
+		*flag += -1;
+	}
+	else if (!*flag && (q == '\'' || q == '"'))
+	{
+		*last_quote = q;
+		*flag += 1;
+	}
+}
+
 static char	*expand_heredoc(char *str, int flag, t_data *shell)
 {
-	char	*cpy;
-	int		len;
-	int		i;
-	int		last_quote;
+	int			len;
+	int			i;
+	char		last_quote;
 
 	i = 0;
 	last_quote = '\0';
 	while (str[i])
 	{
+		len = 1;
 		if (!flag && str[i] == '$' && str[i +1]
 			&& str[i + 1] == '?')
 			str = question_mark(shell, str, &i);
 		else if (!flag && str[i] == '$' && str[i + 1]
-				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-        {
-			cpy = str;
-			str = resolve_key(str, i + 1, shell->env);
-			flag = 0;
-			if (!str)
-			{
-				str = cpy;
-				i += lenkey(&str[i + 1]);
-				continue ;
-			}
-			len = ft_strlen(str) - ft_strlen(cpy);
-			free(cpy);
-			if (len < 0)
-				len *= -1;
-			i += len;
-		}
-		else
+			&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
 		{
-			if (str[i] == last_quote)
-			{
-				last_quote = '\0';
-				flag--;
-			}
-			else if (!flag && (str[i] == '"' || str[i] == '\''))
-			{
-				last_quote = str[i];
-				flag++;
-			}	
-			i++;
+			str = resolve_key(str, i + 1, shell->env, &len);
+			flag = 0;
 		}
+		if (!str)
+			return (NULL);
+		check_quote(str[i], &flag, &last_quote);
+		i += len;
 	}
 	return (str);
 }

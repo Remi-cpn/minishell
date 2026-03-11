@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 17:05:00 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/10 19:18:07 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,14 @@ void	free_ast(t_ast **ast)
 	t_ast	*current;
 	t_ast	*next;
 
-	if (!ast || !*ast)
-		return ;
 	current = *ast;
-	while (current && current->next)
+	while (current && current->kind != END)
 	{
 		next = current->next;
 		if (current->kind == CMD)
-		{
 			free(((t_ast_cmd *)current)->name);
+		if (current->kind == CMD)
 			free_array(((t_ast_cmd *)current)->args);
-		}
 		else if (current->kind == IN)
 			free(((t_ast_in *)current)->input);
 		else if (current->kind == OUT)
@@ -42,6 +39,7 @@ void	free_ast(t_ast **ast)
 		free(current);
 		current = next;
 	}
+	free(current);
 	free(ast);
 }
 
