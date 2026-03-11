@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 21:24:45 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:28:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	closed_fds(cmd, prev_read, pipefd);
 	if (cmd->is_builtin == true)
 		dispatch_builtins(shell, cmd);
-	else
+	else if (cmd->args)
 		find = find_path(shell, cmd->args);
 	if (find == SUCCES)
 		execve(shell->cmd_path, cmd->args, shell->env);
