@@ -29,6 +29,8 @@ void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
 		print_error("fd", out->output, 0, "invalid");
 		return ;
 	}
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
 	cmd->fd_out = fd;
 	cmd->redir_out = true;
 }
@@ -47,6 +49,8 @@ void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in)
 		print_error("fd", in->input, 0, "invalid");
 		return ;
 	}
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
 	cmd->fd_in = fd;
 	cmd->redir_in = true;
 }
