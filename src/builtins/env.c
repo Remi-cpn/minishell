@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:54:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/03 11:27:50 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:34:11 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	env_cmd(t_data *shell, char **args)
 	}
 	while (shell->env[i])
 	{
-		ft_printf("%s\n", shell->env[i]);
+		if (ft_strchr(shell->env[i], '='))
+			ft_printf("%s\n", shell->env[i]);
 		i++;
 	}
 	shell->error_status = SUCCES;

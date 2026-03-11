@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:23:37 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/07 18:24:57 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:40:22 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ static int	export_without_value(t_data *shell, char *arg)
 		shell->env = ft_realloc(shell->env, i + 1, i + 2, sizeof(char *));
 		if (!shell->env)
 			return (ERR_ALLOC);
-		if (arg[len_key] == '=')
-			shell->env[i] = ft_strdup(arg, 0);
-		else
-			shell->env[i] = ft_strjoin(arg, "=", 0, 0);
+		shell->env[i] = ft_strdup(arg, 0);
 		if (!shell->env[i])
 			return (ERR_ALLOC);
 		shell->env[i + 1] = NULL;
