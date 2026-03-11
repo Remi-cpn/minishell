@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 21:28:44 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:27:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 		error_pipeline(shell, "fork", ERR_FORK, 0);
 	else if (pid == CHILD)
 	{
+		shell->is_child = true;
 		cmd->args = expansion(cmd->args, shell);
 		free(shell->pid_adr);
 		child_process(shell, cmd, prev_read, pipefd);

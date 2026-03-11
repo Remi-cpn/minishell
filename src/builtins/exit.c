@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 20:23:27 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:28:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	exit_cmd(t_data *shell, char **args)
 	t_exit	exit;
 
 	ft_memset(&exit, 0, sizeof(t_exit));
-	write(2, "exit\n", 5);
+	if (shell->is_child == false)
+		write(2, "exit\n", 5);
 	if (!args[1])
 	{
 		call_to_exit(shell, shell->error_status, NULL);
