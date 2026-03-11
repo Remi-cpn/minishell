@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/10 17:54:50 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 23:11:41 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../include/mini_shell.h"
 #include <errno.h>
-#include "../../include/ast.h"
-#include "../../libft/libft.h"
-#include "../../include/exit.h"
 
 static t_token	token(char *src, t_token_type kind, int n)
 {
@@ -39,16 +37,16 @@ void	report_parsing_error(char c, char *s)
 
 t_token	lexer(t_src_info *txt)
 {
-	txt->i += skip_whitespace(&txt->src[txt->i]);
+	txt->i += skip_pattern(&txt->src[txt->i], IFS);
 	if (txt->i >= txt->len)
 		return ((t_token){.kind = eof, .value = NULL});
 	else if (ft_strncmp(&txt->src[txt->i], "<<", 2) == 0)
 		return (token(&txt->src[txt->i], DINFTYPE, 2));
-	else if (ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
+	else if (ft_strncmp(&txt->src[txt->i], ">>", 4) == 0)
 		return (token(&txt->src[txt->i], DSUPTYPE, 2));
-	else if (ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
+	else if (ft_strncmp(&txt->src[txt->i], "&&", 4) == 0)
 		return (token(&txt->src[txt->i], AMPERTYPE, 2));
-	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
+	else if (ft_strncmp(&txt->src[txt->i], "||", 4) == 0)
 		return (token(&txt->src[txt->i], VERBARTYPE, 2));
 	else if (txt->src[txt->i] == '(')
 		return (token(&txt->src[txt->i], LPARENTYPE, 1));
