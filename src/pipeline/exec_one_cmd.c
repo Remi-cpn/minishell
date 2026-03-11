@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 19:00:50 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:18:35 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
 	int	status;
 
 	cmd->args = expansion(cmd->args, shell);
-	if (cmd->is_builtin == true || is_builtins(cmd->args[0]))
+	if (cmd->args && (cmd->is_builtin == true || is_builtins(cmd->args[0])))
 		builtins_process_one_cmd(shell, cmd);
-	else
+	else if (cmd->args)
 	{
 		find = find_path(shell, cmd->args);
 		if (find == -1)
