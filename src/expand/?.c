@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:06:28 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 09:14:53 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:10:23 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*question_mark(t_data *shell, char *arg, int *i)
 	if (!res)
 		return (NULL);
 	s = &arg[*i + 2];
-	*i += len_s;
+	*i += len_s - 1;
 	res = ft_strjoin(res, s, 1, 0);
 	free(arg);
 	return (res);

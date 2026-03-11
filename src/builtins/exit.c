@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:27:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/09 21:44:35 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 20:23:27 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	exit_cmd(t_data *shell, char **args)
 	write(2, "exit\n", 5);
 	if (!args[1])
 	{
-		call_to_exit(shell, SUCCES, NULL);
+		call_to_exit(shell, shell->error_status, NULL);
 		return ;
 	}
 	if (args[2])
