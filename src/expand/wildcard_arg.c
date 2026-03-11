@@ -6,24 +6,34 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 10:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/07 08:45:05 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 00:06:14 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+static void	update_flag(int *flag, char c)
+{
+	if (!*flag && (c == '"' || c == '\''))
+		*flag += (2 * (c == '"')) + (c == '\'');
+	else if ((*flag == 2 && c == '"') || (*flag == 1 && c == '\''))
+		*flag = 0;
+}
 
 static int	add_to_key(char **key, char *arg)
 {
 	int	start;
 	int	i;
 	int	j;
+	int	flag = 0;
 
 	i = 0;
 	j = 0;
 	start = 0;
 	while (arg && arg[i])
 	{
-		if (arg[i] == '*')
+		update_flag(&flag, arg[i]);
+		if (arg[i] == '*' && !flag)
 		{
 			key[j] = ft_strndup(arg, start, i - 1);
 			if (!key[j])
@@ -43,36 +53,19 @@ static int	count_stars(char *s)
 {
 	int	i;
 	int	count;
+	int	flag;
 
 	i = 0;
 	count = 0;
+	flag = 0;
 	while (s && s[i])
 	{
-		if (s[i] == '*')
+		update_flag(&flag, s[i]);
+		if (s[i] == '*' && !flag)
 			count++;
 		i++;
 	}
 	return (count);
-}
-
-static int	find_star(char *str)
-{
-	int	flag;
-	int	i;
-
-	flag = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (!flag && (str[i] == '"' || str[i] == '\''))
-			flag += (2 * (str[i] == '"')) + (str[i] == '\'');
-		else if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
-			flag = 0;
-		else if (str[i] == '*' && !flag)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	find_arg_wc(char **args, char ***key)
@@ -84,15 +77,16 @@ int	find_arg_wc(char **args, char ***key)
 	i = 0;
 	while (args[i])
 	{
-		if (find_star(args[i]))
+		c_stars = count_stars(args[i]);
+		if (c_stars > 0)
 		{
-			c_stars = count_stars(args[i]);
 			*key = ft_calloc(c_stars + 2, sizeof(char *));
 			if (!*key)
 				return (FAILURE);
 			flag = add_to_key(*key, args[i]);
 			if (flag != SUCCES)
 				break ;
+			dequote_range(*key, 0, c_stars + 1);
 			return (i);
 		}
 		i++;
