@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 08:00:07 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 00:18:56 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,13 @@ char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files)
 	int		k;
 	int		added;
 	char	**tmp;
+	int		is_var;
 
 	i = 0;
 	k = 0;
 	while (args[i])
 	{
+		is_var = (args[i][0] == '$');
 		tmp = expand_all(args[i++], shell);
 		if (tmp)
 			added = wildcard(new, k, tmp, nbr_files);
@@ -96,7 +98,8 @@ char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files)
 			free_array(new);
 			return (NULL);
 		}
-		dequote_range(new, k, k + added + (k == 0 && added == 0));
+		if (is_var == 0)
+			dequote_range(new, k, k + added + (k == 0 && added == 0));
 		k += added;
 	}
 	return (new);
