@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:27:43 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 21:39:37 by von              ###   ########.fr       */
+/*   Updated: 2026/03/11 23:40:42 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_signals_heredoc(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2])
+static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2], int expand)
 {
 	char	*line;
 
@@ -46,6 +46,10 @@ static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2])
 			free(line);
 			break ;
 		}
+		if (expand)
+			line = expand_all_heredoc(line, shell);
+		if (!line)
+			break ;
 		ft_putendl_fd(line, fd[1]);
 		free(line);
 	}
@@ -57,7 +61,7 @@ static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2])
 	exit_prog(shell, SUCCES);
 }
 
-static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h)
+static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h, int expand)
 {
 	int	fd[2];
 	int	pid;
@@ -74,7 +78,7 @@ static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h)
 	}
 	init_signals_parent();
 	if (pid == 0)
-		heredoc_child_process(shell, h, fd);
+		heredoc_child_process(shell, h, fd, expand);
 	close(fd[1]);
 	waitpid(pid, &status, 0);
 	get_error_status(shell, status);
@@ -85,9 +89,14 @@ static int	heredoc_pipeline(t_data *shell, t_ast_heredoc *h)
 void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
 {
 	int	fd;
+	int	expand;
 
-	heredoc->del = expand_all_heredoc(heredoc->del, shell);
-	fd = heredoc_pipeline(shell, heredoc);
+	if (ft_strchr(heredoc->del, '\'') || ft_strchr(heredoc->del, '"'))
+		expand = 0;
+	else
+	 	expand = 1;
+	heredoc->del = dequote((char *[2]){[0] = heredoc->del, [1] = NULL});
+	fd = heredoc_pipeline(shell, heredoc, expand);
 	if (fd == -1)
 	{
 		shell->error_status = ERROR;
