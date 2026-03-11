@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 10:04:09 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:12:05 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,26 @@ static int	cmp_with_key(char *s, char **key)
 {
 	int	i;
 	int	j;
+	int	res;
 
-	if (!s || !s[0])
-		return (0);
-	if (ft_strncmp(s, key[0], ft_strlen(key[0])) != 0)
+	if ((!s || !s[0]) || ft_strncmp(s, key[0], ft_strlen(key[0])) != 0)
 		return (0);
 	i = ft_strlen(key[0]);
 	j = 1;
 	while (s[i] && key[j])
 	{
 		if (ft_strncmp(&s[i], key[j], ft_strlen(key[j])) == 0)
-		{
-			i += ft_strlen(key[j]);
-			j++;
-		}
+			i += ft_strlen(key[j++]);
 		else
 			i++;
 	}
-	if ((key[j] && key[j][0] != '\0')
-		|| (s[i] != '\0' && key[j - 1][0] != '\0'))
+	if (key[j] && key[j][0])
 		return (0);
-	return (1);
+	if (!s[i] || !key[j - 1][0])
+		return (1);
+	res = (ft_strncmp(s + ft_strlen(s) - ft_strlen(key[j - 1]),
+				key[j - 1], ft_strlen(key[j - 1])) == 0);
+	return (res);
 }
 
 static void	list_files(char **new_args, char **key, char *arg, int *flag)
@@ -136,6 +135,8 @@ int	wildcard(char **new, int k, char **tmp, int nbr_files)
 		free_array(tmp);
 		return (-1);
 	}
+	if (wild != tmp)
+		free_array(tmp);
 	count = ft_tablen(wild);
 	j = 0;
 	while (wild[j])
