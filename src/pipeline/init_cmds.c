@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 08:31:51 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:48:36 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 	shell->cmds = cmds;
 	set_cmd_defaults(shell, cmds, &i);
 	tmp = *ast;
-	while (cmds && shell->error_status != ERROR && tmp)
+	while (cmds && shell->error_status == SUCCES && tmp)
 	{
 		if (tmp->kind == CMD || tmp->kind == HEREDOC || tmp->kind == SUBSHELL)
 			init_cmd(shell, &cmds[i], tmp);
