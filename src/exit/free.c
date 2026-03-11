@@ -20,6 +20,8 @@ void	free_ast(t_ast **ast)
 	t_ast	*current;
 	t_ast	*next;
 
+	if (!ast)
+		return ;
 	current = *ast;
 	while (current && current->kind != END)
 	{

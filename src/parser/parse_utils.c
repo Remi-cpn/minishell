@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/02/28 09:05:15 by von              ###   ########.fr       */
+/*   Updated: 2026/03/11 08:18:33 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind, t_data *shell)
 	{
 		report_parsing_error(0, tok.value);
 		free(tok.value);
+		free(node);
 		return (NULL);
 	}
 	node->del = tok.value;
@@ -70,6 +71,7 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell)
 	if (tok.kind == UNKNOWN || tok.kind == eof)
 	{
 		report_parsing_error(0, tok.value);
+		free(node);
 		free(tok.value);
 		return (NULL);
 	}
@@ -93,6 +95,7 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell)
 	{
 		report_parsing_error(0, tok.value);
 		free(tok.value);
+		free(node);
 		return (NULL);
 	}
 	node->input = tok.value;
