@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 05:27:48 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/06 18:47:48 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 22:03:05 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt)
 			free_node(node);
 			return (NULL);
 		}
-		txt->i += skip_whitespace(&txt->src[txt->i]);
 		free(tmp.value);
 	}
 	return ((t_ast *)node);

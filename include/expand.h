@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:05:55 by von               #+#    #+#             */
-/*   Updated: 2026/03/10 17:54:13 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 22:22:00 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*resolve_key(char *str, int i, char **env, int *len);
 
 //--------------------[SPLIT.c]----------------
 char	**split_expand(char *str);
+int     skip_pattern(char *str, char *p);
 
 //--------------------[?.C]----------------
 char	*question_mark(t_data *shell, char *arg, int *i);

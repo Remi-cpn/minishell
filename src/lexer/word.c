@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/09 21:06:30 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 23:08:40 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@ size_t	len_quoted(char *src, char q)
 
 int	is_start_word(char c)
 {
-	return ((ft_isalnum(c)
-			|| c == '$' || c == '\''
-			|| c == '\"' || c == '-'
-			|| c == '\\' || c == '/'
-			|| c == '.' || c == '*'));
+	return ((!ft_isoneof(c, "&|()<>")));
 }
 
 int	digits(char *src)
@@ -65,7 +61,7 @@ int	len_word(char *src)
 				return (-1);
 			i += len_quote;
 		}
-		else if (!ft_iswhitespace(src[i]))
+		else if (!ft_iswhitespace(src[i]) && !ft_isoneof(src[i], "&|<>()"))
 			i++;
 		else
 			break ;
