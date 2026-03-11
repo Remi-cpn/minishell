@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:43:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 09:35:22 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:32:38 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ t_cmd	*exec_subshell(t_data *shell, t_cmd *cmd)
 	init_signals_parent();
 	pid = fork();
 	if (pid == 0)
+	{
+		shell->is_child = true;
 		child_process_subshell(shell, cmd);
+	}
 	if (cmd->fd_in != STDIN_FILENO)
 		close(cmd->fd_in);
 	if (cmd->fd_out != STDOUT_FILENO)
