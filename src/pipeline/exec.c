@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 15:41:39 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:48:51 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	exec(t_data *shell, t_ast **ast)
 	cmds = init_cmds(shell, ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
-	if (shell->error_status == ERROR || g_exit_flag == 1)
+	if (shell->error_status != SUCCES || g_exit_flag == 1)
 	{
 		g_exit_flag = 0;
 		close_cmds_fds(shell);

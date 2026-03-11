@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 14:22:30 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 21:48:11 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <fcntl.h>
+#include <signal.h>
 #include <unistd.h>
 
 int	error_pipeline(t_data *shell, char *msg, int error_status,
@@ -49,10 +50,9 @@ bool	is_builtins(char *name)
  */
 void	get_error_status(t_data *shell, int status)
 {
-	if (status == 256)
+	if (status == 512)
 	{
-		g_exit_flag = 1;
-		shell->error_status = ERROR;
+		shell->error_status = SIGINT_EXIT;
 	}
 	else if (WIFEXITED(status))
 		shell->error_status = WEXITSTATUS(status);
