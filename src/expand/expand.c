@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 21:16:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 23:46:07 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*get_env_key(char *str, char **env)
 {
 	while (*env)
 	{
-		if (ft_strncmp(str, *env, ft_strchr(*env, '=') - *env) == 0)
+		if ((ft_strncmp(str, *env, ft_strchr(*env, '=') - *env) == 0
+			&& *(str + (ft_strchr(*env, '=') - *env)) == '\0'))
 			return (ft_strchr(*env, '=') + 1);
 		env++;
 	}
