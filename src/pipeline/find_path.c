@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/02/11 16:31:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/11 19:18:58 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ static int	test_path(t_data *shell, char *path, char **cmd)
 	int		find;
 	char	*tmp;
 
+	find = FAILURE;
 	tmp = ft_strjoin(path, "/", 0, 0);
 	if (!tmp)
 		return (ERR_ALLOC);
 	tmp = ft_strjoin(tmp, cmd[0], 1, 0);
 	if (!tmp)
 		return (ERR_ALLOC);
-	find = access(tmp, X_OK);
+	if (cmd[0][0] != '\0')
+		find = access(tmp, X_OK);
 	if (find == FAILURE)
 	{
 		tmp = ft_freenull(tmp);
