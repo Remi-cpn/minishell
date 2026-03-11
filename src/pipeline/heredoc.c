@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:27:43 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/10 19:38:04 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 14:19:52 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	handler_heredoc(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	g_exit_flag = 1;
 	close(STDIN_FILENO);
 }
 
@@ -51,6 +52,8 @@ static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2])
 	close(fd[1]);
 	free_ast(shell->ast);
 	free_cmds(shell);
+	if (g_exit_flag)
+		exit_prog(shell, g_exit_flag);
 	exit_prog(shell, SUCCES);
 }
 

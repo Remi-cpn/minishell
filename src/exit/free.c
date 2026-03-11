@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 19:18:07 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 12:30:29 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_ast(t_ast **ast)
 	if (!ast)
 		return ;
 	current = *ast;
-	while (current && current->kind != END)
+	while (current && (current->kind != END || current->next))
 	{
 		next = current->next;
 		if (current->kind == CMD)
