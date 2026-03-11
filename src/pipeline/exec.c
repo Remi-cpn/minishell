@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 19:36:56 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 13:41:21 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,11 @@ void	exec(t_data *shell, t_ast **ast)
 	cmds = init_cmds(shell, ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
-	if (shell->error_status == ERROR)
+	if (shell->error_status == ERROR || g_exit_flag == 1)
+	{
+		g_exit_flag = 0;
 		return ;
+	}
 	shell->error_status = shell->last_error_status;
 	exec_loop(shell, cmds);
 	free_ast(ast);

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/10 18:07:29 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/11 12:37:39 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ char	*expand(char *str, int flag, t_data *shell)
 		len = 1;
 		if (!flag && str[i] == '$' && str[i +1]
 			&& str[i + 1] == '?')
+		{
 			str = question_mark(shell, str, &i);
+			flag = 0;
+		}
 		else if ((!flag && str[i] == '$' && str[i + 1]
 				&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'
 					|| str[i + 1] == '*')) || isword(str, i, &flag))
