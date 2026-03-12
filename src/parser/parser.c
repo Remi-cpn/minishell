@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 02:51:56 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 16:14:01 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell, int sub)
 {
 	const t_token	tok = lexer(txt, shell);
 	t_look_handler	fn;
@@ -25,7 +25,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
 	free(tok.value);
 	if (tok.kind == UNKNOWN)
 		return (NULL);
-	if (tok.kind == eof)
+	if (tok.kind == eof || (tok.kind == RPARENTYPE && sub))
 	{
 		tmp = malloc(sizeof(t_ast));
 		if (!tmp)
@@ -33,6 +33,11 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell)
 		tmp->kind = END;
 		tmp->next = NULL;
 		return (tmp);
+	}
+	else if (tok.kind == RPARENTYPE)
+	{
+		report_parsing_error(')', NULL, shell);
+		return (NULL);
 	}
 	fn = lookup[tok.kind].fn;
 	if (!fn)
@@ -66,13 +71,14 @@ t_src_info	*init_parse(char *src, t_lookup *lookup,
 t_ast	*next_expr(
 	t_lookup *lookup,
 	t_src_info *txt,
-	t_data	*shell
+	t_data	*shell,
+	int sub
 )
 {
 	t_ast		*tmp;
 
 	txt->i += skip_whitespace(&txt->src[txt->i]);
-	tmp = parse_expr(lookup, txt, shell);
+	tmp = parse_expr(lookup, txt, shell, sub);
 	if (!tmp)
 		return (NULL);
 	if ((tmp->kind == OR || tmp->kind == AND || tmp->kind == PIPE)
@@ -108,7 +114,7 @@ t_ast	**set_flag(
 	return (node);
 }
 
-t_ast	**parse(char *src, t_data *shell)
+t_ast	**parse(char *src, t_data *shell, int sub)
 {
 	t_ast		**node;
 	t_ast		*next;
@@ -119,14 +125,14 @@ t_ast	**parse(char *src, t_data *shell)
 	shell->need_cmd = 1;
 	if (node && txt)
 	{
-		next = next_expr(lookup, txt, shell);
+		next = next_expr(lookup, txt, shell, sub);
 		if (next)
 			*node = next;
 		while (node && next && next->kind != END)
 		{
 			if (next->kind == PIPE || next->kind == AND || next->kind == OR)
 				shell->nbr_cmd++;
-			next = next_expr(lookup, txt, shell);
+			next = next_expr(lookup, txt, shell, sub);
 			node = check_last(node, next, txt, shell);
 			if (!node || !next)
 				break ;

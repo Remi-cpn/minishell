@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:35:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:26:23 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:47:04 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 # include "pipeline.h"
 # include "expand.h"
 
+# define BOLD "\033[1m"
+# define CYAN "\033[36m"
+# define RESET "\033[0m"
+
 /** Structs */
 typedef struct s_data
 {
@@ -55,8 +59,5 @@ typedef struct s_data
 void	init_data(t_data *shell);
 void	init_minimal_env(t_data *shell);
 void	reset_line(t_data *shell);
-
-//* TESTING */
-void	print_cmd(t_cmd *cmd, int index);
 
 #endif

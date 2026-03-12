@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 16:55:23 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 02:21:50 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 14:46:28 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,12 @@ int	is_start_word(char c)
 	return ((!ft_isoneof(c, "&|()<>")));
 }
 
-int	digits(char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] && ft_isdigit(src[i]))
-		i++;
-	return (i);
-}
-
 int	len_word(char *src, t_data *shell)
 {
 	int	i;
 	int	len_quote;
 
 	i = 0;
-	if (ft_isdigit(src[i]))
-		return (digits(src));
 	while (src[i])
 	{
 		if ((src[i] == '\"' || src[i] == '\''))

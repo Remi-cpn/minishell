@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 09:51:40 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:09:47 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+static void	free_kind(t_ast_type kind, t_ast *current)
+{
+	if (kind == CMD)
+		free(((t_ast_cmd *)current)->name);
+	if (kind == CMD)
+		free_array(((t_ast_cmd *)current)->args);
+	else if (kind == IN)
+		free(((t_ast_in *)current)->input);
+	else if (kind == OUT)
+		free(((t_ast_out *)current)->output);
+	else if (kind == HEREDOC)
+		free(((t_ast_heredoc *)current)->del);
+	else if (kind == SUBSHELL)
+		free_ast(((t_ast_subshell *)current)->inter);
+}
 
 /** This function frees the memory allocated for the AST.
  * It traverses the AST and frees the memory for each node based on its type.
@@ -26,18 +42,7 @@ void	free_ast(t_ast **ast)
 	while (current && (current->kind != END || current->next))
 	{
 		next = current->next;
-		if (current->kind == CMD)
-			free(((t_ast_cmd *)current)->name);
-		if (current->kind == CMD)
-			free_array(((t_ast_cmd *)current)->args);
-		else if (current->kind == IN)
-			free(((t_ast_in *)current)->input);
-		else if (current->kind == OUT)
-			free(((t_ast_out *)current)->output);
-		else if (current->kind == HEREDOC)
-			free(((t_ast_heredoc *)current)->del);
-		else if (current->kind == SUBSHELL)
-			free_ast(((t_ast_subshell *)current)->inter);
+		free_kind(current->kind, current);
 		free(current);
 		current = next;
 	}

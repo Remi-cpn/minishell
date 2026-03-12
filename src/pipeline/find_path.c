@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 19:18:58 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:45:44 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,21 @@ static int	path_relatif(t_data *shell, char **cmd)
 	return (find);
 }
 
+int	path_valid(char *cmd)
+{
+	if (!cmd)
+		return (FAILURE);
+	if (cmd[0] && cmd[0] == '.' && cmd[1] == '\0')
+		return (ERR_CMD_NOT_FOUND);
+	else if (cmd[0] && cmd[0] == '/' && cmd[1] == '\0')
+		return (ERR_CMD_NOT_FOUND);
+	else if (cmd[0] && cmd[1] && cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '\0')
+		return (ERR_CMD_NOT_FOUND);
+	else if (cmd[0] && cmd[1] && cmd[0] == '.' && cmd[1] == '/' && cmd[2] == '\0')
+		return (ERR_CMD_NOT_FOUND);
+	return (FAILURE);
+}
+
 /**
  * This function finds the path of the command to execute. It checks
  * if the command is an absolute path or a relative path and updates the 
@@ -91,14 +106,17 @@ int	find_path(t_data *shell, char **cmd)
 	int		find;
 
 	find = FAILURE;
-	if (!ft_strchr(cmd[0], '/'))
+	ft_printf("DEBUG:{%s}\n", cmd[0]);
+	if (path_valid(cmd[0]) == ERR_CMD_NOT_FOUND)
+		find = ERR_CMD_NOT_FOUND;
+	else if (!ft_strchr(cmd[0], '/'))
 		find = path_relatif(shell, cmd);
 	else
 		find = path_absolu(shell, cmd);
 	if (find == ERR_CMD_NOT_FOUND)
 	{
 		shell->error_status = ERR_CMD_NOT_FOUND;
-		if (!ft_strchr(cmd[0], '/'))
+		if (!ft_strchr(cmd[0], '/') || *(ft_strchr(cmd[0], '/') + 1) == '\0')
 			print_error("cmd", cmd[0], 0, "command not found");
 	}
 	if (find == ERR_CMD_NOT_EXEC)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 02:27:20 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:48:46 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
+
+void	init_or_and_end(t_cmd *cmd, int kind)
+{
+	if (kind == OR)
+		cmd->next_or = true;
+	else if (kind == AND)
+		cmd->next_and = true;
+	cmd->last_cmd = true;
+}
 
 int	error_pipeline(t_data *shell, char *msg, int error_status,
 	int res)

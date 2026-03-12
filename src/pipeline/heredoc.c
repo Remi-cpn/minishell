@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:27:43 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 03:44:06 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 17:01:52 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc)
 	if (ft_strchr(heredoc->del, '\'') || ft_strchr(heredoc->del, '"'))
 		expand = 0;
 	else
-	 	expand = 1;
+		expand = 1;
 	heredoc->del = dequote((char *[2]){[0] = heredoc->del, [1] = NULL});
 	fd = heredoc_pipeline(shell, heredoc, expand);
 	if (fd == -1)
