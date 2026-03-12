@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 17:57:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:07:59 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,9 @@ void	close_cmds_fds(t_data *shell)
 void	exec(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
+	t_ast	**save_ast;
 
+	save_ast = shell->ast;
 	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
 	if (!cmds)
@@ -120,5 +122,7 @@ void	exec(t_data *shell, t_ast **ast)
 	shell->error_status = shell->last_error_status;
 	exec_loop(shell, cmds);
 	close_cmds_fds(shell);
-	free_ast(ast);
+	shell->ast = save_ast;
+	if (shell->ast == ast)
+		free_ast(ast);
 }

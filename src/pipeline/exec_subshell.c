@@ -6,22 +6,11 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:43:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 17:58:23 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:23:13 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
-
-static void	find_node_subshell(t_ast **save_ast)
-{
-	t_ast	*node;
-
-	node = *save_ast;
-	while (node && node->kind != SUBSHELL)
-		node = node->next;
-	if (node)
-		((t_ast_subshell *)node)->inter = NULL;
-}
 
 static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 {
@@ -41,12 +30,11 @@ static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 	save_ast = shell->ast;
 	inter_ast = cmd->subshell;
 	save_nbr_cmd = cmd->nbr_cmd_subshell;
-	find_node_subshell(save_ast);
 	free_cmds(shell);
-	free_ast(save_ast);
 	shell->nbr_cmd = save_nbr_cmd;
 	if (inter_ast)
 		exec(shell, inter_ast);
+	free_ast(shell->ast);
 	exit_prog(shell, shell->error_status);
 }
 
