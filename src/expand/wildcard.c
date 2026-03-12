@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 00:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:12:05 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 00:10:08 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,13 @@ static void	list_files(char **new_args, char **key, char *arg, int *flag)
 	closedir(dir);
 }
 
-static char	**wildcard_expand(char **args, int nbr_files)
+static char	**wildcard_expand(char **args, int nbr_files, int flag)
 {
 	char	**key;
 	int		idx;
 	char	**add_args;
-	int		flag;
 	char	**res;
 
-	flag = 0;
 	key = NULL;
 	res = NULL;
 	idx = find_arg_wc(args, &key);
@@ -115,12 +113,14 @@ static char	**wildcard_expand(char **args, int nbr_files)
 	if (add_args)
 	{
 		list_files(add_args, key, args[idx], &flag);
-		if (flag == SUCCES)
+		if (flag == SUCCES && ft_tablen(add_args) > 0)
 			res = replace_args(args, add_args, idx, &flag);
 	}
 	free_array(add_args);
 	free_array(key);
-	return (res);
+	if (res)
+		return (res);
+	return (args);
 }
 
 int	wildcard(char **new, int k, char **tmp, int nbr_files)
@@ -129,7 +129,7 @@ int	wildcard(char **new, int k, char **tmp, int nbr_files)
 	int		count;
 	int		j;
 
-	wild = wildcard_expand(tmp, nbr_files);
+	wild = wildcard_expand(tmp, nbr_files, 0);
 	if (!wild)
 	{
 		free_array(tmp);

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:27:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:21:36 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	else if (cmd->last_cmd == false)
 		dup2(pipefd[1], STDOUT_FILENO);
 	closed_fds(cmd, prev_read, pipefd);
+	close_cmds_fds(shell);
 	if (cmd->is_builtin == true)
 		dispatch_builtins(shell, cmd);
 	else if (cmd->args)
@@ -71,7 +72,8 @@ static int	pipeline(t_data *shell, t_cmd *cmd, int pid, int prev_read)
 	else if (pid == CHILD)
 	{
 		shell->is_child = true;
-		cmd->args = expansion(cmd->args, shell);
+		if (cmd->args)
+			cmd->args = expansion(cmd->args, shell);
 		free(shell->pid_adr);
 		child_process(shell, cmd, prev_read, pipefd);
 	}
@@ -105,6 +107,10 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	while (prev_read != -1 || i == 0)
 	{
 		prev_read = pipeline(shell, &cmds[i], pid[i], prev_read);
+		if (cmds[i].redir_in == true)
+			close(cmds[i].fd_in);
+		if (cmds[i].redir_out == true)
+			close(cmds[i].fd_out);
 		i++;
 	}
 	j = 0;
