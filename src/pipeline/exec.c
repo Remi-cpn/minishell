@@ -112,6 +112,8 @@ void	exec(t_data *shell, t_ast **ast)
 		free_ast(ast);
 		return ;
 	}
+	if (g_exit_flag > 1)
+		shell->last_error_status = g_exit_flag;
 	shell->error_status = shell->last_error_status;
 	exec_loop(shell, cmds);
 	close_cmds_fds(shell);

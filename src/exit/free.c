@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 02:16:28 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:51:40 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	free_cmds(t_data *shell)
 
 void	reset_line(t_data *shell)
 {
+	if (g_exit_flag > 1)
+		shell->error_status = g_exit_flag;
 	g_exit_flag = 0;
 	free_cmds(shell);
 	shell->last_error_status = shell->error_status;
