@@ -61,6 +61,7 @@ static void	set_cmd_defaults(t_data *shell, t_cmd *cmds, int *j)
 		cmds[i].last_cmd = false;
 		cmds[i].next_and = false;
 		cmds[i].next_or = false;
+		cmds[i].redir_error = false;
 		cmds[i].is_builtin = false;
 		cmds[i].subshell = NULL;
 		i++;

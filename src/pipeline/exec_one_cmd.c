@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 13:50:03 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:45:52 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 03:03:12 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,37 +55,39 @@ static void	builtins_process_one_cmd(t_data *shell, t_cmd *cmd)
 		dispatch_builtins(shell, cmd);
 }
 
-/** This function executes a single command that is not part of a pipeline. It
- * handles built-in commands directly in the parent process, and for external
- * commands, it forks a child process to execute the command using execve.
- * After execution, it waits for the child process to finish and retrieves the
- * exit status.
- */
-t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
+static void	fork_one_cmd(t_data *shell, t_cmd *cmd)
 {
 	int	pid;
 	int	find;
 	int	status;
 
+	find = find_path(shell, cmd->args);
+	if (find == -1)
+		return ;
+	init_signals_parent();
+	pid = fork();
+	if (pid == 0)
+		child_process_one_cmd(shell, cmd);
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
+	waitpid(pid, &status, 0);
+	get_error_status(shell, status);
+	init_signals_prompt();
+}
+
+t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd)
+{
+	if (cmd->redir_error)
+	{
+		shell->error_status = ERROR;
+		return (cmd);
+	}
 	cmd->args = expansion(cmd->args, shell);
 	if (cmd->args && (cmd->is_builtin == true || is_builtins(cmd->args[0])))
 		builtins_process_one_cmd(shell, cmd);
 	else if (cmd->args)
-	{
-		find = find_path(shell, cmd->args);
-		if (find == -1)
-			return (cmd);
-		init_signals_parent();
-		pid = fork();
-		if (pid == 0)
-			child_process_one_cmd(shell, cmd);
-		if (cmd->fd_in != STDIN_FILENO)
-			close(cmd->fd_in);
-		if (cmd->fd_out != STDOUT_FILENO)
-			close(cmd->fd_out);
-		waitpid(pid, &status, 0);
-		get_error_status(shell, status);
-		init_signals_prompt();
-	}
+		fork_one_cmd(shell, cmd);
 	return (cmd);
 }
