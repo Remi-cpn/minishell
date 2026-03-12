@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 03:01:26 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 03:09:59 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,16 @@ void	cd_cmd(t_data *shell, char **args)
 
 	shell->error_status = SUCCES;
 	if (!args[1])
-	{
 		path = get_env(shell, "HOME=");
-		if (!path)
-		{
-			shell->error_status = ERROR;
-			return ;
-		}
-	}
 	else if (args[1][0] == '-' && args[1][1] == '\0' &&
 		!args[2])
 		path = get_env(shell, "OLDPWD=");
 	else
 		path = args[1];
+	if (!path)
+		shell->error_status = ERROR;
+	if (!path)
+		return ;
 	if (args[1] && args[2])
 	{
 		shell->error_status = ERROR;

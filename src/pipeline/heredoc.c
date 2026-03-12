@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:27:43 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 23:40:42 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 03:44:06 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void	init_signals_heredoc(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-static void	heredoc_child_process(t_data *shell, t_ast_heredoc *h, int fd[2], int expand)
+static void	heredoc_child_process(
+	t_data *shell,
+	t_ast_heredoc *h,
+	int fd[2],
+	int expand)
 {
 	char	*line;
 
