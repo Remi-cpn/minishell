@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 13:52:05 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 17:09:05 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 
 	if (!cmds)
 		return (NULL);
-	if (cmds->subshell)
-		cmds = exec_subshell(shell, &cmds[0]);
 	else if (cmds->last_cmd == true)
 		cmds = exec_one_cmd(shell, &cmds[0]);
 	else

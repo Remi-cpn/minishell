@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 15:59:15 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 17:12:18 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ typedef enum e_token_type
 	INFTYPE,// <
 	DSUPTYPE,// >>
 	DINFTYPE,// <<
-	LPARENTYPE,// (
-	RPARENTYPE,// )
 	AMPERTYPE,// &&
 	VERBARTYPE,// ||
 	WORDTYPE,// [.]+
@@ -69,7 +67,6 @@ typedef enum e_ast_type
 	OUT,// > | >>
 	AND,// &&
 	OR,// ||
-	SUBSHELL,
 	CMD,
 	END
 }					t_ast_type;
@@ -79,14 +76,6 @@ typedef struct s_ast
 	t_ast_type		kind;
 	struct s_ast	*next;
 }					t_ast;
-
-typedef struct s_ast_subshell
-{
-	t_ast_type		kind; // SUBSHELL | '( )'
-	struct s_ast	*next;
-	t_ast			**inter;
-	int				nbr_cmd;
-}					t_ast_subshell;
 
 typedef struct s_ast_pipe
 {
@@ -154,14 +143,13 @@ void	gen_lookup(t_lookup *lookup);
 //------------------[PARSER]----------------
 
 t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt, t_data *shell);
-t_ast	**parse(char *src, t_data *shell, int	subshell);
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell, int subshell);
+t_ast	**parse(char *src, t_data *shell);
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell);
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell);
-t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt, t_data *shell);
 
 #endif

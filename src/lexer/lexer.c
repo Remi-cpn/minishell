@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 02:35:35 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 17:14:32 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ t_token	lexer(t_src_info *txt, t_data *shell)
 		return (token(&txt->src[txt->i], AMPERTYPE, 2));
 	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
 		return (token(&txt->src[txt->i], VERBARTYPE, 2));
-	else if (txt->src[txt->i] == '(')
-		return (token(&txt->src[txt->i], LPARENTYPE, 1));
-	else if (txt->src[txt->i] == ')')
-		return (token(&txt->src[txt->i], RPARENTYPE, 1));
 	else if (txt->src[txt->i] == '>')
 		return (token(&txt->src[txt->i], SUPTYPE, 1));
 	else if (txt->src[txt->i] == '<')

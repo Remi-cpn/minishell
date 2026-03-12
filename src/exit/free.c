@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:27:19 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 11:09:47 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 17:09:46 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void	free_kind(t_ast_type kind, t_ast *current)
 		free(((t_ast_out *)current)->output);
 	else if (kind == HEREDOC)
 		free(((t_ast_heredoc *)current)->del);
-	else if (kind == SUBSHELL)
-		free_ast(((t_ast_subshell *)current)->inter);
 }
 
 /** This function frees the memory allocated for the AST.
