@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 02:05:18 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:27:20 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ void	get_error_status(t_data *shell, int status)
  */
 void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
-	if (shell->is_child == true)
-		signal(SIGPIPE, SIG_IGN);
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
+	if (shell->is_child == true)
+		signal(SIGPIPE, SIG_IGN);
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
 		echo_cmd(shell, cmd->args);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
