@@ -32,6 +32,7 @@ typedef struct s_cmd
 	bool	last_cmd;
 	bool	next_or;
 	bool	next_and;
+	bool	redir_error;
 	t_ast	**subshell;
 	int		nbr_cmd_subshell;
 }	t_cmd;

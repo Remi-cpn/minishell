@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_sub.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:59:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 02:23:36 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 03:51:20 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 	{
 		node->kind = kind;
 		s_nbr_cmd = shell->nbr_cmd;
-		shell->nbr_cmd = 0;
+		shell->nbr_cmd = 1;
 		node->inter = parse(inter, shell);
 		node->nbr_cmd = shell->nbr_cmd;
 		shell->nbr_cmd = s_nbr_cmd;

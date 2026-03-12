@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 02:21:36 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 03:00:15 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,8 @@ static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2])
 	}
 }
 
-static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
-				int pipefd[2])
+static void	setup_child_fds(t_cmd *cmd, int prev_read, int pipefd[2])
 {
-	int	find;
-
-	find = FAILURE;
-	init_signals_child();
 	if (cmd->redir_in == true)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	else if (prev_read != -1)
@@ -43,8 +38,23 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 		dup2(cmd->fd_out, STDOUT_FILENO);
 	else if (cmd->last_cmd == false)
 		dup2(pipefd[1], STDOUT_FILENO);
+}
+
+static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
+				int pipefd[2])
+{
+	int	find;
+
+	find = FAILURE;
+	init_signals_child();
+	setup_child_fds(cmd, prev_read, pipefd);
 	closed_fds(cmd, prev_read, pipefd);
 	close_cmds_fds(shell);
+	if (cmd->redir_error)
+	{
+		free_ast(shell->ast);
+		exit_prog(shell, ERROR);
+	}
 	if (cmd->is_builtin == true)
 		dispatch_builtins(shell, cmd);
 	else if (cmd->args)
