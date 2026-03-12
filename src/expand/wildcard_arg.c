@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 10:30:34 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 00:06:14 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:12:36 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ static void	update_flag(int *flag, char c)
 		*flag = 0;
 }
 
-static int	add_to_key(char **key, char *arg)
+static int	add_to_key(char **key, char *arg, int flag)
 {
 	int	start;
 	int	i;
 	int	j;
-	int	flag = 0;
 
 	i = 0;
 	j = 0;
@@ -83,7 +82,7 @@ int	find_arg_wc(char **args, char ***key)
 			*key = ft_calloc(c_stars + 2, sizeof(char *));
 			if (!*key)
 				return (FAILURE);
-			flag = add_to_key(*key, args[i]);
+			flag = add_to_key(*key, args[i], 0);
 			if (flag != SUCCES)
 				break ;
 			dequote_range(*key, 0, c_stars + 1);
