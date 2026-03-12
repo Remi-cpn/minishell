@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 18:28:30 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 03:01:26 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ void	cd_cmd(t_data *shell, char **args)
 			return ;
 		}
 	}
+	else if (args[1][0] == '-' && args[1][1] == '\0' &&
+		!args[2])
+		path = get_env(shell, "OLDPWD=");
 	else
 		path = args[1];
 	if (args[1] && args[2])
