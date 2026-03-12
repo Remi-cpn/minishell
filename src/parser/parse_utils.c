@@ -6,12 +6,11 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 22:32:10 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 00:08:37 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <errno.h>
 #include "../../include/mini_shell.h"
 #include "../../libft/libft.h"
 
@@ -85,7 +84,8 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell)
 	t_token		tok;
 
 	(void)shell;
-	advance(txt);
+	tok = advance(txt);
+	free(tok.value);
 	node = malloc(sizeof(t_ast_in));
 	if (!node)
 		return (NULL);

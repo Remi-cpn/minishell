@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:23:11 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/06 19:29:52 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 01:08:34 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out)
 	if (fd == -1)
 	{
 		shell->error_status = ERROR;
-		print_error("fd", out->output, 0, "invalid");
+		print_error(cmd->args[0], out->output, 0, "Permission denied");
 		return ;
 	}
 	if (cmd->fd_out != STDOUT_FILENO)
@@ -46,7 +46,7 @@ void	open_fd_in(t_data *shell, t_cmd *cmd, t_ast_in *in)
 	if (fd == -1)
 	{
 		shell->error_status = ERROR;
-		print_error("fd", in->input, 0, "invalid");
+		print_error(cmd->args[0], in->input, 0, "Permission denied");
 		return ;
 	}
 	if (cmd->fd_in != STDIN_FILENO)

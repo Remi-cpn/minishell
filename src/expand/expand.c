@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 02:13:05 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:29:24 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*get_env_key(char *str, char **env)
 {
 	while (*env)
 	{
-		if (ft_strncmp(str, *env, ft_strchr(*env, '=') - *env) == 0)
+		if ((ft_strncmp(str, *env, ft_strchr(*env, '=') - *env) == 0
+				&& *(str + (ft_strchr(*env, '=') - *env)) == '\0'))
 			return (ft_strchr(*env, '=') + 1);
 		env++;
 	}
