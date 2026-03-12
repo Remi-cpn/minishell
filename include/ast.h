@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 22:31:17 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 02:24:25 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ typedef struct s_src_info
 
 //--------------------[LEXER]--------------------------
 
-t_token	lexer(t_src_info *txt);
-bool	expect(t_src_info *txt, t_token_type type);
-t_token	advance(t_src_info *txt);
+t_token	lexer(t_src_info *txt, t_data *shell);
+bool	expect(t_src_info *txt, t_token_type type, t_data *shell);
+t_token	advance(t_src_info *txt, t_data *shell);
 size_t	len_quoted(char *src, char q);
 int		is_start_word(char c);
-int		len_word(char *src);
-void	report_parsing_error(char c, char *s);
+int		len_word(char *src, t_data *shell);
+void	report_parsing_error(char c, char *s, t_data *shell);
 
 //--------------------[AST]----------------------------
 
@@ -153,7 +153,7 @@ void	gen_lookup(t_lookup *lookup);
 
 //------------------[PARSER]----------------
 
-t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt);
+t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt, t_data *shell);
 t_ast	**parse(char *src, t_data *shell);
 t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell);
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell);
@@ -162,6 +162,6 @@ t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell);
-t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt);
+t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt, t_data *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 16:41:02 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 00:08:37 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 02:24:50 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_ast	*parse_ord(t_src_info *txt, t_ast_type kind, t_data *shell)
 	t_token		tok;
 
 	(void)shell;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_pipe));
 	if (!node)
@@ -35,16 +35,16 @@ t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind, t_data *shell)
 	t_token			tok;
 
 	(void)shell;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_heredoc));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	if (tok.kind == UNKNOWN || tok.kind == eof)
 	{
-		report_parsing_error(0, tok.value);
+		report_parsing_error(0, tok.value, shell);
 		free(tok.value);
 		free(node);
 		return (NULL);
@@ -59,17 +59,17 @@ t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell)
 	t_token		tok;
 
 	(void)shell;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_out));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
 	node->overwrite = tok.kind == SUPTYPE;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	if (tok.kind == UNKNOWN || tok.kind == eof)
 	{
-		report_parsing_error(0, tok.value);
+		report_parsing_error(0, tok.value, shell);
 		free(node);
 		free(tok.value);
 		return (NULL);
@@ -84,16 +84,16 @@ t_ast	*parse_input(t_src_info *txt, t_ast_type kind, t_data *shell)
 	t_token		tok;
 
 	(void)shell;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	free(tok.value);
 	node = malloc(sizeof(t_ast_in));
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	tok = advance(txt);
+	tok = advance(txt, shell);
 	if (tok.kind == UNKNOWN || tok.kind == eof)
 	{
-		report_parsing_error(0, tok.value);
+		report_parsing_error(0, tok.value, shell);
 		free(tok.value);
 		free(node);
 		return (NULL);
@@ -112,7 +112,7 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell)
 	if (!node)
 		return (NULL);
 	node->kind = kind;
-	node->name = advance(txt).value;
+	node->name = advance(txt, shell).value;
 	if (!node->name)
 		free(node);
 	if (!node->name)
@@ -125,6 +125,6 @@ t_ast	*parse_cmd(t_src_info *txt, t_ast_type kind, t_data *shell)
 		free(node);
 		return (NULL);
 	}
-	node = (t_ast_cmd *)parse_args_cmd(node, txt);
+	node = (t_ast_cmd *)parse_args_cmd(node, txt, shell);
 	return ((t_ast *)node);
 }

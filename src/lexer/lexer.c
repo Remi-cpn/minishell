@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 02:29:04 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:35:35 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
-#include <errno.h>
 
 static t_token	token(char *src, t_token_type kind, int n)
 {
@@ -25,17 +24,17 @@ static t_token	token(char *src, t_token_type kind, int n)
 	return ((t_token){.value = tmp, .kind = kind});
 }
 
-void	report_parsing_error(char c, char *s)
+void	report_parsing_error(char c, char *s, t_data *shell)
 {
 	if (c)
 		ft_printf("Syntax error near unexpected token `%c\'\n", c);
 	else
 		ft_printf("Syntax error near unexpected token `%s\'\n",
 			s);
-	errno = 1;
+	shell->error_status = 2;
 }
 
-t_token	lexer(t_src_info *txt)
+t_token	lexer(t_src_info *txt, t_data *shell)
 {
 	txt->i += skip_pattern(&txt->src[txt->i], IFS);
 	if (txt->i >= txt->len)
@@ -60,6 +59,6 @@ t_token	lexer(t_src_info *txt)
 		return (token(&txt->src[txt->i], PIPETYPE, 1));
 	else if (is_start_word(txt->src[txt->i]))
 		return (token(&txt->src[txt->i], WORDTYPE,
-				len_word(&txt->src[txt->i])));
+				len_word(&txt->src[txt->i], shell)));
 	return ((t_token){.kind = UNKNOWN, .value = NULL});
 }

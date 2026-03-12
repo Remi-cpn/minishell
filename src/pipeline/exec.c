@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 21:48:51 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 03:28:30 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	exec_loop(t_data *shell, t_cmd *cmds)
 	bool	and_ok;
 	bool	or_ok;
 
-	while (cmds && (cmds->args || cmds->subshell) && shell->exit == false)
+	while (cmds && cmds->last_cmd
+		&& (cmds->args || cmds->subshell) && shell->exit == false)
 	{
 		and_ok = false;
 		or_ok = true;

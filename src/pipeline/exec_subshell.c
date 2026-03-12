@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:43:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:32:38 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 03:21:00 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 	free_cmds(shell);
 	free_ast(save_ast);
 	shell->nbr_cmd = save_nbr_cmd;
-	exec(shell, inter_ast);
+	if (inter_ast)
+		exec(shell, inter_ast);
 	exit_prog(shell, shell->error_status);
 }
 

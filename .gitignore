@@ -3,6 +3,8 @@
 *.a
 *.out
 *.exe
+.gitignore
+vgcore.*
 
 # Libft build files
 libft/obj/
