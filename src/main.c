@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 18:04:53 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:57:08 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(void)
 		free(line);
 		if (shell.error_status == SUCCES && node)
 			exec(&shell, node);
+		free_ast(node);
 		reset_line(&shell);
 	}
 	exit_prog(&shell, shell.last_error_status);

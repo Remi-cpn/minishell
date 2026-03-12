@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 14:45:44 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 19:32:42 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	find_path(t_data *shell, char **cmd)
 	int		find;
 
 	find = FAILURE;
-	ft_printf("DEBUG:{%s}\n", cmd[0]);
 	if (path_valid(cmd[0]) == ERR_CMD_NOT_FOUND)
 		find = ERR_CMD_NOT_FOUND;
 	else if (!ft_strchr(cmd[0], '/'))
