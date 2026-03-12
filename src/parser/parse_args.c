@@ -6,7 +6,7 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 05:27:48 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 22:03:05 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 02:24:10 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_node(t_ast_cmd *node)
 	free(node);
 }
 
-t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt)
+t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt, t_data *shell)
 {
 	int			i;
 	t_token		tmp;
@@ -27,9 +27,9 @@ t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt)
 	i = 0;
 	while (node->args)
 	{
-		tmp = lexer(txt);
+		tmp = lexer(txt, shell);
 		if (tmp.kind == WORDTYPE)
-			node->args[i++] = advance(txt).value;
+			node->args[i++] = advance(txt, shell).value;
 		else if (tmp.kind != UNKNOWN)
 		{
 			if (tmp.kind == eof)
@@ -47,7 +47,7 @@ t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt)
 	return ((t_ast *)node);
 }
 
-t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt)
+t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt, t_data *shell)
 {
 	t_ast	*last;
 
@@ -58,7 +58,7 @@ t_ast	**check_last(t_ast **node, t_ast *next, t_src_info *txt)
 			|| last->kind == AND || last->kind == OR))
 	{
 		free(next);
-		report_parsing_error(txt->src[txt->i - 1], NULL);
+		report_parsing_error(txt->src[txt->i - 1], NULL, shell);
 		free_ast(node);
 		return (NULL);
 	}

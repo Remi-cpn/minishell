@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_sub.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:59:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 17:00:47 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:23:36 by von              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 	t_token			token;
 	int				s_nbr_cmd;
 
-	token = advance(txt);
+	token = advance(txt, shell);
 	free(token.value);
 	len = find_rpar(txt);
 	inter = ft_strndup(&txt->src[txt->i], 0, len - 1);
