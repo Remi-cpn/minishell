@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 11:02:39 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 21:48:36 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 11:51:08 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,6 @@ static char	**init_args(t_ast_cmd	*ast_cmd)
 		i++;
 	}
 	return (args);
-}
-
-static void	init_or_and_end(t_cmd *cmd, int kind)
-{
-	if (kind == OR)
-		cmd->next_or = true;
-	else if (kind == AND)
-		cmd->next_and = true;
-	cmd->last_cmd = true;
 }
 
 static void	set_cmd_defaults(t_data *shell, t_cmd *cmds, int *j)
@@ -132,34 +123,28 @@ static void	init_cmd(t_data *shell, t_cmd *cmd, t_ast *ast_cmd)
  */
 t_cmd	*init_cmds(t_data *shell, t_ast **ast)
 {
-	t_cmd	*cmds;
 	int		i;
 	t_ast	*tmp;
 
-	cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
-	shell->cmds = cmds;
-	set_cmd_defaults(shell, cmds, &i);
+	shell->cmds = ft_calloc(shell->nbr_cmd + 1, sizeof(t_cmd));
+	set_cmd_defaults(shell, shell->cmds, &i);
 	tmp = *ast;
-	while (cmds && shell->error_status == SUCCES && tmp)
+	while (shell->cmds && shell->error_status == SUCCES && tmp)
 	{
 		if (tmp->kind == CMD || tmp->kind == HEREDOC || tmp->kind == SUBSHELL)
-			init_cmd(shell, &cmds[i], tmp);
+			init_cmd(shell, &shell->cmds[i], tmp);
 		else if (tmp->kind == IN)
-			open_fd_in(shell, &cmds[i], (t_ast_in *)tmp);
+			open_fd_in(shell, &shell->cmds[i], (t_ast_in *)tmp);
 		else if (tmp->kind == OUT)
-			open_fd_out(shell, &cmds[i], (t_ast_out *)tmp);
+			open_fd_out(shell, &shell->cmds[i], (t_ast_out *)tmp);
 		else if (tmp->kind == OR || tmp->kind == AND || tmp->kind == END)
-			init_or_and_end(&cmds[i], tmp->kind);
+			init_or_and_end(&shell->cmds[i], tmp->kind);
 		if (tmp->kind != CMD && tmp->kind != HEREDOC
 			&& tmp->kind != IN && tmp->kind != OUT && tmp->kind != SUBSHELL)
-		{
-			print_cmd(&cmds[i], i);
 			i++;
-		}
 		tmp = tmp->next;
 	}
 	if (shell->nbr_cmd == 0 && i != 0)
 		shell->nbr_cmd++;
-	ft_printf("Nombre de cmds dans init_cmds: %d\n", shell->nbr_cmd);
-	return (cmds);
+	return (shell->cmds);
 }

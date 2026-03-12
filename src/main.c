@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 22:46:28 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 11:46:35 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mini_shell.h"
-
-#define BOLD "\033[1m"
-#define CYAN "\033[36m"
-#define RESET "\033[0m"
 
 int	main(void)
 {
@@ -35,10 +31,7 @@ int	main(void)
 		node = parse(line, &shell);
 		free(line);
 		if (shell.error_status == SUCCES && node)
-		{
-			ft_printf("Parsing done\n");
 			exec(&shell, node);
-		}
 		reset_line(&shell);
 	}
 	exit_prog(&shell, shell.last_error_status);

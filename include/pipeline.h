@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/10 18:54:27 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/12 11:49:02 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void	get_error_status(t_data *shell, int status);
 bool	is_builtins(char *name);
 int		error_pipeline(t_data *shell, char *msg, int error_status, int error);
 void	close_cmds_fds(t_data *shell);
+void	init_or_and_end(t_cmd *cmd, int kind);
 
 #endif
