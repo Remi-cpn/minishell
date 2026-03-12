@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 23:11:41 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 01:43:04 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ t_token	lexer(t_src_info *txt)
 		return ((t_token){.kind = eof, .value = NULL});
 	else if (ft_strncmp(&txt->src[txt->i], "<<", 2) == 0)
 		return (token(&txt->src[txt->i], DINFTYPE, 2));
-	else if (ft_strncmp(&txt->src[txt->i], ">>", 4) == 0)
+	else if (ft_strncmp(&txt->src[txt->i], ">>", 2) == 0)
 		return (token(&txt->src[txt->i], DSUPTYPE, 2));
-	else if (ft_strncmp(&txt->src[txt->i], "&&", 4) == 0)
+	else if (ft_strncmp(&txt->src[txt->i], "&&", 2) == 0)
 		return (token(&txt->src[txt->i], AMPERTYPE, 2));
-	else if (ft_strncmp(&txt->src[txt->i], "||", 4) == 0)
+	else if (ft_strncmp(&txt->src[txt->i], "||", 2) == 0)
 		return (token(&txt->src[txt->i], VERBARTYPE, 2));
 	else if (txt->src[txt->i] == '(')
 		return (token(&txt->src[txt->i], LPARENTYPE, 1));

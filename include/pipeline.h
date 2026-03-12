@@ -52,5 +52,6 @@ void	dispatch_builtins(t_data *shell, t_cmd *cmd);
 void	get_error_status(t_data *shell, int status);
 bool	is_builtins(char *name);
 int		error_pipeline(t_data *shell, char *msg, int error_status, int error);
+void	close_cmds_fds(t_data *shell);
 
 #endif

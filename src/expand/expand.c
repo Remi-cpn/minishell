@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 12:48:42 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 21:16:17 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:13:05 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**expansion(char **args, t_data *shell)
 	int		nbr_files;
 	int		is_var;
 
+	if (!args || !args[0])
+		return (args);
 	is_var = (args[0][0] == '$');
 	nbr_files = len_files(NULL);
 	new = ft_calloc(ft_tablen(args) + nbr_files + 1, sizeof(char *));
@@ -37,7 +39,9 @@ char	**expansion(char **args, t_data *shell)
 		return (args);
 	new = dispatch_expand(args, shell, new, nbr_files);
 	free(args);
-	if (new[0][0] == '\0' && is_var == 1)
+	if (!new)
+		return (NULL);
+	if (!new[0] || (new[0][0] == '\0' && is_var == 1))
 	{
 		free_array(new);
 		return (NULL);

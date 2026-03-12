@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/11 22:31:27 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 02:17:05 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_ast	**parse(char *src, t_data *shell)
 			*node = next;
 		while (node && next && next->kind != END)
 		{
-			if (next->kind == CMD || next->kind == SUBSHELL)
+			if (next->kind == PIPE || next->kind == AND || next->kind == OR)
 				shell->nbr_cmd++;
 			next = next_expr(lookup, txt, node, shell);
 			node = check_last(node, next, txt);

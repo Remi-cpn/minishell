@@ -81,7 +81,7 @@ static void	exec_loop(t_data *shell, t_cmd *cmds)
 	}
 }
 
-static void	close_cmds_fds(t_data *shell)
+void	close_cmds_fds(t_data *shell)
 {
 	int	i;
 
@@ -113,5 +113,6 @@ void	exec(t_data *shell, t_ast **ast)
 	}
 	shell->error_status = shell->last_error_status;
 	exec_loop(shell, cmds);
+	close_cmds_fds(shell);
 	free_ast(ast);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 21:48:11 by von              ###   ########.fr       */
+/*   Updated: 2026/03/12 02:05:18 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	get_error_status(t_data *shell, int status)
  */
 void	dispatch_builtins(t_data *shell, t_cmd *cmd)
 {
+	if (shell->is_child == true)
+		signal(SIGPIPE, SIG_IGN);
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
