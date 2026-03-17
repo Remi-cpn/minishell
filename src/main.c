@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 18:36:44 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 19:34:19 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 14:56:32 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ int	main(void)
 		if (line[0] == '\0')
 			continue ;
 		add_history(line);
-		node = parse(line, &shell);
+		node = parse(line, &shell, 0);
 		free(line);
 		if (shell.error_status == SUCCES && node)
 			exec(&shell, node);
-		free_ast(node);
+		if (node)
+			free_ast(node);
 		reset_line(&shell);
 	}
 	exit_prog(&shell, shell.last_error_status);

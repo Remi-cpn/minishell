@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 09:38:56 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 17:09:01 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 14:54:03 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	exec(t_data *shell, t_ast **ast);
 t_cmd	*init_cmds(t_data *shell, t_ast **ast);
 t_cmd	*exec_one_cmd(t_data *shell, t_cmd *cmd);
 t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid);
+t_cmd	*exec_subshell(t_data *shell, t_cmd *cmd);
+void	exec_subshell_child(t_data *shell, t_cmd *cmd);
 
 void	open_fd_heredoc(t_data *shell, t_cmd *cmd, t_ast_heredoc *heredoc);
 void	open_fd_out(t_data *shell, t_cmd *cmd, t_ast_out *out);

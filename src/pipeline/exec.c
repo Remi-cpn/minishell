@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 14:57:49 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 19:34:24 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 15:00:20 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 
 	if (!cmds)
 		return (NULL);
+	if (cmds->subshell && cmds->last_cmd == true)
+		cmds = exec_subshell(shell, &cmds[0]);
 	else if (cmds->last_cmd == true)
 		cmds = exec_one_cmd(shell, &cmds[0]);
 	else
@@ -97,30 +99,29 @@ void	close_cmds_fds(t_data *shell)
 
 void	exec(t_data *shell, t_ast **ast)
 {
-	t_cmd	*cmds;
-	t_ast	**save_ast;
+	t_cmd		*cmds;
+	const t_ast	**save_ast = (const t_ast **)shell->ast;
+	const int	save_err = shell->error_status;
 
-	save_ast = shell->ast;
+	shell->error_status = SUCCES;
 	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
+	if (shell->error_status == SUCCES)
+		shell->error_status = save_err;
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
-	if (shell->error_status != SUCCES || g_exit_flag == 1)
-	{
-		g_exit_flag = 0;
-		close_cmds_fds(shell);
-		free_ast(ast);
-		return ;
-	}
 	if (g_exit_flag > 1)
 	{
 		shell->last_error_status = g_exit_flag;
 		g_exit_flag = 0;
 	}
-	shell->error_status = shell->last_error_status;
-	exec_loop(shell, cmds);
+	if (!(shell->error_status != save_err && g_exit_flag == 1))
+	{
+		shell->error_status = shell->last_error_status;
+		exec_loop(shell, cmds);
+	}
+	else
+		g_exit_flag = 0;
 	close_cmds_fds(shell);
-	shell->ast = save_ast;
-	if (shell->ast == ast)
-		free_ast(ast);
+	shell->ast = (t_ast **)save_ast;
 }

@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 17:12:18 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 14:58:20 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef enum e_token_type
 	AMPERTYPE,// &&
 	VERBARTYPE,// ||
 	WORDTYPE,// [.]+
+	LPARENTYPE,
+	RPARENTYPE,
 	UNKNOWN,
 	ERROR,
 	eof
@@ -61,6 +63,7 @@ void	report_parsing_error(char c, char *s, t_data *shell);
 
 typedef enum e_ast_type
 {
+	SUBSHELL,
 	HEREDOC,// <<
 	IN,// <
 	PIPE,// |
@@ -76,6 +79,14 @@ typedef struct s_ast
 	t_ast_type		kind;
 	struct s_ast	*next;
 }					t_ast;
+
+typedef struct s_ast_subshell
+{
+	t_ast_type		kind; // SUBSHELL | '( )'
+	struct s_ast	*next;
+	t_ast			**inter;
+	int				nbr_cmd;
+}					t_ast_subshell;
 
 typedef struct s_ast_pipe
 {
@@ -143,8 +154,9 @@ void	gen_lookup(t_lookup *lookup);
 //------------------[PARSER]----------------
 
 t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt, t_data *shell);
-t_ast	**parse(char *src, t_data *shell);
-t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell);
+t_ast	**parse(char *src, t_data *shell, int subshell);
+t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell,
+			int subshell);
 t_ast	*parse_output(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_ord(t_src_info *txt, t_ast_type kind, t_data *shell);
 t_ast	*parse_heredoc(t_src_info *txt, t_ast_type kind, t_data *shell);

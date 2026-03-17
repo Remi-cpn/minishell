@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:56:58 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 19:32:42 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 14:59:59 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,11 @@ int	path_valid(char *cmd)
 		return (ERR_CMD_NOT_FOUND);
 	else if (cmd[0] && cmd[0] == '/' && cmd[1] == '\0')
 		return (ERR_CMD_NOT_FOUND);
-	else if (cmd[0] && cmd[1] && cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '\0')
+	else if (cmd[0] && cmd[1] && cmd[0] == '.'
+		&& cmd[1] == '.' && cmd[2] == '\0')
 		return (ERR_CMD_NOT_FOUND);
-	else if (cmd[0] && cmd[1] && cmd[0] == '.' && cmd[1] == '/' && cmd[2] == '\0')
+	else if (cmd[0] && cmd[1] && cmd[0] == '.'
+		&& cmd[1] == '/' && cmd[2] == '\0')
 		return (ERR_CMD_NOT_FOUND);
 	return (FAILURE);
 }
