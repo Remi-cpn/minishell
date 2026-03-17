@@ -6,13 +6,20 @@
 /*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 21:31:32 by von              ###   ########.fr       */
+/*   Updated: 2026/03/17 14:06:43 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+#include <signal.h>
 
 volatile sig_atomic_t	g_exit_flag = 0;
+
+static void	handler_child(int sig)
+{
+	if (sig == SIGINT)
+		g_exit_flag = 130;
+}
 
 /**
  * This function ignores all signals during the execution of a child process.
@@ -37,7 +44,7 @@ void	init_signals_child(void)
 	struct sigaction	sa;
 
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_DFL;
+	sa.sa_handler = handler_child;
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);

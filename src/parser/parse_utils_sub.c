@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:59:24 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 16:47:18 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 14:25:30 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,38 @@ static int	find_rpar(t_src_info *txt)
 	return (i - txt->i);
 }
 
+static t_ast_subshell	*parse_subshell_rec(t_src_info *txt, t_ast_type kind,
+								t_data *shell, char *inter)
+{
+	t_ast_subshell	*node;
+	t_token			token;
+	int				s_nbr_cmd;
+
+	node = ft_calloc(1, sizeof(t_ast_subshell));
+	token = lexer(txt, shell);
+	if (token.kind == RPARENTYPE)
+		report_parsing_error(')', NULL, shell);
+	if (token.kind == RPARENTYPE)
+		node = ft_freenull(node);
+	if (node)
+	{
+		node->kind = kind;
+		s_nbr_cmd = shell->nbr_cmd;
+		shell->nbr_cmd = 1;
+		node->inter = parse(inter, shell, 1);
+		node->nbr_cmd = shell->nbr_cmd;
+		shell->nbr_cmd = s_nbr_cmd;
+	}
+	free(token.value);
+	return (node);
+}
+
 t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 {
 	t_ast_subshell	*node;
 	int				len;
 	char			*inter;
 	t_token			token;
-	int				s_nbr_cmd;
 
 	token = advance(txt, shell);
 	free(token.value);
@@ -51,24 +76,8 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 	inter = ft_strndup(&txt->src[txt->i], 0, len);
 	if (!inter)
 		return (NULL);
-	node = ft_calloc(1, sizeof(t_ast_subshell));
-	token = lexer(txt, shell);
-	if (token.kind == RPARENTYPE)
-	{
-		report_parsing_error(')', NULL, shell);
-		node = ft_freenull(node);
-	}
-	if (node)
-	{
-		node->kind = kind;
-		s_nbr_cmd = shell->nbr_cmd;
-		shell->nbr_cmd = 1;
-		node->inter = parse(inter, shell, 1);
-		node->nbr_cmd = shell->nbr_cmd;
-		shell->nbr_cmd = s_nbr_cmd;
-	}
+	node = parse_subshell_rec(txt, kind, shell, inter);
 	txt->i += len + 1;
 	free(inter);
-	free(token.value);
 	return ((t_ast *)node);
 }

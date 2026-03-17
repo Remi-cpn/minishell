@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 16:14:01 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 14:32:49 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,20 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell, int sub)
 	t_ast			*tmp;
 
 	free(tok.value);
-	if (tok.kind == UNKNOWN)
+	if (tok.kind == RPARENTYPE && !sub)
+		report_parsing_error(')', NULL, shell);
+	if (tok.kind == UNKNOWN || (tok.kind == RPARENTYPE && !sub))
 		return (NULL);
 	if (tok.kind == eof || (tok.kind == RPARENTYPE && sub))
 	{
 		tmp = malloc(sizeof(t_ast));
-		if (!tmp)
-			return (NULL);
-		tmp->kind = END;
-		tmp->next = NULL;
+		if (tmp)
+			tmp->kind = END;
+		if (tmp)
+			tmp->next = NULL;
 		return (tmp);
 	}
-	else if (tok.kind == RPARENTYPE)
-	{
-		report_parsing_error(')', NULL, shell);
-		return (NULL);
-	}
 	fn = lookup[tok.kind].fn;
-	if (!fn)
-		return (NULL);
 	tmp = fn(txt, lookup[tok.kind].type, shell);
 	if (!tmp)
 		errno = 1;

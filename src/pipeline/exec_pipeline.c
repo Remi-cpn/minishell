@@ -6,25 +6,39 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:17 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 03:00:15 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:47:57 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
 #include <unistd.h>
 
-static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2])
+static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2], int flag)
 {
-	if (cmd->redir_in == true)
-		close(cmd->fd_in);
-	if (prev_read != -1)
-		close(prev_read);
-	if (cmd->redir_out == true)
-		close(cmd->fd_out);
-	if (cmd->last_cmd == false)
+	if (flag == 1)
 	{
-		close(pipefd[0]);
-		close(pipefd[1]);
+		if (cmd->redir_in == true)
+			close(cmd->fd_in);
+		if (cmd->redir_in == true)
+			cmd->fd_in = STDIN_FILENO;
+		if (cmd->redir_out == true)
+			close(cmd->fd_out);
+		if (cmd->redir_out == true)
+			cmd->fd_out = STDOUT_FILENO;
+	}
+	else
+	{
+		if (cmd->redir_in == true)
+			close(cmd->fd_in);
+		if (prev_read != -1)
+			close(prev_read);
+		if (cmd->redir_out == true)
+			close(cmd->fd_out);
+		if (cmd->last_cmd == false)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
+		}
 	}
 }
 
@@ -48,7 +62,7 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	find = FAILURE;
 	init_signals_child();
 	setup_child_fds(cmd, prev_read, pipefd);
-	closed_fds(cmd, prev_read, pipefd);
+	closed_fds(cmd, prev_read, pipefd, 0);
 	close_cmds_fds(shell);
 	if (cmd->subshell)
 		exec_subshell_child(shell, cmd);
@@ -119,16 +133,7 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	while (prev_read != -1 || i == 0)
 	{
 		prev_read = pipeline(shell, &cmds[i], pid[i], prev_read);
-		if (cmds[i].redir_in == true)
-		{
-			close(cmds[i].fd_in);
-			cmds[i].fd_in = STDIN_FILENO;
-		}
-		if (cmds[i].redir_out == true)
-		{
-			close(cmds[i].fd_out);
-			cmds[i].fd_out = STDOUT_FILENO;
-		}
+		closed_fds(&cmds[i], 0, NULL, 1);
 		i++;
 	}
 	j = 0;
