@@ -21,7 +21,7 @@ static void	closed_fds(t_cmd *cmd, int prev_read, int pipefd[2])
 		close(prev_read);
 	if (cmd->redir_out == true)
 		close(cmd->fd_out);
-	else if (cmd->last_cmd == false)
+	if (cmd->last_cmd == false)
 	{
 		close(pipefd[0]);
 		close(pipefd[1]);
@@ -50,6 +50,8 @@ static void	child_process(t_data *shell, t_cmd *cmd, int prev_read,
 	setup_child_fds(cmd, prev_read, pipefd);
 	closed_fds(cmd, prev_read, pipefd);
 	close_cmds_fds(shell);
+	if (cmd->subshell)
+		exec_subshell_child(shell, cmd);
 	if (cmd->redir_error)
 	{
 		free_ast(shell->ast);
@@ -118,9 +120,15 @@ t_cmd	*exec_pipeline(t_data *shell, t_cmd *cmds, pid_t *pid)
 	{
 		prev_read = pipeline(shell, &cmds[i], pid[i], prev_read);
 		if (cmds[i].redir_in == true)
+		{
 			close(cmds[i].fd_in);
+			cmds[i].fd_in = STDIN_FILENO;
+		}
 		if (cmds[i].redir_out == true)
+		{
 			close(cmds[i].fd_out);
+			cmds[i].fd_out = STDOUT_FILENO;
+		}
 		i++;
 	}
 	j = 0;

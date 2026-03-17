@@ -101,6 +101,8 @@ void	reset_line(t_data *shell)
 		shell->error_status = g_exit_flag;
 	g_exit_flag = 0;
 	free_cmds(shell);
+	if (shell->error_status < SUCCES)
+		shell->error_status = ERROR;
 	shell->last_error_status = shell->error_status;
 	shell->error_status = SUCCES;
 }

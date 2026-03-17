@@ -38,7 +38,7 @@ static t_cmd	*dispatch_exec(t_data *shell, t_cmd *cmds, bool *and_ok,
 
 	if (!cmds)
 		return (NULL);
-	if (cmds->subshell)
+	if (cmds->subshell && cmds->last_cmd == true)
 		cmds = exec_subshell(shell, &cmds[0]);
 	else if (cmds->last_cmd == true)
 		cmds = exec_one_cmd(shell, &cmds[0]);
@@ -101,17 +101,19 @@ void	exec(t_data *shell, t_ast **ast)
 {
 	t_cmd	*cmds;
 	t_ast	**save_ast;
+	int		save_err;
 
+	save_err = shell->error_status;
 	save_ast = shell->ast;
 	shell->ast = ast;
 	cmds = init_cmds(shell, ast);
 	if (!cmds)
 		call_to_exit(shell, ERR_ALLOC, NULL);
-	if (shell->error_status != SUCCES || g_exit_flag == 1)
+	if (shell->error_status != save_err || g_exit_flag == 1)
 	{
 		g_exit_flag = 0;
 		close_cmds_fds(shell);
-		free_ast(ast);
+		shell->ast = save_ast;
 		return ;
 	}
 	if (g_exit_flag > 1)
@@ -123,6 +125,4 @@ void	exec(t_data *shell, t_ast **ast)
 	exec_loop(shell, cmds);
 	close_cmds_fds(shell);
 	shell->ast = save_ast;
-	if (shell->ast == ast)
-		free_ast(ast);
 }

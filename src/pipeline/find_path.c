@@ -106,7 +106,6 @@ int	find_path(t_data *shell, char **cmd)
 	int		find;
 
 	find = FAILURE;
-	ft_printf("DEBUG:{%s}\n", cmd[0]);
 	if (path_valid(cmd[0]) == ERR_CMD_NOT_FOUND)
 		find = ERR_CMD_NOT_FOUND;
 	else if (!ft_strchr(cmd[0], '/'))

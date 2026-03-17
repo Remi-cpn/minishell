@@ -32,6 +32,8 @@ int	main(void)
 		free(line);
 		if (shell.error_status == SUCCES && node)
 			exec(&shell, node);
+		if (node)
+			free_ast(node);
 		reset_line(&shell);
 	}
 	exit_prog(&shell, shell.last_error_status);
