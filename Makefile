@@ -6,7 +6,7 @@
 #    By: tseche <tseche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/07 09:56:21 by rcompain          #+#    #+#              #
-#    Updated: 2026/03/12 17:08:00 by tseche           ###   ########.fr        #
+#    Updated: 2026/03/17 16:13:01 by tseche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/builtins/utils.c \
 			  $(SRC_DIR)/parser/lookup.c \
 			  $(SRC_DIR)/parser/parse_utils.c \
+			  $(SRC_DIR)/parser/parse_utils_sub.c \
 			  $(SRC_DIR)/parser/parse_args.c \
 			  $(SRC_DIR)/parser/parser.c \
 			  $(SRC_DIR)/lexer/lexer.c \
@@ -69,6 +70,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/pipeline/open.c \
 			  $(SRC_DIR)/pipeline/heredoc.c \
 			  $(SRC_DIR)/pipeline/exec_one_cmd.c \
+			  $(SRC_DIR)/pipeline/exec_subshell.c \
 			  $(SRC_DIR)/pipeline/exec_pipeline.c \
 			  $(SRC_DIR)/pipeline/exec.c \
 			  $(SRC_DIR)/pipeline/init_cmds.c \

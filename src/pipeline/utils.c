@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 11:48:46 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:03:27 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	init_or_and_end(t_cmd *cmd, int kind)
 	cmd->last_cmd = true;
 }
 
-int	error_pipeline(t_data *shell, char *msg, int error_status,
-	int res)
+int	error_pipeline(t_data *shell, char *msg, int error_status, int res)
 {
 	print_error(msg, NULL, 0, NULL);
 	shell->error_status = error_status;
@@ -69,6 +68,8 @@ void	get_error_status(t_data *shell, int status)
 	{
 		write(1, "\n", 1);
 		shell->error_status = 128 + WTERMSIG(status);
+		if (shell->error_status == 141)
+			shell->error_status = 0;
 	}
 	else
 		shell->error_status = ERROR;

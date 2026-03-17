@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:01:12 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 17:14:32 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:10:26 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ t_token	lexer(t_src_info *txt, t_data *shell)
 		return (token(&txt->src[txt->i], INFTYPE, 1));
 	else if (txt->src[txt->i] == '|')
 		return (token(&txt->src[txt->i], PIPETYPE, 1));
+	else if (txt->src[txt->i] == '(')
+		return (token(&txt->src[txt->i], LPARENTYPE, 1));
+	else if (txt->src[txt->i] == ')')
+		return (token(&txt->src[txt->i], RPARENTYPE, 1));
 	else if (is_start_word(txt->src[txt->i]))
 		return (token(&txt->src[txt->i], WORDTYPE,
 				len_word(&txt->src[txt->i], shell)));

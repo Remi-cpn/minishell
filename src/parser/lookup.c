@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:16:22 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 17:10:07 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:11:53 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ void	gen_lookup(t_lookup *lookup)
 	bind(lookup, DSUPTYPE, &parse_output, OUT);
 	bind(lookup, INFTYPE, &parse_input, IN);
 	bind(lookup, WORDTYPE, &parse_cmd, CMD);
+	bind(lookup, LPARENTYPE, &parse_subshell, SUBSHELL);
 }

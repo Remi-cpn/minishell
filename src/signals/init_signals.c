@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: von <von@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 11:46:38 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/17 14:06:43 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:02:54 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+#include <errno.h>
 #include <signal.h>
 
 volatile sig_atomic_t	g_exit_flag = 0;

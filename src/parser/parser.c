@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 15:17:31 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/17 14:59:32 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:15:31 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ast	*parse_expr(t_lookup *lookup, t_src_info *txt, t_data *shell, int sub)
 		report_parsing_error(')', NULL, shell);
 	if (tok.kind == UNKNOWN || (tok.kind == RPARENTYPE && !sub))
 		return (NULL);
-	if (tok.kind == eof)
+	if (tok.kind == eof || (tok.kind == RPARENTYPE && sub))
 	{
 		tmp = malloc(sizeof(t_ast));
 		if (tmp)
