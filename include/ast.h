@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/17 14:50:28 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:21:34 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ typedef struct s_lookup
 
 void	gen_lookup(t_lookup *lookup);
 
-//------------------[PARSER]----------------
+//------------------[PARSER]-----------------
 
 t_ast	*parse_args_cmd(t_ast_cmd *node, t_src_info *txt, t_data *shell);
 t_ast	**parse(char *src, t_data *shell, int subshell);
