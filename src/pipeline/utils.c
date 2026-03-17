@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/12 11:48:46 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/17 16:47:01 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	get_error_status(t_data *shell, int status)
 	{
 		write(1, "\n", 1);
 		shell->error_status = 128 + WTERMSIG(status);
+		if (shell->error_status == 141)
+			shell->error_status = 0;
 	}
 	else
 		shell->error_status = ERROR;
