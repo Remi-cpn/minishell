@@ -6,11 +6,28 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:10:33 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 19:11:51 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:04:44 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+size_t	find_back(char const *s)
+{
+	size_t	len;
+
+	if (!s)
+		return (0);
+	len = ft_strlen(s);
+	while (len > 0)
+	{
+		if (s[len - 1] != '/')
+			len--;
+		else
+			break ;
+	}
+	return (len);
+}
 
 /**
  * Allows you to find a variable in env and to modify the size of the 
