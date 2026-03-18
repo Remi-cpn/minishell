@@ -65,9 +65,11 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 	int				len;
 	char			*inter;
 	t_token			token;
+	int				start_i;
 
 	token = advance(txt, shell);
 	free(token.value);
+	start_i = txt->i;
 	len = find_rpar(txt);
 	if (len == -1)
 		report_parsing_error('(', NULL, shell);
@@ -77,7 +79,7 @@ t_ast	*parse_subshell(t_src_info *txt, t_ast_type kind, t_data *shell)
 	if (!inter)
 		return (NULL);
 	node = parse_subshell_rec(txt, kind, shell, inter);
-	txt->i += len + 1;
+	txt->i = start_i + len + 1;
 	free(inter);
 	return ((t_ast *)node);
 }
