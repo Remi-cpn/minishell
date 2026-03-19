@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 19:27:43 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 17:01:52 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/19 10:16:29 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	heredoc_child_process(
 	free_ast(shell->ast);
 	free_cmds(shell);
 	if (g_exit_flag)
-		exit_prog(shell, SIGINT);
+		exit_prog(shell, 130);
 	exit_prog(shell, SUCCES);
 }
 

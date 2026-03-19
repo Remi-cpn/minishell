@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 10:22:36 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/17 16:47:01 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/19 10:11:37 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ bool	is_builtins(char *name)
  */
 void	get_error_status(t_data *shell, int status)
 {
-	if (status == 512)
-	{
-		shell->error_status = SIGINT_EXIT;
-	}
-	else if (WIFEXITED(status))
+	// if (status == 512)
+	// {
+	// 	shell->error_status = SIGINT_EXIT;
+	// }
+	if (WIFEXITED(status))
 		shell->error_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
