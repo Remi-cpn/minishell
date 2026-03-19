@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 13:27:37 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/17 16:21:34 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/19 12:12:33 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ typedef enum e_token_type
 	PIPETYPE,// |
 	SUPTYPE,// >
 	INFTYPE,// <
-	DSUPTYPE,// >>
-	DINFTYPE,// <<
 	LPARENTYPE,// (
 	RPARENTYPE,// )
+	DSUPTYPE,// >>
+	DINFTYPE,// <<
 	AMPERTYPE,// &&
 	VERBARTYPE,// ||
 	WORDTYPE,// [.]+
@@ -63,13 +63,13 @@ void	report_parsing_error(char c, char *s, t_data *shell);
 
 typedef enum e_ast_type
 {
+	SUBSHELL,
 	HEREDOC,// <<
 	IN,// <
 	PIPE,// |
 	OUT,// > | >>
 	AND,// &&
 	OR,// ||
-	SUBSHELL,
 	CMD,
 	END
 }					t_ast_type;

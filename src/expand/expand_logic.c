@@ -6,7 +6,7 @@
 /*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 03:55:20 by von               #+#    #+#             */
-/*   Updated: 2026/03/11 12:37:39 by tseche           ###   ########.fr       */
+/*   Updated: 2026/03/19 12:59:56 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ char	*resolve_key(char *str, int i, char **env, int *add_len)
 	int		len_mkey;
 
 	len = lenkey(&str[i]);
-	*add_len = len;
 	key = ft_substr(str, i, len, 0);
 	mkey = get_env_key(key, env);
 	free(key);
 	if (!mkey)
 		mkey = "";
 	len_mkey = ft_strlen(mkey);
+	*add_len = len_mkey;
 	res = ft_calloc((ft_strlen(str) + len_mkey + 1), sizeof(char));
 	if (!res)
 		return (NULL);

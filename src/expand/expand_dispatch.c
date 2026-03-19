@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dispatch.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 18:17:34 by tseche            #+#    #+#             */
-/*   Updated: 2026/03/12 00:18:56 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:41:15 by tseche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static char	*rm(int *flag, char *str, int *i)
 	squote = (str[*i] == '\'');
 	dquote = (str[*i] == '"');
 	addquote = (2 * dquote) + squote;
-	if (!*flag && (squote || dquote))
+	if (str[*i] == '$' && *flag == 0 && (str[*i + 1] == '"' || str[*i + 1] == '\''))
+		ft_memmove(&str[*i], &str[*i + 1], ft_strlen(&str[*i]));
+	else if (!*flag && (squote || dquote))
 	{
 		*flag += addquote;
 		ft_memmove(&str[*i], &str[*i + 1], ft_strlen(&str[*i]));
@@ -89,7 +91,8 @@ char	**dispatch_expand(char **args, t_data *shell, char **new, int nbr_files)
 	k = 0;
 	while (args[i])
 	{
-		is_var = (args[i][0] == '$');
+		is_var = (args[i][0] == '$' && (
+			args[i][1] != '\'' && args[i][1] != '"'));
 		tmp = expand_all(args[i++], shell);
 		if (tmp)
 			added = wildcard(new, k, tmp, nbr_files);
