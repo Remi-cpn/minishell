@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:28:20 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/18 16:31:40 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/19 09:55:37 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ static void	cd_cmd_next(t_data *shell, char *path)
 	if (!old_pwd)
 		old_pwd = ft_strdup(get_env(shell, "PWD="), 0);
 	if (!old_pwd)
-		shell->error_status = ERR_ALLOC;
-	if (!old_pwd)
 		return ;
-	if (chdir(path) == -1)
+	if (old_pwd && chdir(path) == -1)
 	{
 		free(old_pwd);
 		shell->error_status = ERROR;
@@ -77,10 +75,9 @@ static void	cd_cmd_next(t_data *shell, char *path)
 	}
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-	{
 		print_error("cd", NULL, 0, "error retrieving current directory");
+	if (!new_pwd)
 		new_pwd = set_new_pwd(shell, old_pwd, path);
-	}
 	if (new_pwd)
 		replace_pwd(shell, new_pwd, old_pwd);
 	free(new_pwd);
@@ -100,9 +97,11 @@ void	cd_cmd(t_data *shell, char **args)
 	else
 		path = args[1];
 	if (!path)
+	{
 		shell->error_status = ERROR;
-	if (!path)
+		print_error("cd", NULL, 0, "HOME not set");
 		return ;
+	}
 	if (args[1] && args[2])
 	{
 		shell->error_status = ERROR;
@@ -110,8 +109,6 @@ void	cd_cmd(t_data *shell, char **args)
 		return ;
 	}
 	cd_cmd_next(shell, path);
-	if (shell->error_status == ERR_ALLOC)
-		print_error("cd", args[1], 0, NULL);
 	if (shell->error_status == ERR_ALLOC)
 		shell->error_status = ERROR;
 }
