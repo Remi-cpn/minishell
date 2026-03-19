@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tseche <tseche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:43:56 by rcompain          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/17 14:56:43 by tseche           ###   ########.fr       */
+=======
+/*   Updated: 2026/03/18 09:40:23 by rcompain         ###   ########.fr       */
+>>>>>>> remi
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/mini_shell.h"
+
+static void	detach_subshell(t_ast **ast, t_ast **inter)
+{
+	t_ast	*curent;
+
+	if (!ast || !*ast)
+		return ;
+	curent = *ast;
+	while (curent && curent->kind != END)
+	{
+		if (curent->kind == SUBSHELL
+			&& ((t_ast_subshell *)curent)->inter == inter)
+			((t_ast_subshell *)curent)->inter = NULL;
+		curent = curent->next;
+	}
+}
 
 static void	setup_subshell_fds(t_cmd *cmd)
 {
@@ -38,12 +58,15 @@ static void	child_process_subshell(t_data *shell, t_cmd *cmd)
 	close_cmds_fds(shell);
 	inter_ast = cmd->subshell;
 	save_nbr_cmd = cmd->nbr_cmd_subshell;
+	detach_subshell(shell->ast, inter_ast);
+	free_ast(shell->ast);
+	shell->ast = NULL;
 	free_cmds(shell);
 	shell->nbr_cmd = save_nbr_cmd;
 	shell->last_error_status = shell->error_status;
 	if (inter_ast)
 		exec(shell, inter_ast);
-	free_ast(shell->ast);
+	free_ast(inter_ast);
 	exit_prog(shell, shell->error_status);
 }
 
@@ -54,11 +77,14 @@ void	exec_subshell_child(t_data *shell, t_cmd *cmd)
 
 	inner = cmd->subshell;
 	nbr = cmd->nbr_cmd_subshell;
+	detach_subshell(shell->ast, inner);
+	free_ast(shell->ast);
+	shell->ast = NULL;
 	free_cmds(shell);
 	shell->nbr_cmd = nbr;
 	shell->last_error_status = shell->error_status;
 	exec(shell, inner);
-	free_ast(shell->ast);
+	free_ast(inner);
 	exit_prog(shell, shell->error_status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rcompain <rcompain@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:08:55 by rcompain          #+#    #+#             */
-/*   Updated: 2026/03/11 18:33:25 by rcompain         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:05:02 by rcompain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	unset_cmd(t_data *shell, char **args);
 char	*get_env(t_data *shell, char *key);
 int		strkeycmp(const char *s1, const char *s2, char key);
 int		find_var(t_data *shell, char *key, int *len_key);
+size_t	find_back(char const *s1);
 
 #endif

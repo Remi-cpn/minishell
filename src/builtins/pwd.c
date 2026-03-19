@@ -23,6 +23,12 @@ void	pwd_cmd(t_data *shell, char **args)
 		print_error("pwd", NULL, 0, "too many arguments");
 		return ;
 	}
+	cwd = get_env(shell, "PWD=");
+	if (cwd)
+	{
+		ft_printf("%s\n", cwd);
+		return ;
+	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
